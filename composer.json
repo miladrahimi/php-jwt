@@ -1,0 +1,36 @@
+{
+  "name": "miladrahimi/php-jwt",
+  "description": "A PHP implementation of JWT (JSON Web Token) generator, parser, verifier, and validator",
+  "keywords": [
+    "JWT",
+    "JSON Web Token",
+    "Token",
+    "Parser",
+    "Encoder",
+    "Decoder",
+    "Verifier",
+    "Validator"
+  ],
+  "homepage": "https://github.com/miladrahimi/php-jwt",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Milad Rahimi",
+      "email": "info@miladrahimi.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.0",
+    "ext-openssl": "*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6"
+  },
+  "autoload": {
+    "psr-4": {
+      "MiladRahimi\\Jwt\\": "src/MiladRahimi/Jwt/",
+      "MiladRahimi\\Jwt\\Tests\\": "tests/"
+    }
+  }
+}
