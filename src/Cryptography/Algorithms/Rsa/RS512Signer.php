@@ -6,9 +6,9 @@
  * Time: 22:24
  */
 
-namespace MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\Signers;
+namespace MiladRahimi\Jwt\Cryptography\Algorithms\Rsa;
 
-class RS512 extends AbstractRsaSigner
+class RS512Signer extends AbstractRsaSigner
 {
     protected $name = 'RS512';
 }

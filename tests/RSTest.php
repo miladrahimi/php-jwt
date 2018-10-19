@@ -8,9 +8,9 @@
 
 namespace MiladRahimi\Jwt\Tests;
 
-use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\Signers\RS256 as RS256Signer;
-use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\Signers\RS384 as RS384Signer;
-use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\Signers\RS512 as RS512Signer;
+use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS256Signer as RS256Signer;
+use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS384Signer as RS384Signer;
+use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS512Signer as RS512Signer;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\Verifiers\RS256 as RS256Verifier;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\Verifiers\RS384 as RS384Verifier;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\Verifiers\RS512 as RS512Verifier;
