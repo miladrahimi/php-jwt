@@ -43,7 +43,7 @@ abstract class AbstractVerifier implements Verifier
     /**
      * @param Base64ParserInterface $base64Parser
      */
-    public function setBase64Parser(Base64ParserInterface $base64Parser): void
+    public function setBase64Parser(Base64ParserInterface $base64Parser)
     {
         $this->base64Parser = $base64Parser;
     }

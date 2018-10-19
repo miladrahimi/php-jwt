@@ -39,7 +39,7 @@ abstract class AbstractRsaVerifier extends AbstractVerifier
     /**
      * @inheritdoc
      */
-    public function verify(string $header, string $payload, string $signature): void
+    public function verify(string $header, string $payload, string $signature)
     {
         $data = $header . '.' . $payload;
         $signature = $this->base64Parser->decode($signature);

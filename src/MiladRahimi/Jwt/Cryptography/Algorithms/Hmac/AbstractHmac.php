@@ -43,7 +43,7 @@ abstract class AbstractHmac extends AbstractVerifier implements Signer
     /**
      * @inheritdoc
      */
-    public function verify(string $header, string $payload, string $signature): void
+    public function verify(string $header, string $payload, string $signature)
     {
         $tokenSignature = $this->base64Parser->encode($this->sign($header . '.' . $payload));
 
@@ -90,7 +90,7 @@ abstract class AbstractHmac extends AbstractVerifier implements Signer
      * @param string $key
      * @throws InvalidKeyException
      */
-    public function setKey(string $key): void
+    public function setKey(string $key)
     {
         if (strlen($key) < 32 || strlen($key) > 6144) {
             throw new InvalidKeyException();

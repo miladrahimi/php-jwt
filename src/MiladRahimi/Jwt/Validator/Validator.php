@@ -20,7 +20,7 @@ class Validator implements ValidatorInterface
     /**
      * @inheritdoc
      */
-    public function addRule(string $claimName, Rule $rule): void
+    public function addRule(string $claimName, Rule $rule)
     {
         $this->rules[$claimName][] = $rule;
     }
@@ -28,7 +28,7 @@ class Validator implements ValidatorInterface
     /**
      * @inheritdoc
      */
-    public function cleanRules(string $claimName): void
+    public function cleanRules(string $claimName)
     {
         unset($this->rules[$claimName]);
     }
@@ -36,7 +36,7 @@ class Validator implements ValidatorInterface
     /**
      * @inheritdoc
      */
-    public function validate(array $claims = []): void
+    public function validate(array $claims = [])
     {
         /**
          * @var string $claimName

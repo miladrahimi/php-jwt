@@ -20,5 +20,5 @@ interface Verifier
      * @param string $signature
      * @throws InvalidSignatureException
      */
-    public function verify(string $header, string $payload, string $signature): void;
+    public function verify(string $header, string $payload, string $signature);
 }

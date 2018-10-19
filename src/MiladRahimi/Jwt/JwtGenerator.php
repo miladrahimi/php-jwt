@@ -86,7 +86,7 @@ class JwtGenerator
     /**
      * @param JsonParserInterface $jsonParser
      */
-    public function setJsonParser(JsonParserInterface $jsonParser): void
+    public function setJsonParser(JsonParserInterface $jsonParser)
     {
         $this->jsonParser = $jsonParser;
     }
@@ -102,7 +102,7 @@ class JwtGenerator
     /**
      * @param Base64ParserInterface $base64Parser
      */
-    public function setBase64Parser(Base64ParserInterface $base64Parser): void
+    public function setBase64Parser(Base64ParserInterface $base64Parser)
     {
         $this->base64Parser = $base64Parser;
     }
@@ -118,7 +118,7 @@ class JwtGenerator
     /**
      * @param Signer $signer
      */
-    public function setSigner(Signer $signer): void
+    public function setSigner(Signer $signer)
     {
         $this->signer = $signer;
     }

@@ -91,7 +91,7 @@ class JwtParser
      * @throws InvalidSignatureException
      * @throws InvalidTokenException
      */
-    public function verifySignature(string $jwt): void
+    public function verifySignature(string $jwt)
     {
         list($header, $payload, $signature) = $this->explodeJwt($jwt);
 
@@ -137,7 +137,7 @@ class JwtParser
      * @param array $claims
      * @throws ValidationException
      */
-    public function validateClaims(array $claims): void
+    public function validateClaims(array $claims)
     {
         $this->validator->validate($claims);
     }
@@ -151,7 +151,7 @@ class JwtParser
      * @throws InvalidTokenException
      * @throws ValidationException
      */
-    public function validate(string $jwt): void
+    public function validate(string $jwt)
     {
         $this->verifySignature($jwt);
 
@@ -170,7 +170,7 @@ class JwtParser
     /**
      * @param JsonParserInterface $jsonParser
      */
-    public function setJsonParser(JsonParserInterface $jsonParser): void
+    public function setJsonParser(JsonParserInterface $jsonParser)
     {
         $this->jsonParser = $jsonParser;
     }
@@ -186,7 +186,7 @@ class JwtParser
     /**
      * @param Base64ParserInterface $base64Parser
      */
-    public function setBase64Parser(Base64ParserInterface $base64Parser): void
+    public function setBase64Parser(Base64ParserInterface $base64Parser)
     {
         $this->base64Parser = $base64Parser;
     }
@@ -202,7 +202,7 @@ class JwtParser
     /**
      * @param Verifier $verifier
      */
-    public function setVerifier(Verifier $verifier): void
+    public function setVerifier(Verifier $verifier)
     {
         $this->verifier = $verifier;
     }
@@ -218,7 +218,7 @@ class JwtParser
     /**
      * @param ValidatorInterface $validator
      */
-    public function setValidator(ValidatorInterface $validator): void
+    public function setValidator(ValidatorInterface $validator)
     {
         $this->validator = $validator;
     }
