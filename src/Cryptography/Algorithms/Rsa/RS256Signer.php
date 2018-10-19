@@ -6,9 +6,9 @@
  * Time: 22:24
  */
 
-namespace MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\Verifiers;
+namespace MiladRahimi\Jwt\Cryptography\Algorithms\Rsa;
 
-class RS256 extends AbstractRsaVerifier
+class RS256Signer extends AbstractRsaSigner
 {
     protected $name = 'RS256';
 }

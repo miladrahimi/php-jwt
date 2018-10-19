@@ -6,9 +6,8 @@
  * Time: 22:23
  */
 
-namespace MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\Signers;
+namespace MiladRahimi\Jwt\Cryptography\Algorithms\Rsa;
 
-use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\Naming;
 use MiladRahimi\Jwt\Cryptography\Keys\PrivateKey;
 use MiladRahimi\Jwt\Cryptography\Signer;
 

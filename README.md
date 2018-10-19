@@ -1,92 +1,61 @@
 # PHP-JWT
-A PHP implementation of JWT (JSON Web Token) generator, parser, verifier, and validator
+A PHP implementation of JWT (JSON Web Token) generator, parser, verifier, and validator.
 
 [![Build Status](https://travis-ci.com/miladrahimi/php-jwt.svg?branch=master)](https://travis-ci.com/miladrahimi/php-jwt)
 
 ## Overview
-PHP JWT is a package written in PHP programming language for encoding (generating), decoding (parsing), verifying
-and validating JWTs (JSON Web Tokens).
+PHP-JWT is a package written in PHP programming language to encode (generate), decode (parse), verify and validate JWTs (JSON Web Tokens).
 
 ## Documentation
 
 ### Installation
-Add the package to your project composer packages with the following command:
+Add the package to your project's Composer dependencies with the following command:
 
 ```
-composer require miladrahimi/larajwt:0.2.*
+composer require miladrahimi/larajwt "1.*"
 ```
 
 Now, you are ready to use the package!
 
 ### What is JWT
 If you are unfamiliar with JWT you can read [Wikipedia](https://en.wikipedia.org/wiki/JSON_Web_Token) or 
-[JWT.io](https://jwt.io) website.
-
-### Getting Started
-The following snippet demonstrates how to generate a JWT with the HS256 algorithm and a custom secret key.
-
-```
-use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
-use MiladRahimi\Jwt\JwtGenerator;
-use MiladRahimi\Jwt\JwtParser;
-
-// ...
-
-$key = 'some random key';
-$signer = new HS256($key);
-
-$generator = new JwtGenerator($signer);
-
-$jwt = $generator->generate(['sub' => 1, 'jti' => 2]);
-
-$parser = new JwtParser($signer);
-
-$claims = $parser->parse($jwt);
-```
+[JWT.io](https://jwt.io).
 
 ### HMAC Algorithms
-If you want to use a single key to both generate and parse tokens,
-you should use HMAC algorithms (HS256, HS384, and HS512).
-These algorithms use the same key to sign and verifying tokens.
+If you want to use a single key to both generate and parse tokens, you should use HMAC algorithms (HS256, HS384, and HS512). These algorithms use the same key to sign and verify tokens.
 
 ```
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS512;
 use MiladRahimi\Jwt\JwtGenerator;
 use MiladRahimi\Jwt\JwtParser;
 
-// ...
-
-$key = 'some random key';
-
-$signer = $verifyer = new HS512($key);
+$key = '12345678901234567890123456789012';
+$signer = $verifier = new HS256($key);
 
 $generator = new JwtGenerator($signer);
 
 $jwt = $generator->generate(['sub' => 1, 'jti' => 2]);
 
-$parser = new JwtParser($verifyer);
+$parser = new JwtParser($verifier);
 
 $claims = $parser->parse($jwt);
+
+echo $claims; // ['sub' => 1, 'jti' => 2]
 ```
 
 ### RSA Algorithms
-If you want to use asymmetric keys to generate and parse tokens,
-you should use RSA algorithms (RS256, RS384, and RS512).
-These algorithms use pair (public/private) keys and consequently,
-different signer and verifier which the signer uses the private key and the verifier uses the public key.
+If you want to use asymmetric keys to generate and parse tokens, you should use RSA algorithms (RS256, RS384, and RS512). These algorithms use pair (public/private) keys and a signer which uses the private key and a verifier which uses the public key. These algorithms could be useful if the authentication server and the resource owner belong to different vendors or they are not trusted by each other.
 
 ```
-use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\Signers\RS256 as RS256Signer;
-use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\Verifiers\RS256 as RS256Verifier;
+use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS256Signer;
+use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS256Verifier;
 use MiladRahimi\Jwt\Cryptography\Keys\PrivateKey;
 use MiladRahimi\Jwt\Cryptography\Keys\PublicKey;
 use MiladRahimi\Jwt\JwtGenerator;
 use MiladRahimi\Jwt\JwtParser;
 
-// ...
-
-$privateKey = new PrivateKey('keys/private.pem');
-$publicKey = new PublicKey('keys/public.pem');
+privateKey = new PrivateKey(__DIR__ . '/keys/private.pem');
+$publicKey = new PublicKey(__DIR__ . '/keys/public.pem');
 
 $signer = new RS256Signer($privateKey);
 $verifier = new RS256Verifier($publicKey);
@@ -96,26 +65,21 @@ $jwt = $generator->generate(['sub' => 1, 'jti' => 2]);
 
 $parser = new JwtParser($verifier);
 $claims = $parser->parse($jwt);
+
+echo $claims; // ['sub' => 1, 'jti' => 2]
 ```
 
 You can read [this instruction](https://en.wikibooks.org/wiki/Cryptography/Generate_a_keypair_using_OpenSSL)
-web page to learn how to generate a pair (public/private) key.
+web page to learn how to generate pair (public/private) keys.
 
-### Token Generating
-You can generate JWTs with `JwtGenerator::generate()` method.
-This method needs a signer algorithm to sign tokens.
-As you can see in preceding sections, you can use HMAC-based or RSA-based signers for generating tokens.
-HMAC signers need a symmetric key. HMAC verifiers use the same key to verify the token, that's why we call it symmetric.
-RSA signers need a private key to sign.
-Both HMAC and RSA signers throw an `InvalidKeyException` exception if the provided key is not valid.
+### Token Generating in Deep
+As the examples above illustrate, you can generate JWTs with the `generate()` method in the `JwtGenerator` class. This `JwtGenerator` class requires a signer to sign tokens that generate. As you can see in preceding sections, you can use HMAC or RSA signers to generate tokens. HMAC signers use a string key and RSA signers use a private key file, they throw an `InvalidKeyException` exception if the provided key is not valid.
 
 ```
-use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\Signers\RS256;
+use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS256Signer;
 use MiladRahimi\Jwt\Cryptography\Keys\PrivateKey;
 use MiladRahimi\Jwt\JwtGenerator;
 use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
-
-// ...
 
 try {
     $privateKey = new PrivateKey('keys/private.pem');
@@ -123,32 +87,18 @@ try {
     // Your key is invalid.
 }
 
-$signer = new RS256($privateKey);
+$signer = new RS256Signer($privateKey);
 
 $generator = new JwtGenerator($signer);
 $jwt = $generator->generate(['sub' => 1, 'jti' => 2]);
 ```
 
+You can pass your custom JSON and Base64 parser to `generate()` method.
+
 ### Verification and Validation
-Before extracting claims from tokens, the tokens must be verified and validated.
-First, we verify the token by its signature so that we make sure that it is generated by the original issuer.
-After signature verification, we must validate claims,
-some public claims that should be validated are 'exp', 'iat', and 'nbf', of course,
-you can add your custom claim validations.
+Before extracting claims from a token, the token must be verified and validated. First, we verify the token's signature so that we make sure that it is generated by the original issuer, not anyone else. Then, we must validate claims, some public claims that should be validated are 'exp', 'iat', and 'nbf'. Private claims should also be validated based on the application requirements.
 
-The `parse()` method verifies and validates claims automatically.
-If you don't need to parse the token and only need to verify and validate it, you can use `validate()` method.
-If you don't need to validate the token and only need to verify its signature you can use `verifySignature()` method.
-
-The `parse()` method verifies and validates claims automatically.
-If you don't need to parse the token and only need to verify and validate it, you can use `validate()` method.
-If you don't need to validate the token and only need to verify its signature you can use `verifySignature()` method.
-All methods throw `InvalidSignatureException` exception when the token signature is invalid.
-The `validate()` and `parse()` method throw `ValidationException` when the token claims are invalid
-and `InvalidJsonException` exception when cannot parse JSON, `InvalidTokenException`
-when the token format is invalid (it's not three part).
-All these exceptions are also children of  `InvalidTokenException` so
-if you don't care about the failure reason you can only catch this exception.
+The `parse()` method in the `JwtParser` class is for verifying tokens and validating claims. If you don't need to parse the token and only need to verify and validate it, you can also use the  `validate()` method. And if you don't need to validate the token and only need to verify its signature you can use the `verifySignature()` method.
 
 ```
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS512;
@@ -156,16 +106,15 @@ use MiladRahimi\Jwt\JwtGenerator;
 use MiladRahimi\Jwt\JwtParser;
 use MiladRahimi\Jwt\Exceptions\InvalidTokenException
 
-// ...
+$jwt = // Read token from the request header...
 
-$jwt = // read from header...
-
-$verifyer = new HS512('some random key');
+$key = '12345678901234567890123456789012';
+$verifyer = new HS512($key);
 
 $parser = new JwtParser($verifyer);
 
 try {
-    $parser->validate($jwt);
+    $claims = $parser->parse($jwt);
     
     // token is valid...
 } catch (InvalidTokenException $e) {
@@ -173,10 +122,11 @@ try {
 }
 ```
 
+All the methods mentioned above throw `InvalidSignatureException` exception if the token signature is invalid. The `validate()` and `parse()` method throw `ValidationException` if the token claims are invalid and `InvalidJsonException` exception when cannot parse JSON, `InvalidTokenException` when the token format is invalid (for example it's not three part). All these exceptions are also children of  `InvalidTokenException` so
+if you don't care about the failure reason you can only catch this exception.
+
 ### Custom Validation
-The `JwtParser` use the default validator (`DefaultValidator`) to validate tokens in `parse()` and `validate()` methods.
-This validator would care about `exp`, `iat` and `nbf` claims if they were in the payload. 
-You can create an instance of `DefaultValidator` or `Validator` (empty with no rule) and add your own rules like this:
+`JwtParser` uses the default validator (`DefaultValidator`) to validate tokens in the `parse()` and `validate()` methods. This validator would take care of `exp`, `iat` and `nbf` claims if they were in the payload. You can create an instance of `DefaultValidator` or `Validator` (empty validator with no rule) and add your own rules like this:
 
 ```
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS512;
@@ -194,8 +144,14 @@ $jwt = // read from header...
 $verifyer = new HS512('some random key');
 
 $validator = new DefaultValidator();
+
+// "iss" must exist.
 $validator->addRule('iss', new Exists());
+
+// "aud" must consist of the word "Company"
 $validator->addRule('aud', new ConsistsOf('Company'));
+
+// "future-time" must be newer than now!
 $validator->addRule('future-time', new NewerThan(time()));
 
 $parser = new JwtParser($verifyer, $validator);
@@ -209,16 +165,12 @@ try {
 }
 ```
 
-As you can see in the snippet above, you can instantiate a validator and add your own rules to it.
-To add a new rule, you must pass the claim name you are setting rule for and the rule
-which is an object from the rule classes.
-there are two categories of rules named optional and required.
-The optional rules would be checked only when the claim did exist but
-the required rules would fail the validation if the claim did not exist.
+As you can see in the snippet above, you can instantiate a validator and add your own rules to it. To add a new rule, you must pass the claim name you are setting rule for and the rule which is an object of one of the rule classes. There are two categories of rules named optional and required. The optional rules would be checked only when the claim did exist but the required rules would fail the validation if the claim did not exist. There any plenty of defined rules but you can also create your own rules.
 
 ### Contribute
 
 Any contribution will be appreciated :D
 
 ## License
-This package is released under the [MIT License](http://opensource.org/licenses/mit-license.php).
+PhpRouter is initially created by [Milad Rahimi](http://miladrahimi.com)
+and released under the [MIT License](http://opensource.org/licenses/mit-license.php).

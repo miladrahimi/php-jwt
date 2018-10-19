@@ -6,11 +6,10 @@
  * Time: 22:23
  */
 
-namespace MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\Verifiers;
+namespace MiladRahimi\Jwt\Cryptography\Algorithms\Rsa;
 
 use MiladRahimi\Jwt\Base64\Base64ParserInterface;
 use MiladRahimi\Jwt\Cryptography\AbstractVerifier;
-use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\Naming;
 use MiladRahimi\Jwt\Cryptography\Keys\PublicKey;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 
