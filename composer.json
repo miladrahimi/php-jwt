@@ -30,7 +30,7 @@
   },
   "autoload": {
     "psr-4": {
-      "MiladRahimi\\Jwt\\": "src/MiladRahimi/Jwt/",
+      "MiladRahimi\\Jwt\\": "src/",
       "MiladRahimi\\Jwt\\Tests\\": "tests/"
     }
   }
