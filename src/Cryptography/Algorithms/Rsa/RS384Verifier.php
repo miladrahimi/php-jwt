@@ -6,9 +6,9 @@
  * Time: 22:24
  */
 
-namespace MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\Verifiers;
+namespace MiladRahimi\Jwt\Cryptography\Algorithms\Rsa;
 
-class RS384 extends AbstractRsaVerifier
+class RS384Verifier extends AbstractRsaVerifier
 {
     protected $name = 'RS384';
 }
