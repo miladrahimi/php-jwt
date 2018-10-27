@@ -12,7 +12,7 @@ PHP-JWT is a package written in PHP programming language to encode (generate), d
 Add the package to your project's Composer dependencies with the following command:
 
 ```
-composer require miladrahimi/larajwt "1.*"
+composer require miladrahimi/php-jwt "1.*"
 ```
 
 Now, you are ready to use the package!
