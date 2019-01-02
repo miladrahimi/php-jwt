@@ -198,5 +198,5 @@ There any plenty of defined rules but you can also create your own rules with im
 Any contribution will be appreciated :D
 
 ## License
-PhpRouter is initially created by [Milad Rahimi](http://miladrahimi.com)
+PHP-JWT is initially created by [Milad Rahimi](http://miladrahimi.com)
 and released under the [MIT License](http://opensource.org/licenses/mit-license.php).
