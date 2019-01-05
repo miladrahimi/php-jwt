@@ -43,7 +43,7 @@ abstract class AbstractRsaVerifier extends AbstractVerifier
         $data = $header . '.' . $payload;
         $signature = $this->base64Parser->decode($signature);
 
-        if (openssl_verify($data, $signature, $this->publicKey->getResource(), $this->algorithmName()) == false) {
+        if (openssl_verify($data, $signature, $this->publicKey->getResource(), $this->algorithmName()) !== 1) {
             throw new InvalidSignatureException();
         }
     }
