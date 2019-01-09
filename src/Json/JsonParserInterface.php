@@ -8,7 +8,7 @@
 
 namespace MiladRahimi\Jwt\Json;
 
-use MiladRahimi\Jwt\Exceptions\InvalidJsonException;
+use MiladRahimi\Jwt\Exceptions\JsonDecodingException;
 
 interface JsonParserInterface
 {
@@ -25,7 +25,7 @@ interface JsonParserInterface
      *
      * @param string $data
      * @return array
-     * @throws InvalidJsonException
+     * @throws JsonDecodingException
      */
     public function decode(string $data): array;
 }

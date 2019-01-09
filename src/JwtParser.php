@@ -11,7 +11,7 @@ namespace MiladRahimi\Jwt;
 use MiladRahimi\Jwt\Base64\Base64Parser;
 use MiladRahimi\Jwt\Base64\Base64ParserInterface;
 use MiladRahimi\Jwt\Cryptography\Verifier;
-use MiladRahimi\Jwt\Exceptions\InvalidJsonException;
+use MiladRahimi\Jwt\Exceptions\JsonDecodingException;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 use MiladRahimi\Jwt\Exceptions\InvalidTokenException;
 use MiladRahimi\Jwt\Exceptions\ValidationException;
@@ -68,7 +68,7 @@ class JwtParser
      *
      * @param string $jwt
      * @return array[]
-     * @throws InvalidJsonException
+     * @throws JsonDecodingException
      * @throws InvalidSignatureException
      * @throws InvalidTokenException
      * @throws ValidationException
@@ -121,7 +121,7 @@ class JwtParser
      *
      * @param string $jwt
      * @return array
-     * @throws InvalidJsonException
+     * @throws JsonDecodingException
      * @throws InvalidTokenException
      */
     private function extractClaims(string $jwt): array
@@ -146,7 +146,7 @@ class JwtParser
      * Validate JWT (verify signature and validate claims)
      *
      * @param string $jwt
-     * @throws InvalidJsonException
+     * @throws JsonDecodingException
      * @throws InvalidSignatureException
      * @throws InvalidTokenException
      * @throws ValidationException

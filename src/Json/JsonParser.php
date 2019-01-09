@@ -8,7 +8,7 @@
 
 namespace MiladRahimi\Jwt\Json;
 
-use MiladRahimi\Jwt\Exceptions\InvalidJsonException;
+use MiladRahimi\Jwt\Exceptions\JsonDecodingException;
 
 class JsonParser implements JsonParserInterface
 {
@@ -17,10 +17,17 @@ class JsonParser implements JsonParserInterface
      *
      * @param array $data
      * @return string
+     * @throws JsonDecodingException
      */
     public function encode(array $data): string
     {
-        return json_encode($data);
+        $json = json_encode($data);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new JsonDecodingException(json_last_error_msg(), json_last_error());
+        }
+
+        return $json;
     }
 
     /**
@@ -28,18 +35,14 @@ class JsonParser implements JsonParserInterface
      *
      * @param string $data
      * @return array
-     * @throws InvalidJsonException
+     * @throws JsonDecodingException
      */
     public function decode(string $data): array
     {
         $result = json_decode($data, true);
 
-        if (json_last_error()) {
-            throw new InvalidJsonException(json_last_error_msg(), json_last_error());
-        }
-
-        if (is_array($result) == false) {
-            throw new InvalidJsonException();
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new JsonDecodingException(json_last_error_msg(), json_last_error());
         }
 
         return $result;
