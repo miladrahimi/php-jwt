@@ -1,13 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Milad Rahimi <info@miladrahimi.com>
- * Date: 5/16/2018 AD
- * Time: 20:35
- */
 
 namespace MiladRahimi\Jwt\Enums;
 
+/**
+ * Class PublicClaimNames
+ *
+ * @package MiladRahimi\Jwt\Enums
+ */
 class PublicClaimNames
 {
     const ISSUER = 'iss';

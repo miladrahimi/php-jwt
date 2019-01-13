@@ -1,16 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Milad Rahimi <info@miladrahimi.com>
- * Date: 5/15/2018 AD
- * Time: 23:25
- */
 
 namespace MiladRahimi\Jwt\Cryptography;
 
 use MiladRahimi\Jwt\Base64\Base64Parser;
 use MiladRahimi\Jwt\Base64\Base64ParserInterface;
 
+/**
+ * Class AbstractVerifier
+ *
+ * @package MiladRahimi\Jwt\Cryptography
+ */
 abstract class AbstractVerifier implements Verifier
 {
     /**

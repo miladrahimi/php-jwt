@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Milad Rahimi <info@miladrahimi.com>
- * Date: 5/14/2018 AD
- * Time: 00:18
- */
 
 namespace MiladRahimi\Jwt\Cryptography\Algorithms\Hmac;
 
@@ -13,16 +7,22 @@ use MiladRahimi\Jwt\Cryptography\AbstractVerifier;
 use MiladRahimi\Jwt\Cryptography\Signer;
 use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
+use MiladRahimi\Jwt\Exceptions\SigningException;
 
+/**
+ * Class AbstractHmac
+ *
+ * @package MiladRahimi\Jwt\Cryptography\Algorithms\Hmac
+ */
 abstract class AbstractHmac extends AbstractVerifier implements Signer
 {
     /**
-     * @var string
+     * @var string  Algorithm name
      */
-    protected $name;
+    protected static $name;
 
     /**
-     * @var string
+     * @var string  Encryption key
      */
     protected $key;
 
@@ -55,9 +55,15 @@ abstract class AbstractHmac extends AbstractVerifier implements Signer
     /**
      * @inheritdoc
      */
-    public function sign(string $data): string
+    public function sign(string $plain): string
     {
-        return hash_hmac($this->algorithmName(), $data, $this->key, true);
+        $signature = hash_hmac($this->algorithmName(), $plain, $this->key, true);
+
+        if ($signature === false) {
+            throw new SigningException();
+        }
+
+        return $signature;
     }
 
     /**
@@ -67,7 +73,7 @@ abstract class AbstractHmac extends AbstractVerifier implements Signer
      */
     protected function algorithmName(): string
     {
-        return 'sha' . substr($this->name, 2);
+        return 'sha' . substr($this->getName(), 2);
     }
 
     /**
@@ -75,7 +81,7 @@ abstract class AbstractHmac extends AbstractVerifier implements Signer
      */
     public function getName(): string
     {
-        return $this->name;
+        return static::$name;
     }
 
     /**

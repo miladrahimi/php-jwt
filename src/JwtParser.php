@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Milad Rahimi <info@miladrahimi.com>
- * Date: 5/13/2018 AD
- * Time: 23:38
- */
 
 namespace MiladRahimi\Jwt;
 
@@ -21,6 +15,11 @@ use MiladRahimi\Jwt\Validator\DefaultValidator;
 use MiladRahimi\Jwt\Validator\Validator;
 use MiladRahimi\Jwt\Validator\ValidatorInterface;
 
+/**
+ * Class JwtParser
+ *
+ * @package MiladRahimi\Jwt
+ */
 class JwtParser
 {
     /**
@@ -122,7 +121,6 @@ class JwtParser
      * @param string $jwt
      * @return array
      * @throws JsonDecodingException
-     * @throws InvalidTokenException
      */
     private function extractClaims(string $jwt): array
     {

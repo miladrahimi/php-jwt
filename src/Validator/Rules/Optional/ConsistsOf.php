@@ -1,15 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Milad Rahimi <info@miladrahimi.com>
- * Date: 5/16/2018 AD
- * Time: 01:01
- */
 
 namespace MiladRahimi\Jwt\Validator\Rules\Optional;
 
 use MiladRahimi\Jwt\Validator\Rule;
 
+/**
+ * Class ConsistsOf
+ *
+ * @package MiladRahimi\Jwt\Validator\Rules\Optional
+ */
 class ConsistsOf implements Rule
 {
     /**

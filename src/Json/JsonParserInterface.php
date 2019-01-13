@@ -1,31 +1,32 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Milad Rahimi <info@miladrahimi.com>
- * Date: 5/14/2018 AD
- * Time: 00:37
- */
 
 namespace MiladRahimi\Jwt\Json;
 
 use MiladRahimi\Jwt\Exceptions\JsonDecodingException;
+use MiladRahimi\Jwt\Exceptions\JsonEncodingException;
 
+/**
+ * Interface JsonParserInterface
+ *
+ * @package MiladRahimi\Jwt\Json
+ */
 interface JsonParserInterface
 {
     /**
-     * Encode JSON
+     * Encode array to JSON
      *
      * @param array $data
      * @return string
+     * @throws JsonEncodingException
      */
     public function encode(array $data): string;
 
     /**
-     * Decode JSON
+     * Decode JSON to array
      *
-     * @param string $data
+     * @param string $json
      * @return array
      * @throws JsonDecodingException
      */
-    public function decode(string $data): array;
+    public function decode(string $json): array;
 }

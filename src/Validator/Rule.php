@@ -1,13 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Milad Rahimi <info@miladrahimi.com>
- * Date: 5/16/2018 AD
- * Time: 00:40
- */
 
 namespace MiladRahimi\Jwt\Validator;
 
+/**
+ * Interface Rule
+ *
+ * @package MiladRahimi\Jwt\Validator
+ */
 interface Rule
 {
     /**

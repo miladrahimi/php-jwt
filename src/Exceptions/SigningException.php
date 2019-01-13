@@ -3,11 +3,11 @@
 namespace MiladRahimi\Jwt\Exceptions;
 
 /**
- * Class JsonEncodingException
+ * Class SigningException
  *
  * @package MiladRahimi\Jwt\Exceptions
  */
-class JsonEncodingException extends TokenGeneratingException
+class SigningException extends TokenGeneratingException
 {
     // Nada!
 }

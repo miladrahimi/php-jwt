@@ -2,7 +2,12 @@
 
 namespace MiladRahimi\Jwt\Exceptions;
 
-class JsonDecodingException extends InvalidTokenException
+/**
+ * Class JsonDecodingException
+ *
+ * @package MiladRahimi\Jwt\Exceptions
+ */
+class JsonDecodingException extends TokenParsingException
 {
     // Nada!
 }

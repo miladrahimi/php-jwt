@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Milad Rahimi <info@miladrahimi.com>
- * Date: 5/14/2018 AD
- * Time: 22:23
- */
 
 namespace MiladRahimi\Jwt\Cryptography\Algorithms\Rsa;
 
@@ -13,12 +7,17 @@ use MiladRahimi\Jwt\Cryptography\AbstractVerifier;
 use MiladRahimi\Jwt\Cryptography\Keys\PublicKey;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 
+/**
+ * Class AbstractRsaVerifier
+ *
+ * @package MiladRahimi\Jwt\Cryptography\Algorithms\Rsa
+ */
 abstract class AbstractRsaVerifier extends AbstractVerifier
 {
     use Naming;
 
     /**
-     * @var PublicKey
+     * @var PublicKey   Decryption key
      */
     protected $publicKey;
 

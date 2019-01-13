@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Milad Rahimi <info@miladrahimi.com>
- * Date: 5/20/2018 AD
- * Time: 00:34
- */
 
 namespace MiladRahimi\Jwt\Tests;
 
