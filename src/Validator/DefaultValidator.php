@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Milad Rahimi <info@miladrahimi.com>
- * Date: 5/16/2018 AD
- * Time: 01:46
- */
 
 namespace MiladRahimi\Jwt\Validator;
 
@@ -12,6 +6,11 @@ use MiladRahimi\Jwt\Enums\PublicClaimNames;
 use MiladRahimi\Jwt\Validator\Rules\Optional\NewerThan;
 use MiladRahimi\Jwt\Validator\Rules\Optional\OlderThanOrSameTimeWith;
 
+/**
+ * Class DefaultValidator
+ *
+ * @package MiladRahimi\Jwt\Validator
+ */
 class DefaultValidator extends Validator
 {
     /**

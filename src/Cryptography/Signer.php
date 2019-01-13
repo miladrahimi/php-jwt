@@ -1,13 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Milad Rahimi <info@miladrahimi.com>
- * Date: 5/14/2018 AD
- * Time: 00:13
- */
 
 namespace MiladRahimi\Jwt\Cryptography;
 
+use MiladRahimi\Jwt\Exceptions\SigningException;
+
+/**
+ * Interface Signer
+ *
+ * @package MiladRahimi\Jwt\Cryptography
+ */
 interface Signer
 {
     /**
@@ -18,10 +19,11 @@ interface Signer
     public function getName(): string;
 
     /**
-     * Sign data
+     * Sign plain text
      *
-     * @param string $data
+     * @param string $plain
      * @return string
+     * @throws SigningException
      */
-    public function sign(string $data): string;
+    public function sign(string $plain): string;
 }

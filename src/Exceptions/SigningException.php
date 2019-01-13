@@ -3,11 +3,11 @@
 namespace MiladRahimi\Jwt\Exceptions;
 
 /**
- * Class InvalidKeyException
+ * Class SigningException
  *
  * @package MiladRahimi\Jwt\Exceptions
  */
-class InvalidKeyException extends TokenParsingException
+class SigningException extends TokenGeneratingException
 {
     // Nada!
 }

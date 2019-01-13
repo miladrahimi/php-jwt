@@ -1,22 +1,22 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Milad Rahimi <info@miladrahimi.com>
- * Date: 5/14/2018 AD
- * Time: 22:23
- */
 
 namespace MiladRahimi\Jwt\Cryptography\Algorithms\Rsa;
 
 use MiladRahimi\Jwt\Cryptography\Keys\PrivateKey;
 use MiladRahimi\Jwt\Cryptography\Signer;
+use MiladRahimi\Jwt\Exceptions\SigningException;
 
+/**
+ * Class AbstractRsaSigner
+ *
+ * @package MiladRahimi\Jwt\Cryptography\Algorithms\Rsa
+ */
 abstract class AbstractRsaSigner implements Signer
 {
     use Naming;
 
     /**
-     * @var PrivateKey
+     * @var PrivateKey  Encryption key
      */
     protected $privateKey;
 
@@ -33,13 +33,15 @@ abstract class AbstractRsaSigner implements Signer
     /**
      * @inheritdoc
      */
-    public function sign(string $data): string
+    public function sign(string $plain): string
     {
         $signature = '';
 
-        openssl_sign($data, $signature, $this->privateKey->getResource(), $this->algorithmName());
+        if (openssl_sign($plain, $signature, $this->privateKey->getResource(), $this->algorithmName()) === true) {
+            return $signature;
+        }
 
-        return $signature;
+        throw new SigningException();
     }
 
     /**

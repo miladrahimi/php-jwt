@@ -120,7 +120,7 @@ And if you only need to verify the token's signature you can use the `verifySign
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS512;
 use MiladRahimi\Jwt\JwtGenerator;
 use MiladRahimi\Jwt\JwtParser;
-use MiladRahimi\Jwt\Exceptions\InvalidTokenException
+use MiladRahimi\Jwt\Exceptions\TokenParsingException
 
 $jwt = // Read token from the request header...
 
@@ -133,7 +133,7 @@ try {
     $claims = $parser->parse($jwt);
     
     // token is valid...
-} catch (InvalidTokenException $e) {
+} catch (TokenParsingException $e) {
     // token is not valid...
 }
 ```
@@ -142,7 +142,7 @@ The mentioned methods in `JwtParser` would throw `InvalidSignatureException` exc
 if the token's signature was invalid. The `validate()` and `parse()` method would throw `ValidationException`
 if the token claims were invalid, `InvalidJsonException` exception when could not parse JSON,
 and `InvalidTokenException` when the token format was invalid (for example it's not consist of three part).
-All these exceptions are also subclass of  `InvalidTokenException` so if you the failure reason is not important to you,
+All these exceptions are also subclass of  `TokenParsingException` so if you the failure reason is not important to you,
 you can only catch this exception.
 
 ### Custom Validation
@@ -155,7 +155,7 @@ like this example:
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS512;
 use MiladRahimi\Jwt\JwtGenerator;
 use MiladRahimi\Jwt\JwtParser;
-use MiladRahimi\Jwt\Exceptions\InvalidTokenException
+use MiladRahimi\Jwt\Exceptions\TokenParsingException
 use MiladRahimi\Jwt\Validator\Rules\Required\Exists;
 use MiladRahimi\Jwt\Validator\Rules\Required\ConsistsOf;
 use MiladRahimi\Jwt\Validator\Rules\Required\NewerThan;
@@ -181,7 +181,7 @@ try {
     $claims = $parser->parse($jwt);
     
     // token is valid...
-} catch (InvalidTokenException $e) {
+} catch (TokenParsingException $e) {
     // token is not valid...
 }
 ```

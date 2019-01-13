@@ -1,45 +1,44 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Milad Rahimi <info@miladrahimi.com>
- * Date: 5/14/2018 AD
- * Time: 00:27
- */
 
 namespace MiladRahimi\Jwt\Json;
 
-use MiladRahimi\Jwt\Exceptions\InvalidJsonException;
+use MiladRahimi\Jwt\Exceptions\JsonDecodingException;
+use MiladRahimi\Jwt\Exceptions\JsonEncodingException;
 
+/**
+ * Class JsonParser
+ *
+ * @package MiladRahimi\Jwt\Json
+ */
 class JsonParser implements JsonParserInterface
 {
     /**
-     * Encode JSON
-     *
-     * @param array $data
-     * @return string
+     * @inheritdoc
      */
     public function encode(array $data): string
     {
-        return json_encode($data);
+        $json = json_encode($data);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new JsonEncodingException(json_last_error_msg(), json_last_error());
+        }
+
+        return $json;
     }
 
     /**
-     * Decode JSON
-     *
-     * @param string $data
-     * @return array
-     * @throws InvalidJsonException
+     * @inheritdoc
      */
-    public function decode(string $data): array
+    public function decode(string $json): array
     {
-        $result = json_decode($data, true);
+        $result = json_decode($json, true);
 
-        if (json_last_error()) {
-            throw new InvalidJsonException(json_last_error_msg(), json_last_error());
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new JsonDecodingException(json_last_error_msg(), json_last_error());
         }
 
         if (is_array($result) == false) {
-            throw new InvalidJsonException();
+            throw new JsonDecodingException();
         }
 
         return $result;

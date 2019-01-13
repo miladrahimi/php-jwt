@@ -1,14 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Milad Rahimi <info@miladrahimi.com>
- * Date: 5/20/2018 AD
- * Time: 00:34
- */
 
 namespace MiladRahimi\Jwt\Tests;
 
-use MiladRahimi\Jwt\Exceptions\InvalidJsonException;
+use MiladRahimi\Jwt\Exceptions\JsonDecodingException;
 use MiladRahimi\Jwt\Json\JsonParser;
 use MiladRahimi\Jwt\Json\JsonParserInterface;
 
@@ -27,7 +21,7 @@ class JsonParserTest extends TestCase
     }
 
     /**
-     * @throws \MiladRahimi\Jwt\Exceptions\InvalidJsonException
+     * @throws \MiladRahimi\Jwt\Exceptions\JsonDecodingException
      */
     public function test_encoding_and_decoding_it_should_get_done_successfully()
     {
@@ -49,21 +43,21 @@ class JsonParserTest extends TestCase
     }
 
     /**
-     * @throws InvalidJsonException
+     * @throws JsonDecodingException
      */
     public function test_decoding_it_should_throw_an_exception_when_json_is_invalid()
     {
-        $this->expectException(InvalidJsonException::class);
+        $this->expectException(JsonDecodingException::class);
 
         $this->service->decode('Invalid JSON');
     }
 
     /**
-     * @throws InvalidJsonException
+     * @throws JsonDecodingException
      */
     public function test_decoding_it_should_throw_an_exception_when_json_is_invalid_2()
     {
-        $this->expectException(InvalidJsonException::class);
+        $this->expectException(JsonDecodingException::class);
 
         $this->service->decode(json_encode('String...'));
     }

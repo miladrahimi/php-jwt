@@ -1,26 +1,26 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Milad Rahimi <info@miladrahimi.com>
- * Date: 6/1/2018 AD
- * Time: 21:49
- */
 
 namespace MiladRahimi\Jwt\Cryptography\Algorithms\Rsa;
 
+/**
+ * Trait Naming
+ * Automatic name generator for RSA algorithm classes
+ *
+ * @package MiladRahimi\Jwt\Cryptography\Algorithms\Rsa
+ */
 trait Naming
 {
     /**
-     * @var string
+     * @var string  Algorithm name
      */
-    protected $name;
+    protected static $name;
 
     /**
      * @inheritdoc
      */
     public function getName(): string
     {
-        return $this->name;
+        return static::$name;
     }
 
     /**
@@ -34,6 +34,6 @@ trait Naming
             'RS512' => OPENSSL_ALGO_SHA512,
         ];
 
-        return $table[$this->name];
+        return $table[$this->getName()];
     }
 }

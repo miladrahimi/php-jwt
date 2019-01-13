@@ -1,20 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Milad Rahimi <info@miladrahimi.com>
- * Date: 5/13/2018 AD
- * Time: 23:47
- */
 
 namespace MiladRahimi\Jwt\Base64;
 
+/**
+ * Class Base64Parser
+ *
+ * @package MiladRahimi\Jwt\Base64
+ */
 class Base64Parser implements Base64ParserInterface
 {
     /**
-     * Encode data by Base64 algorithm
-     *
-     * @param string $data
-     * @return string
+     * @inheritdoc
      */
     public function encode(string $data): string
     {
@@ -22,10 +18,7 @@ class Base64Parser implements Base64ParserInterface
     }
 
     /**
-     * Decode Base64-encoded data to plain text
-     *
-     * @param string $data
-     * @return string
+     * @inheritdoc
      */
     public function decode(string $data): string
     {

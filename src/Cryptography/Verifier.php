@@ -1,15 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Milad Rahimi <info@miladrahimi.com>
- * Date: 5/14/2018 AD
- * Time: 00:13
- */
 
 namespace MiladRahimi\Jwt\Cryptography;
 
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 
+/**
+ * Interface Verifier
+ *
+ * @package MiladRahimi\Jwt\Cryptography
+ */
 interface Verifier
 {
     /**

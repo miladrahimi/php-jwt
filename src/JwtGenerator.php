@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Milad Rahimi <info@miladrahimi.com>
- * Date: 5/13/2018 AD
- * Time: 23:38
- */
 
 namespace MiladRahimi\Jwt;
 
@@ -14,6 +8,11 @@ use MiladRahimi\Jwt\Cryptography\Signer;
 use MiladRahimi\Jwt\Json\JsonParser;
 use MiladRahimi\Jwt\Json\JsonParserInterface;
 
+/**
+ * Class JwtGenerator
+ *
+ * @package MiladRahimi\Jwt
+ */
 class JwtGenerator
 {
     /**
@@ -53,6 +52,7 @@ class JwtGenerator
      *
      * @param array $claims
      * @return string JWT
+     * @throws Exceptions\JsonEncodingException
      */
     public function generate(array $claims = []): string
     {

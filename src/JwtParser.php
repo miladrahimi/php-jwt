@@ -1,17 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Milad Rahimi <info@miladrahimi.com>
- * Date: 5/13/2018 AD
- * Time: 23:38
- */
 
 namespace MiladRahimi\Jwt;
 
 use MiladRahimi\Jwt\Base64\Base64Parser;
 use MiladRahimi\Jwt\Base64\Base64ParserInterface;
 use MiladRahimi\Jwt\Cryptography\Verifier;
-use MiladRahimi\Jwt\Exceptions\InvalidJsonException;
+use MiladRahimi\Jwt\Exceptions\JsonDecodingException;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 use MiladRahimi\Jwt\Exceptions\InvalidTokenException;
 use MiladRahimi\Jwt\Exceptions\ValidationException;
@@ -21,6 +15,11 @@ use MiladRahimi\Jwt\Validator\DefaultValidator;
 use MiladRahimi\Jwt\Validator\Validator;
 use MiladRahimi\Jwt\Validator\ValidatorInterface;
 
+/**
+ * Class JwtParser
+ *
+ * @package MiladRahimi\Jwt
+ */
 class JwtParser
 {
     /**
@@ -68,7 +67,7 @@ class JwtParser
      *
      * @param string $jwt
      * @return array[]
-     * @throws InvalidJsonException
+     * @throws JsonDecodingException
      * @throws InvalidSignatureException
      * @throws InvalidTokenException
      * @throws ValidationException
@@ -121,8 +120,7 @@ class JwtParser
      *
      * @param string $jwt
      * @return array
-     * @throws InvalidJsonException
-     * @throws InvalidTokenException
+     * @throws JsonDecodingException
      */
     private function extractClaims(string $jwt): array
     {
@@ -146,7 +144,7 @@ class JwtParser
      * Validate JWT (verify signature and validate claims)
      *
      * @param string $jwt
-     * @throws InvalidJsonException
+     * @throws JsonDecodingException
      * @throws InvalidSignatureException
      * @throws InvalidTokenException
      * @throws ValidationException

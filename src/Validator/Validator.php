@@ -1,15 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Milad Rahimi <info@miladrahimi.com>
- * Date: 5/16/2018 AD
- * Time: 01:27
- */
 
 namespace MiladRahimi\Jwt\Validator;
 
 use MiladRahimi\Jwt\Exceptions\ValidationException;
 
+/**
+ * Class Validator
+ *
+ * @package MiladRahimi\Jwt\Validator
+ */
 class Validator implements ValidatorInterface
 {
     /**
