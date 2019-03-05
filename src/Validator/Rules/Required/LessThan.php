@@ -29,6 +29,6 @@ class LessThan implements Rule
      */
     public function check($value, bool $exists): bool
     {
-        return $exists && $this->number < $value;
+        return $exists && $value < $this->number;
     }
 }
