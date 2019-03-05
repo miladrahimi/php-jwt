@@ -4,7 +4,7 @@ namespace MiladRahimi\Jwt\Tests;
 
 use MiladRahimi\Jwt\Exceptions\ValidationException;
 use MiladRahimi\Jwt\Validator\Rules\Optional\NewerThanOrSameTimeWith;
-use MiladRahimi\Jwt\Validator\Rules\Optional\OlderThan;
+use MiladRahimi\Jwt\Validator\Rules\Optional\OlderThanOrSameTimeWith;
 use MiladRahimi\Jwt\Validator\Rules\Required\Exists;
 use MiladRahimi\Jwt\Validator\Rules\Required\NotNull;
 use MiladRahimi\Jwt\Validator\Validator;
@@ -71,12 +71,12 @@ class ValidationTest extends TestCase
         $service = $this->service();
 
         $service->addRule('nbf', new Exists());
-        $service->addRule('nbf', new OlderThan(time()));
+        $service->addRule('nbf', new OlderThanOrSameTimeWith(time()));
         $service->addRule('sub', new NotNull());
 
         $this->expectException(ValidationException::class);
 
-        $service->validate(['sub' => 1, 'nbf' => time() - 1000]);
+        $service->validate(['sub' => 1, 'nbf' => time() + 1000]);
 
         $this->assertTrue(false);
     }
@@ -89,7 +89,7 @@ class ValidationTest extends TestCase
         $service = $this->service();
 
         $service->addRule('nbf', new Exists());
-        $service->addRule('nbf', new OlderThan(time()));
+        $service->addRule('nbf', new OlderThanOrSameTimeWith(time()));
         $service->addRule('sub', new NotNull());
 
         $service->cleanRules('nbf');
