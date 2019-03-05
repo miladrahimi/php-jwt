@@ -199,7 +199,7 @@ class RequiredValidationRulesTest extends TestCase
 
         $service->addRule('sub', new GreaterThan(100));
 
-        $service->validate(['sub' => 99]);
+        $service->validate(['sub' => 200]);
 
         $this->assertTrue(true);
     }
@@ -231,7 +231,7 @@ class RequiredValidationRulesTest extends TestCase
 
         $this->expectException(ValidationException::class);
 
-        $service->validate(['sub' => '1001']);
+        $service->validate(['sub' => '500']);
 
         $this->assertTrue(false);
     }
@@ -261,7 +261,7 @@ class RequiredValidationRulesTest extends TestCase
 
         $service->addRule('sub', new GreaterThanOrEqualTo(100));
 
-        $service->validate(['sub' => 99]);
+        $service->validate(['sub' => 101]);
 
         $this->assertTrue(true);
     }
@@ -293,7 +293,7 @@ class RequiredValidationRulesTest extends TestCase
 
         $this->expectException(ValidationException::class);
 
-        $service->validate(['sub' => '1001']);
+        $service->validate(['sub' => '500']);
 
         $this->assertTrue(false);
     }
@@ -397,7 +397,7 @@ class RequiredValidationRulesTest extends TestCase
 
         $service->addRule('sub', new LessThan(100));
 
-        $service->validate(['sub' => 101]);
+        $service->validate(['sub' => 66]);
 
         $this->assertTrue(true);
     }
@@ -429,7 +429,7 @@ class RequiredValidationRulesTest extends TestCase
 
         $this->expectException(ValidationException::class);
 
-        $service->validate(['sub' => '999']);
+        $service->validate(['sub' => '2000']);
 
         $this->assertTrue(false);
     }
@@ -459,7 +459,7 @@ class RequiredValidationRulesTest extends TestCase
 
         $service->addRule('sub', new LessThanOrEqualTo(100));
 
-        $service->validate(['sub' => 101]);
+        $service->validate(['sub' => 50]);
 
         $this->assertTrue(true);
     }
@@ -491,7 +491,7 @@ class RequiredValidationRulesTest extends TestCase
 
         $this->expectException(ValidationException::class);
 
-        $service->validate(['sub' => '999']);
+        $service->validate(['sub' => '2000']);
 
         $this->assertTrue(false);
     }
