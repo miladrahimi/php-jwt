@@ -28,7 +28,7 @@ you should use HMAC algorithms (HS256, HS384, or HS512). These algorithms use th
 Take look at the example below.
 
 ```
-use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS512;
+use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
 use MiladRahimi\Jwt\JwtGenerator;
 use MiladRahimi\Jwt\JwtParser;
 
