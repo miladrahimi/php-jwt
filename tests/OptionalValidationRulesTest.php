@@ -10,13 +10,14 @@ use MiladRahimi\Jwt\Validator\Rules\Optional\GreaterThanOrEqualTo;
 use MiladRahimi\Jwt\Validator\Rules\Optional\IdenticalTo;
 use MiladRahimi\Jwt\Validator\Rules\Optional\LessThan;
 use MiladRahimi\Jwt\Validator\Rules\Optional\LessThanOrEqualTo;
+use MiladRahimi\Jwt\Validator\Rules\Optional\OlderThan;
 use MiladRahimi\Jwt\Validator\Validator;
 use MiladRahimi\Jwt\Validator\ValidatorInterface;
 
 class OptionalValidationRulesTest extends TestCase
 {
     /**
-     * @throws \MiladRahimi\Jwt\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function test_consist_of_it_should_pass_when_the_claim_consists_of_the_value()
     {
@@ -35,7 +36,7 @@ class OptionalValidationRulesTest extends TestCase
     }
 
     /**
-     * @throws \MiladRahimi\Jwt\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function test_consist_of_it_should_pass_when_the_claim_does_not_exist()
     {
@@ -49,7 +50,7 @@ class OptionalValidationRulesTest extends TestCase
     }
 
     /**
-     * @throws \MiladRahimi\Jwt\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function test_consist_of_it_should_fail_when_the_claim_does_not_consists_of_the_value()
     {
@@ -65,7 +66,7 @@ class OptionalValidationRulesTest extends TestCase
     }
 
     /**
-     * @throws \MiladRahimi\Jwt\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function test_equals_to_it_should_pass_when_the_claim_equals_to_the_value()
     {
@@ -79,7 +80,7 @@ class OptionalValidationRulesTest extends TestCase
     }
 
     /**
-     * @throws \MiladRahimi\Jwt\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function test_equals_to_it_should_pass_when_the_claim_does_not_exist()
     {
@@ -93,7 +94,7 @@ class OptionalValidationRulesTest extends TestCase
     }
 
     /**
-     * @throws \MiladRahimi\Jwt\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function test_equals_to_it_should_fail_when_the_claim_does_not_equals_to_the_value()
     {
@@ -109,7 +110,7 @@ class OptionalValidationRulesTest extends TestCase
     }
 
     /**
-     * @throws \MiladRahimi\Jwt\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function test_greater_than_it_should_pass_when_the_claim_greater_than_the_value()
     {
@@ -123,7 +124,7 @@ class OptionalValidationRulesTest extends TestCase
     }
 
     /**
-     * @throws \MiladRahimi\Jwt\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function test_greater_than_it_should_pass_when_the_claim_does_not_exist()
     {
@@ -137,7 +138,7 @@ class OptionalValidationRulesTest extends TestCase
     }
 
     /**
-     * @throws \MiladRahimi\Jwt\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function test_greater_than_it_should_fail_when_the_claim_is_not_greater_than_the_value()
     {
@@ -153,7 +154,7 @@ class OptionalValidationRulesTest extends TestCase
     }
 
     /**
-     * @throws \MiladRahimi\Jwt\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function test_greater_than_it_should_fail_when_the_claim_equals_the_value()
     {
@@ -169,7 +170,7 @@ class OptionalValidationRulesTest extends TestCase
     }
 
     /**
-     * @throws \MiladRahimi\Jwt\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function test_gt_or_equal_to_it_should_pass_when_the_claim_greater_than_the_value()
     {
@@ -183,7 +184,7 @@ class OptionalValidationRulesTest extends TestCase
     }
 
     /**
-     * @throws \MiladRahimi\Jwt\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function test_gt_or_equal_to_it_should_pass_when_the_claim_does_not_exist()
     {
@@ -197,7 +198,7 @@ class OptionalValidationRulesTest extends TestCase
     }
 
     /**
-     * @throws \MiladRahimi\Jwt\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function test_gt_or_equal_to_it_should_fail_when_the_claim_is_not_greater_than_the_value()
     {
@@ -213,7 +214,7 @@ class OptionalValidationRulesTest extends TestCase
     }
 
     /**
-     * @throws \MiladRahimi\Jwt\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function test_gt_or_equal_to_it_should_pass_when_the_claim_equals_the_value()
     {
@@ -227,7 +228,7 @@ class OptionalValidationRulesTest extends TestCase
     }
 
     /**
-     * @throws \MiladRahimi\Jwt\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function test_identical_to_it_should_pass_when_the_claim_is_identical_to_int_value()
     {
@@ -241,7 +242,7 @@ class OptionalValidationRulesTest extends TestCase
     }
 
     /**
-     * @throws \MiladRahimi\Jwt\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function test_identical_to_it_should_pass_when_the_claim_is_identical_to_bool_value()
     {
@@ -255,7 +256,7 @@ class OptionalValidationRulesTest extends TestCase
     }
 
     /**
-     * @throws \MiladRahimi\Jwt\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function test_identical_to_it_should_fail_when_the_claim_is_does_not_exist()
     {
@@ -269,7 +270,7 @@ class OptionalValidationRulesTest extends TestCase
     }
 
     /**
-     * @throws \MiladRahimi\Jwt\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function test_identical_to_it_should_fail_when_the_claim_is_not_identical_to_int_value()
     {
@@ -285,7 +286,7 @@ class OptionalValidationRulesTest extends TestCase
     }
 
     /**
-     * @throws \MiladRahimi\Jwt\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function test_identical_to_it_should_fail_when_the_claim_is_not_identical_to_bool_value()
     {
@@ -301,7 +302,7 @@ class OptionalValidationRulesTest extends TestCase
     }
 
     /**
-     * @throws \MiladRahimi\Jwt\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function test_less_than_it_should_pass_when_the_claim_less_than_the_value()
     {
@@ -315,7 +316,7 @@ class OptionalValidationRulesTest extends TestCase
     }
 
     /**
-     * @throws \MiladRahimi\Jwt\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function test_less_than_it_should_pass_when_the_claim_does_not_exist()
     {
@@ -329,7 +330,7 @@ class OptionalValidationRulesTest extends TestCase
     }
 
     /**
-     * @throws \MiladRahimi\Jwt\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function test_less_than_it_should_fail_when_the_claim_is_not_less_than_the_value()
     {
@@ -345,7 +346,7 @@ class OptionalValidationRulesTest extends TestCase
     }
 
     /**
-     * @throws \MiladRahimi\Jwt\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function test_less_than_it_should_fail_when_the_claim_equals_the_value()
     {
@@ -361,7 +362,7 @@ class OptionalValidationRulesTest extends TestCase
     }
 
     /**
-     * @throws \MiladRahimi\Jwt\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function test_lt_or_equal_to_it_should_pass_when_the_claim_less_than_the_value()
     {
@@ -375,7 +376,7 @@ class OptionalValidationRulesTest extends TestCase
     }
 
     /**
-     * @throws \MiladRahimi\Jwt\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function test_lt_or_equal_to_it_should_pass_when_the_claim_does_not_exist()
     {
@@ -389,7 +390,7 @@ class OptionalValidationRulesTest extends TestCase
     }
 
     /**
-     * @throws \MiladRahimi\Jwt\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function test_lt_or_equal_to_it_should_fail_when_the_claim_is_not_less_than_the_value()
     {
@@ -405,7 +406,7 @@ class OptionalValidationRulesTest extends TestCase
     }
 
     /**
-     * @throws \MiladRahimi\Jwt\Exceptions\ValidationException
+     * @throws ValidationException
      */
     public function test_lt_or_equal_to_it_should_pass_when_the_claim_equals_the_value()
     {
@@ -414,6 +415,20 @@ class OptionalValidationRulesTest extends TestCase
         $service->addRule('sub', new LessThanOrEqualTo(1000));
 
         $service->validate(['sub' => 1000]);
+
+        $this->assertTrue(true);
+    }
+
+    /**
+     * @throws ValidationException
+     */
+    public function test_older_than_it_should_pass_when_the_claim_is_older()
+    {
+        $service = $this->service();
+
+        $service->addRule('t', new OlderThan(time()));
+
+        $service->validate(['t' => time() - 10000]);
 
         $this->assertTrue(true);
     }
