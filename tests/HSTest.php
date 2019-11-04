@@ -7,7 +7,9 @@ use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS384;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS512;
 use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
+use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 use MiladRahimi\Jwt\Exceptions\InvalidTokenException;
+use MiladRahimi\Jwt\Exceptions\SigningException;
 use MiladRahimi\Jwt\JwtGenerator;
 use MiladRahimi\Jwt\JwtParser;
 
@@ -78,6 +80,22 @@ class HSTest extends TestCase
      * @throws InvalidKeyException
      * @throws InvalidTokenException
      */
+    public function test_with_hs512_signer_it_should_throw_e_when_signature_is_invalid()
+    {
+        $service = new JwtGenerator(new HS512($this->key()));
+        $jwt = $service->generate(['sub' => 1, 'jti' => 2]);
+        $newJwt = substr($jwt, strpos($jwt, '.'));
+
+        $parser = new JwtParser(new HS512($this->key()));
+
+        $this->expectException(InvalidSignatureException::class);
+        $parser->verifySignature($newJwt);
+    }
+
+    /**
+     * @throws InvalidKeyException
+     * @throws InvalidTokenException
+     */
     public function test_with_custom_base64_parser()
     {
         $base64Parser = new Base64Parser();
@@ -85,5 +103,28 @@ class HSTest extends TestCase
         $signer = new HS512($this->key(), $base64Parser);
 
         $this->assertSame($base64Parser, $signer->getBase64Parser());
+    }
+
+    /**
+     * @throws InvalidKeyException
+     * @throws InvalidTokenException
+     */
+    public function test_with_wrong_key_it_should_raise_an_exception()
+    {
+        $this->expectException(InvalidKeyException::class);
+        new HS512('Wrong Key');
+    }
+
+    /**
+     * @throws InvalidKeyException
+     * @throws InvalidTokenException
+     */
+    public function test_setter_and_getter_for_key()
+    {
+        $key = $this->key();
+
+        $signer = new HS512($key);
+
+        $this->assertEquals($key, $signer->getKey());
     }
 }
