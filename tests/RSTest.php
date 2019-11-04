@@ -96,4 +96,22 @@ class RSTest extends TestCase
         $this->assertEquals($claims['sub'], 1);
         $this->assertEquals($claims['jti'], 2);
     }
+
+    public function test_get_and_set_public_key()
+    {
+        $key = $this->publicKey();
+
+        $verifier = new RS512Verifier($key);
+
+        $this->assertSame($key, $verifier->getPublicKey());
+    }
+
+    public function test_get_and_set_private_key()
+    {
+        $key = $this->privateKey();
+
+        $signer = new RS256Signer($key);
+
+        $this->assertSame($key, $signer->getPrivateKey());
+    }
 }
