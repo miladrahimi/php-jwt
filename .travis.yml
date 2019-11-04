@@ -12,7 +12,7 @@ branches:
   only:
   - master
 
-before_install:
+before_script:
   - composer install --no-interaction --no-suggest
   - composer require php-coveralls/php-coveralls
 
