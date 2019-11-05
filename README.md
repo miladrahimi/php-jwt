@@ -8,6 +8,8 @@
 
 A PHP implementation of JWT (JSON Web Token) generator, parser, verifier, and validator.
 
+Confirmed by [JWT.io](https://jwt.io).
+
 ## Overview
 
 PHP-JWT is a package written in PHP programming language to encode (generate), decode (parse), verify and validate JWTs 
