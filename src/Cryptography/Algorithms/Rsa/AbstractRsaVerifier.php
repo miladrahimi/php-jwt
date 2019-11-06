@@ -2,7 +2,7 @@
 
 namespace MiladRahimi\Jwt\Cryptography\Algorithms\Rsa;
 
-use MiladRahimi\Jwt\Base64\Base64ParserInterface;
+use MiladRahimi\Jwt\Base64\Base64;
 use MiladRahimi\Jwt\Cryptography\AbstractVerifier;
 use MiladRahimi\Jwt\Cryptography\Keys\PublicKey;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
@@ -25,9 +25,9 @@ abstract class AbstractRsaVerifier extends AbstractVerifier
      * AbstractRsaVerifier constructor.
      *
      * @param PublicKey $key
-     * @param Base64ParserInterface|null $base64Parser
+     * @param Base64|null $base64Parser
      */
-    public function __construct(PublicKey $key, Base64ParserInterface $base64Parser = null)
+    public function __construct(PublicKey $key, Base64 $base64Parser = null)
     {
         $this->setPublicKey($key);
 

@@ -3,7 +3,7 @@
 namespace MiladRahimi\Jwt;
 
 use MiladRahimi\Jwt\Base64\Base64Parser;
-use MiladRahimi\Jwt\Base64\Base64ParserInterface;
+use MiladRahimi\Jwt\Base64\Base64;
 use MiladRahimi\Jwt\Cryptography\Verifier;
 use MiladRahimi\Jwt\Exceptions\JsonDecodingException;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
@@ -33,7 +33,7 @@ class JwtParser
     private $jsonParser;
 
     /**
-     * @var Base64ParserInterface
+     * @var Base64
      */
     private $base64Parser;
 
@@ -48,13 +48,13 @@ class JwtParser
      * @param Verifier $verifier
      * @param Validator|null $validator
      * @param JsonParserInterface|null $jsonParser
-     * @param Base64ParserInterface|null $base64Parser
+     * @param Base64|null $base64Parser
      */
     public function __construct(
         Verifier $verifier,
         Validator $validator = null,
         JsonParserInterface $jsonParser = null,
-        Base64ParserInterface $base64Parser = null
+        Base64 $base64Parser = null
     ) {
         $this->setVerifier($verifier);
         $this->setValidator($validator ?: new DefaultValidator());
@@ -174,17 +174,17 @@ class JwtParser
     }
 
     /**
-     * @return Base64ParserInterface
+     * @return Base64
      */
-    public function getBase64Parser(): Base64ParserInterface
+    public function getBase64Parser(): Base64
     {
         return $this->base64Parser;
     }
 
     /**
-     * @param Base64ParserInterface $base64Parser
+     * @param Base64 $base64Parser
      */
-    public function setBase64Parser(Base64ParserInterface $base64Parser)
+    public function setBase64Parser(Base64 $base64Parser)
     {
         $this->base64Parser = $base64Parser;
     }

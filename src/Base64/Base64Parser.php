@@ -7,7 +7,7 @@ namespace MiladRahimi\Jwt\Base64;
  *
  * @package MiladRahimi\Jwt\Base64
  */
-class Base64Parser implements Base64ParserInterface
+class Base64Parser implements Base64
 {
     /**
      * @inheritdoc

@@ -3,12 +3,12 @@
 namespace MiladRahimi\Jwt\Tests;
 
 use MiladRahimi\Jwt\Base64\Base64Parser;
-use MiladRahimi\Jwt\Base64\Base64ParserInterface;
+use MiladRahimi\Jwt\Base64\Base64;
 
 class Base64ParserTest extends TestCase
 {
     /**
-     * @var Base64ParserInterface
+     * @var Base64
      */
     private $service;
 

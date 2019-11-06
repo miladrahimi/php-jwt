@@ -2,7 +2,7 @@
 
 namespace MiladRahimi\Jwt\Cryptography\Algorithms\Hmac;
 
-use MiladRahimi\Jwt\Base64\Base64ParserInterface;
+use MiladRahimi\Jwt\Base64\Base64;
 use MiladRahimi\Jwt\Cryptography\AbstractVerifier;
 use MiladRahimi\Jwt\Cryptography\Signer;
 use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
@@ -30,10 +30,10 @@ abstract class AbstractHmac extends AbstractVerifier implements Signer
      * HS constructor.
      *
      * @param string $key
-     * @param Base64ParserInterface|null $base64Parser
+     * @param Base64|null $base64Parser
      * @throws InvalidKeyException
      */
-    public function __construct(string $key, Base64ParserInterface $base64Parser = null)
+    public function __construct(string $key, Base64 $base64Parser = null)
     {
         parent::__construct($base64Parser);
 

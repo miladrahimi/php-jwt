@@ -3,14 +3,14 @@
 namespace MiladRahimi\Jwt\Base64;
 
 /**
- * Interface Base64ParserInterface
+ * Interface Base64
  *
  * @package MiladRahimi\Jwt\Base64
  */
-interface Base64ParserInterface
+interface Base64
 {
     /**
-     * Encode plain text to Base64-encoded text
+     * Encode plain data to Base64-encoded data
      *
      * @param string $data
      * @return string
@@ -18,7 +18,7 @@ interface Base64ParserInterface
     public function encode(string $data): string;
 
     /**
-     * Decode Base64-encoded text to plain text
+     * Decode Base64-encoded data to plain data
      *
      * @param string $data
      * @return string
