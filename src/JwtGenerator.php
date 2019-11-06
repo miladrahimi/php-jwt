@@ -5,7 +5,7 @@ namespace MiladRahimi\Jwt;
 use MiladRahimi\Jwt\Base64\SafeBase64;
 use MiladRahimi\Jwt\Base64\Base64;
 use MiladRahimi\Jwt\Cryptography\Signer;
-use MiladRahimi\Jwt\Json\JsonParser;
+use MiladRahimi\Jwt\Json\StrictJson;
 use MiladRahimi\Jwt\Json\Json;
 
 /**
@@ -43,7 +43,7 @@ class JwtGenerator
         Base64 $base64Parser = null
     ) {
         $this->setSigner($signer);
-        $this->setJsonParser($jsonParser ?: new JsonParser());
+        $this->setJsonParser($jsonParser ?: new StrictJson());
         $this->setBase64Parser($base64Parser ?: new SafeBase64());
     }
 

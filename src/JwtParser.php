@@ -9,7 +9,7 @@ use MiladRahimi\Jwt\Exceptions\JsonDecodingException;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 use MiladRahimi\Jwt\Exceptions\InvalidTokenException;
 use MiladRahimi\Jwt\Exceptions\ValidationException;
-use MiladRahimi\Jwt\Json\JsonParser;
+use MiladRahimi\Jwt\Json\StrictJson;
 use MiladRahimi\Jwt\Json\Json;
 use MiladRahimi\Jwt\Validator\DefaultValidator;
 use MiladRahimi\Jwt\Validator\Validator;
@@ -58,7 +58,7 @@ class JwtParser
     ) {
         $this->setVerifier($verifier);
         $this->setValidator($validator ?: new DefaultValidator());
-        $this->setJsonParser($jsonParser ?: new JsonParser());
+        $this->setJsonParser($jsonParser ?: new StrictJson());
         $this->setBase64Parser($base64Parser ?: new SafeBase64());
     }
 

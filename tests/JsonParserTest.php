@@ -3,7 +3,7 @@
 namespace MiladRahimi\Jwt\Tests;
 
 use MiladRahimi\Jwt\Exceptions\JsonDecodingException;
-use MiladRahimi\Jwt\Json\JsonParser;
+use MiladRahimi\Jwt\Json\StrictJson;
 use MiladRahimi\Jwt\Json\Json;
 
 class JsonParserTest extends TestCase
@@ -17,7 +17,7 @@ class JsonParserTest extends TestCase
     {
         parent::setUp();
 
-        $this->service = new JsonParser();
+        $this->service = new StrictJson();
     }
 
     /**

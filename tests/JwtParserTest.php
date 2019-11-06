@@ -3,7 +3,7 @@
 use MiladRahimi\Jwt\Base64\SafeBase64;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
 use MiladRahimi\Jwt\Exceptions\InvalidTokenException;
-use MiladRahimi\Jwt\Json\JsonParser;
+use MiladRahimi\Jwt\Json\StrictJson;
 use MiladRahimi\Jwt\JwtParser;
 use MiladRahimi\Jwt\Tests\TestCase;
 use MiladRahimi\Jwt\Validator\DefaultValidator;
@@ -25,7 +25,7 @@ class JwtParserTest extends TestCase
 
     public function test_getter_and_setter_for_json_parser()
     {
-        $jsonParser = new JsonParser();
+        $jsonParser = new StrictJson();
 
         $parser = new JwtParser(new HS256('17e62166fc8586dfa4d1bc0e1742c08b'));
         $parser->setJsonParser($jsonParser);

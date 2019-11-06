@@ -6,11 +6,11 @@ use MiladRahimi\Jwt\Exceptions\JsonDecodingException;
 use MiladRahimi\Jwt\Exceptions\JsonEncodingException;
 
 /**
- * Class JsonParser
+ * Class StrictJson
  *
  * @package MiladRahimi\Jwt\Json
  */
-class JsonParser implements Json
+class StrictJson implements Json
 {
     /**
      * @inheritdoc
