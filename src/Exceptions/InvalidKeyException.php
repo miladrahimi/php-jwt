@@ -9,5 +9,5 @@ namespace MiladRahimi\Jwt\Exceptions;
  */
 class InvalidKeyException extends TokenParsingException
 {
-    // Nada!
+    //
 }

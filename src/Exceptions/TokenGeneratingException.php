@@ -12,5 +12,5 @@ use RuntimeException;
  */
 abstract class TokenGeneratingException extends RuntimeException
 {
-    // Nada
+    //
 }

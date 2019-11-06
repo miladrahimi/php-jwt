@@ -9,5 +9,5 @@ namespace MiladRahimi\Jwt\Exceptions;
  */
 class SigningException extends TokenGeneratingException
 {
-    // Nada!
+    //
 }

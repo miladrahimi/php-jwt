@@ -9,5 +9,5 @@ namespace MiladRahimi\Jwt\Exceptions;
  */
 class ValidationException extends TokenParsingException
 {
-    // Nada!
+    //
 }

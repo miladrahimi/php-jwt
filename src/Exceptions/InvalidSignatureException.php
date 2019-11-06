@@ -9,5 +9,5 @@ namespace MiladRahimi\Jwt\Exceptions;
  */
 class InvalidSignatureException extends TokenParsingException
 {
-    // Nada!
+    //
 }

@@ -9,5 +9,5 @@ namespace MiladRahimi\Jwt\Exceptions;
  */
 class JsonEncodingException extends TokenGeneratingException
 {
-    // Nada!
+    //
 }
