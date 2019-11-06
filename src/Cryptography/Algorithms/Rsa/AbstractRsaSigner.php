@@ -33,11 +33,11 @@ abstract class AbstractRsaSigner implements Signer
     /**
      * @inheritdoc
      */
-    public function sign(string $data): string
+    public function sign(string $message): string
     {
         $signature = '';
 
-        if (openssl_sign($data, $signature, $this->privateKey->getResource(), $this->algorithmName()) === true) {
+        if (openssl_sign($message, $signature, $this->privateKey->getResource(), $this->algorithmName()) === true) {
             return $signature;
         }
 

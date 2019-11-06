@@ -55,9 +55,9 @@ abstract class AbstractHmac extends AbstractVerifier implements Signer
     /**
      * @inheritdoc
      */
-    public function sign(string $data): string
+    public function sign(string $message): string
     {
-        $signature = hash_hmac($this->algorithmName(), $data, $this->key, true);
+        $signature = hash_hmac($this->algorithmName(), $message, $this->key, true);
 
         if ($signature === false) {
             throw new SigningException();

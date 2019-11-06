@@ -19,11 +19,11 @@ interface Signer
     public function getName(): string;
 
     /**
-     * Sign plain text
+     * Sign the message
      *
-     * @param string $data
+     * @param string $message
      * @return string
      * @throws SigningException
      */
-    public function sign(string $data): string;
+    public function sign(string $message): string;
 }
