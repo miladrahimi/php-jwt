@@ -21,9 +21,9 @@ interface Signer
     /**
      * Sign plain text
      *
-     * @param string $plain
+     * @param string $data
      * @return string
      * @throws SigningException
      */
-    public function sign(string $plain): string;
+    public function sign(string $data): string;
 }
