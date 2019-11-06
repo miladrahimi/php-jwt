@@ -8,7 +8,7 @@ use MiladRahimi\Jwt\Validator\Rules\Optional\OlderThanOrSameTimeWith;
 use MiladRahimi\Jwt\Validator\Rules\Required\Exists;
 use MiladRahimi\Jwt\Validator\Rules\Required\NotNull;
 use MiladRahimi\Jwt\Validator\BaseValidator;
-use MiladRahimi\Jwt\Validator\ValidatorInterface;
+use MiladRahimi\Jwt\Validator\Validator;
 
 class ValidationTest extends TestCase
 {
@@ -26,7 +26,7 @@ class ValidationTest extends TestCase
         $this->assertTrue(true);
     }
 
-    public function service(): ValidatorInterface
+    public function service(): Validator
     {
         return new BaseValidator();
     }

@@ -12,7 +12,7 @@ use MiladRahimi\Jwt\Validator\Rules\Optional\LessThan;
 use MiladRahimi\Jwt\Validator\Rules\Optional\LessThanOrEqualTo;
 use MiladRahimi\Jwt\Validator\Rules\Optional\OlderThan;
 use MiladRahimi\Jwt\Validator\BaseValidator;
-use MiladRahimi\Jwt\Validator\ValidatorInterface;
+use MiladRahimi\Jwt\Validator\Validator;
 
 class OptionalValidationRulesTest extends TestCase
 {
@@ -30,7 +30,7 @@ class OptionalValidationRulesTest extends TestCase
         $this->assertTrue(true);
     }
 
-    public function service(): ValidatorInterface
+    public function service(): Validator
     {
         return new BaseValidator();
     }

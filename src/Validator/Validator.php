@@ -5,14 +5,14 @@ namespace MiladRahimi\Jwt\Validator;
 use MiladRahimi\Jwt\Exceptions\ValidationException;
 
 /**
- * Interface ValidatorInterface
+ * Interface Validator
  *
  * @package MiladRahimi\Jwt\Validator
  */
-interface ValidatorInterface
+interface Validator
 {
     /**
-     * Verify claims
+     * Validate given claims
      *
      * @param string[] $claims
      * @throws ValidationException

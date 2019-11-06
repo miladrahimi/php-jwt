@@ -13,7 +13,7 @@ use MiladRahimi\Jwt\Json\StrictJson;
 use MiladRahimi\Jwt\Json\Json;
 use MiladRahimi\Jwt\Validator\DefaultValidator;
 use MiladRahimi\Jwt\Validator\BaseValidator;
-use MiladRahimi\Jwt\Validator\ValidatorInterface;
+use MiladRahimi\Jwt\Validator\Validator;
 
 /**
  * Class JwtParser
@@ -38,7 +38,7 @@ class JwtParser
     private $base64Parser;
 
     /**
-     * @var ValidatorInterface
+     * @var Validator
      */
     private $validator;
 
@@ -206,17 +206,17 @@ class JwtParser
     }
 
     /**
-     * @return ValidatorInterface
+     * @return Validator
      */
-    public function getValidator(): ValidatorInterface
+    public function getValidator(): Validator
     {
         return $this->validator;
     }
 
     /**
-     * @param ValidatorInterface $validator
+     * @param Validator $validator
      */
-    public function setValidator(ValidatorInterface $validator)
+    public function setValidator(Validator $validator)
     {
         $this->validator = $validator;
     }

@@ -9,7 +9,7 @@ use MiladRahimi\Jwt\Exceptions\ValidationException;
  *
  * @package MiladRahimi\Jwt\Validator
  */
-class BaseValidator implements ValidatorInterface
+class BaseValidator implements Validator
 {
     /**
      * @var array
