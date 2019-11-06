@@ -1,0 +1,54 @@
+<?php
+
+namespace MiladRahimi\Jwt\Tests\Json;
+
+use MiladRahimi\Jwt\Exceptions\JsonDecodingException;
+use MiladRahimi\Jwt\Json\StrictJson;
+use MiladRahimi\Jwt\Tests\TestCase;
+
+class StrictJsonTest extends TestCase
+{
+    /**
+     * @throws JsonDecodingException
+     */
+    public function test_encode_and_decode_with_sample_data()
+    {
+        $data = [
+            'string' => md5(mt_rand(1, 100)),
+            'integer' => mt_rand(1, 100),
+            'true' => true,
+            'false' => false,
+        ];
+
+        $strictJson = new StrictJson();
+        $encoded = $strictJson->encode($data);
+        $decoded = $strictJson->decode($encoded);
+
+        $this->assertSame($data['string'], $decoded['string']);
+        $this->assertSame($data['integer'], $decoded['integer']);
+        $this->assertSame($data['true'], $decoded['true']);
+        $this->assertSame($data['false'], $decoded['false']);
+    }
+
+    /**
+     * @throws JsonDecodingException
+     */
+    public function test_decode_with_invalid_json_it_should_throw_exception()
+    {
+        $strictJson = new StrictJson();
+
+        $this->expectException(JsonDecodingException::class);
+        $strictJson->decode('Invalid JSON');
+    }
+
+    /**
+     * @throws JsonDecodingException
+     */
+    public function test_decode_with_non_standard_json_it_should_throw_exception()
+    {
+        $strictJson = new StrictJson();
+
+        $this->expectException(JsonDecodingException::class);
+        $strictJson->decode(json_encode('String!'));
+    }
+}

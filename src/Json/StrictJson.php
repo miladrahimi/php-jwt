@@ -37,6 +37,7 @@ class StrictJson implements Json
             throw new JsonDecodingException(json_last_error_msg(), json_last_error());
         }
 
+        // It must be a standard JSON
         if (is_array($result) == false) {
             throw new JsonDecodingException();
         }
