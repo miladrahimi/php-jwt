@@ -2,7 +2,7 @@
 
 namespace MiladRahimi\Jwt\Tests;
 
-use MiladRahimi\Jwt\Base64\Base64Parser;
+use MiladRahimi\Jwt\Base64\SafeBase64;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS384;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS512;
@@ -98,7 +98,7 @@ class HSTest extends TestCase
      */
     public function test_with_custom_base64_parser()
     {
-        $base64Parser = new Base64Parser();
+        $base64Parser = new SafeBase64();
 
         $signer = new HS512($this->key(), $base64Parser);
 

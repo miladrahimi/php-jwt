@@ -3,11 +3,11 @@
 namespace MiladRahimi\Jwt\Base64;
 
 /**
- * Class Base64Parser
+ * Class SafeBase64
  *
  * @package MiladRahimi\Jwt\Base64
  */
-class Base64Parser implements Base64
+class SafeBase64 implements Base64
 {
     /**
      * @inheritdoc

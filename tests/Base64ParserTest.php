@@ -2,7 +2,7 @@
 
 namespace MiladRahimi\Jwt\Tests;
 
-use MiladRahimi\Jwt\Base64\Base64Parser;
+use MiladRahimi\Jwt\Base64\SafeBase64;
 use MiladRahimi\Jwt\Base64\Base64;
 
 class Base64ParserTest extends TestCase
@@ -16,7 +16,7 @@ class Base64ParserTest extends TestCase
     {
         parent::setUp();
 
-        $this->service = new Base64Parser();
+        $this->service = new SafeBase64();
     }
 
     public function test_encoding_and_decoding_it_should_get_done_successfully()

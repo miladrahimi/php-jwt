@@ -2,7 +2,7 @@
 
 namespace MiladRahimi\Jwt\Cryptography;
 
-use MiladRahimi\Jwt\Base64\Base64Parser;
+use MiladRahimi\Jwt\Base64\SafeBase64;
 use MiladRahimi\Jwt\Base64\Base64;
 
 /**
@@ -27,7 +27,7 @@ abstract class AbstractVerifier implements Verifier
         if ($base64Parser) {
             $this->setBase64Parser($base64Parser);
         } else {
-            $this->setBase64Parser(new Base64Parser());
+            $this->setBase64Parser(new SafeBase64());
         }
     }
 

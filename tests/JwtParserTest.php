@@ -1,6 +1,6 @@
 <?php
 
-use MiladRahimi\Jwt\Base64\Base64Parser;
+use MiladRahimi\Jwt\Base64\SafeBase64;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
 use MiladRahimi\Jwt\Exceptions\InvalidTokenException;
 use MiladRahimi\Jwt\Json\JsonParser;
@@ -35,7 +35,7 @@ class JwtParserTest extends TestCase
 
     public function test_getter_and_setter_for_base64_parser()
     {
-        $base64Parser = new Base64Parser();
+        $base64Parser = new SafeBase64();
 
         $parser = new JwtParser(new HS256('17e62166fc8586dfa4d1bc0e1742c08b'));
         $parser->setBase64Parser($base64Parser);
