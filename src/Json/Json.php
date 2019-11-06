@@ -6,14 +6,14 @@ use MiladRahimi\Jwt\Exceptions\JsonDecodingException;
 use MiladRahimi\Jwt\Exceptions\JsonEncodingException;
 
 /**
- * Interface JsonParserInterface
+ * Interface Json
  *
  * @package MiladRahimi\Jwt\Json
  */
-interface JsonParserInterface
+interface Json
 {
     /**
-     * Encode array to JSON
+     * Encode array data to JSON
      *
      * @param array $data
      * @return string
@@ -22,7 +22,7 @@ interface JsonParserInterface
     public function encode(array $data): string;
 
     /**
-     * Decode JSON to array
+     * Decode JSON to array data
      *
      * @param string $json
      * @return array

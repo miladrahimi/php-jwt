@@ -4,12 +4,12 @@ namespace MiladRahimi\Jwt\Tests;
 
 use MiladRahimi\Jwt\Exceptions\JsonDecodingException;
 use MiladRahimi\Jwt\Json\JsonParser;
-use MiladRahimi\Jwt\Json\JsonParserInterface;
+use MiladRahimi\Jwt\Json\Json;
 
 class JsonParserTest extends TestCase
 {
     /**
-     * @var JsonParserInterface
+     * @var Json
      */
     private $service;
 

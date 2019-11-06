@@ -10,7 +10,7 @@ use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 use MiladRahimi\Jwt\Exceptions\InvalidTokenException;
 use MiladRahimi\Jwt\Exceptions\ValidationException;
 use MiladRahimi\Jwt\Json\JsonParser;
-use MiladRahimi\Jwt\Json\JsonParserInterface;
+use MiladRahimi\Jwt\Json\Json;
 use MiladRahimi\Jwt\Validator\DefaultValidator;
 use MiladRahimi\Jwt\Validator\Validator;
 use MiladRahimi\Jwt\Validator\ValidatorInterface;
@@ -28,7 +28,7 @@ class JwtParser
     private $verifier;
 
     /**
-     * @var JsonParserInterface
+     * @var Json
      */
     private $jsonParser;
 
@@ -47,13 +47,13 @@ class JwtParser
      *
      * @param Verifier $verifier
      * @param Validator|null $validator
-     * @param JsonParserInterface|null $jsonParser
+     * @param Json|null $jsonParser
      * @param Base64|null $base64Parser
      */
     public function __construct(
         Verifier $verifier,
         Validator $validator = null,
-        JsonParserInterface $jsonParser = null,
+        Json $jsonParser = null,
         Base64 $base64Parser = null
     ) {
         $this->setVerifier($verifier);
@@ -158,17 +158,17 @@ class JwtParser
     }
 
     /**
-     * @return JsonParserInterface
+     * @return Json
      */
-    public function getJsonParser(): JsonParserInterface
+    public function getJsonParser(): Json
     {
         return $this->jsonParser;
     }
 
     /**
-     * @param JsonParserInterface $jsonParser
+     * @param Json $jsonParser
      */
-    public function setJsonParser(JsonParserInterface $jsonParser)
+    public function setJsonParser(Json $jsonParser)
     {
         $this->jsonParser = $jsonParser;
     }
