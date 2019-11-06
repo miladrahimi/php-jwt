@@ -11,7 +11,7 @@ use MiladRahimi\Jwt\Validator\Rules\Optional\IdenticalTo;
 use MiladRahimi\Jwt\Validator\Rules\Optional\LessThan;
 use MiladRahimi\Jwt\Validator\Rules\Optional\LessThanOrEqualTo;
 use MiladRahimi\Jwt\Validator\Rules\Optional\OlderThan;
-use MiladRahimi\Jwt\Validator\Validator;
+use MiladRahimi\Jwt\Validator\BaseValidator;
 use MiladRahimi\Jwt\Validator\ValidatorInterface;
 
 class OptionalValidationRulesTest extends TestCase
@@ -32,7 +32,7 @@ class OptionalValidationRulesTest extends TestCase
 
     public function service(): ValidatorInterface
     {
-        return new Validator();
+        return new BaseValidator();
     }
 
     /**

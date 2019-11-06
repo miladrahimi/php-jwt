@@ -5,11 +5,11 @@ namespace MiladRahimi\Jwt\Validator;
 use MiladRahimi\Jwt\Exceptions\ValidationException;
 
 /**
- * Class Validator
+ * Class BaseValidator
  *
  * @package MiladRahimi\Jwt\Validator
  */
-class Validator implements ValidatorInterface
+class BaseValidator implements ValidatorInterface
 {
     /**
      * @var array
@@ -17,7 +17,10 @@ class Validator implements ValidatorInterface
     protected $rules = [];
 
     /**
-     * @inheritdoc
+     * Add a new rule
+     *
+     * @param string $claimName
+     * @param Rule $rule
      */
     public function addRule(string $claimName, Rule $rule)
     {
@@ -25,7 +28,9 @@ class Validator implements ValidatorInterface
     }
 
     /**
-     * @inheritdoc
+     * Clean added rules for given claim
+     *
+     * @param string $claimName
      */
     public function cleanRules(string $claimName)
     {

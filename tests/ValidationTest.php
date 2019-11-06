@@ -7,7 +7,7 @@ use MiladRahimi\Jwt\Validator\Rules\Optional\NewerThanOrSameTimeWith;
 use MiladRahimi\Jwt\Validator\Rules\Optional\OlderThanOrSameTimeWith;
 use MiladRahimi\Jwt\Validator\Rules\Required\Exists;
 use MiladRahimi\Jwt\Validator\Rules\Required\NotNull;
-use MiladRahimi\Jwt\Validator\Validator;
+use MiladRahimi\Jwt\Validator\BaseValidator;
 use MiladRahimi\Jwt\Validator\ValidatorInterface;
 
 class ValidationTest extends TestCase
@@ -28,7 +28,7 @@ class ValidationTest extends TestCase
 
     public function service(): ValidatorInterface
     {
-        return new Validator();
+        return new BaseValidator();
     }
 
     /**

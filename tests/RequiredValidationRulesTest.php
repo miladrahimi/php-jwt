@@ -16,7 +16,7 @@ use MiladRahimi\Jwt\Validator\Rules\Required\IdenticalTo;
 use MiladRahimi\Jwt\Validator\Rules\Required\LessThan;
 use MiladRahimi\Jwt\Validator\Rules\Required\LessThanOrEqualTo;
 use MiladRahimi\Jwt\Validator\Rules\Required\NotNull;
-use MiladRahimi\Jwt\Validator\Validator;
+use MiladRahimi\Jwt\Validator\BaseValidator;
 use MiladRahimi\Jwt\Validator\ValidatorInterface;
 
 class RequiredValidationRulesTest extends TestCase
@@ -37,7 +37,7 @@ class RequiredValidationRulesTest extends TestCase
 
     public function service(): ValidatorInterface
     {
-        return new Validator();
+        return new BaseValidator();
     }
 
     /**

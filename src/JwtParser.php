@@ -12,7 +12,7 @@ use MiladRahimi\Jwt\Exceptions\ValidationException;
 use MiladRahimi\Jwt\Json\StrictJson;
 use MiladRahimi\Jwt\Json\Json;
 use MiladRahimi\Jwt\Validator\DefaultValidator;
-use MiladRahimi\Jwt\Validator\Validator;
+use MiladRahimi\Jwt\Validator\BaseValidator;
 use MiladRahimi\Jwt\Validator\ValidatorInterface;
 
 /**
@@ -46,13 +46,13 @@ class JwtParser
      * JwtParser constructor.
      *
      * @param Verifier $verifier
-     * @param Validator|null $validator
+     * @param BaseValidator|null $validator
      * @param Json|null $jsonParser
      * @param Base64|null $base64Parser
      */
     public function __construct(
         Verifier $verifier,
-        Validator $validator = null,
+        BaseValidator $validator = null,
         Json $jsonParser = null,
         Base64 $base64Parser = null
     ) {

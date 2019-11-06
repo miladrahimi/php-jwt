@@ -11,7 +11,7 @@ use MiladRahimi\Jwt\Validator\Rules\Optional\OlderThanOrSameTimeWith;
  *
  * @package MiladRahimi\Jwt\Validator
  */
-class DefaultValidator extends Validator
+class DefaultValidator extends BaseValidator
 {
     /**
      * DefaultVerifier constructor.
