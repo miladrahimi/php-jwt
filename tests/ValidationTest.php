@@ -80,22 +80,4 @@ class ValidationTest extends TestCase
 
         $this->assertTrue(false);
     }
-
-    /**
-     * @throws \MiladRahimi\Jwt\Exceptions\ValidationException
-     */
-    public function test_clean_rules_it_should_clean_rules()
-    {
-        $service = $this->service();
-
-        $service->addRule('nbf', new Exists());
-        $service->addRule('nbf', new OlderThanOrSameTimeWith(time()));
-        $service->addRule('sub', new NotNull());
-
-        $service->cleanRules('nbf');
-
-        $service->validate(['sub' => 1]);
-
-        $this->assertTrue(true);
-    }
 }

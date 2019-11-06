@@ -12,7 +12,7 @@ use MiladRahimi\Jwt\Exceptions\ValidationException;
 class BaseValidator implements Validator
 {
     /**
-     * @var array
+     * @var Rule[][]|array[string][int]Rule
      */
     protected $rules = [];
 
@@ -28,31 +28,18 @@ class BaseValidator implements Validator
     }
 
     /**
-     * Clean added rules for given claim
-     *
-     * @param string $claimName
-     */
-    public function cleanRules(string $claimName)
-    {
-        unset($this->rules[$claimName]);
-    }
-
-    /**
      * @inheritdoc
      */
     public function validate(array $claims = [])
     {
-        /**
-         * @var string $claimName
-         * @var Rule[] $rules
-         */
         foreach ($this->rules as $claimName => $rules) {
             $exists = isset($claims[$claimName]);
             $value = $exists ? $claims[$claimName] : null;
 
             foreach ($rules as $rule) {
                 if ($rule->check($value, $exists) == false) {
-                    throw new ValidationException('Validation failed for the claim: ' . $claimName);
+                    $message = 'Validation failed for the claim: ' . $claimName;
+                    throw new ValidationException($message);
                 }
             }
         }
