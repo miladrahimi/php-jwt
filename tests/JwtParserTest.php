@@ -10,6 +10,22 @@ use MiladRahimi\Jwt\Validator\Rules\EqualsTo;
 
 class JwtParserTest extends TestCase
 {
+    public function test_parse_with_sample_jwt()
+    {
+        $parser = new JwtParser($this->verifier);
+        $extractClaims = $parser->parse($this->sampleJwt);
+
+        $this->assertEquals($this->sampleClaims, $extractClaims);
+    }
+
+    public function test_validate_with_sample_jwt()
+    {
+        $parser = new JwtParser($this->verifier);
+        $parser->validate($this->sampleJwt);
+
+        $this->assertTrue(true);
+    }
+
     public function test_parse_with_validator_it_should_pass_when_rules_are_ok()
     {
         $validator = new BaseValidator();
