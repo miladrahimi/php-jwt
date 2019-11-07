@@ -41,7 +41,8 @@ class JwtGenerator
         Signer $signer,
         JsonParser $jsonParser = null,
         Base64Parser $base64Parser = null
-    ) {
+    )
+    {
         $this->setSigner($signer);
         $this->setJsonParser($jsonParser ?: new StrictJsonParser());
         $this->setBase64Parser($base64Parser ?: new SafeBase64Parser());
@@ -57,12 +58,10 @@ class JwtGenerator
     public function generate(array $claims = []): string
     {
         $header = $this->base64Parser->encode($this->jsonParser->encode($this->generateHeader()));
-
         $payload = $this->base64Parser->encode($this->jsonParser->encode($claims));
+        $signature = $this->base64Parser->encode($this->signer->sign("$header.$payload"));
 
-        $signature = $this->base64Parser->encode($this->signer->sign($header . '.' . $payload));
-
-        return $header . '.' . $payload . '.' . $signature;
+        return join('.', [$header, $payload, $signature]);
     }
 
     /**

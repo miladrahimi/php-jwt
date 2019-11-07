@@ -55,7 +55,8 @@ class JwtParser
         BaseValidator $validator = null,
         JsonParser $jsonParser = null,
         Base64Parser $base64Parser = null
-    ) {
+    )
+    {
         $this->setVerifier($verifier);
         $this->setValidator($validator ?: new DefaultValidator());
         $this->setJsonParser($jsonParser ?: new StrictJsonParser());
@@ -74,9 +75,11 @@ class JwtParser
      */
     public function parse(string $jwt): array
     {
-        $this->verifySignature($jwt);
+        list($header, $payload, $signature) = $this->explodeJwt($jwt);
 
-        $claims = $this->extractClaims($jwt);
+        $this->verifySignature($header, $payload, $signature);
+
+        $claims = $this->extractClaims($payload);
         $this->validateClaims($claims);
 
         return $claims;
@@ -85,16 +88,17 @@ class JwtParser
     /**
      * Verify JWT signature
      *
-     * @param string $jwt
-     * @return void
+     * @param string $header
+     * @param string $payload
+     * @param string $signature
      * @throws InvalidSignatureException
      * @throws InvalidTokenException
      */
-    public function verifySignature(string $jwt)
+    public function verifySignature(string $header, string $payload, string $signature)
     {
-        list($header, $payload, $signature) = $this->explodeJwt($jwt);
+        $signature = $this->base64Parser->decode($signature);
 
-        $this->verifier->verify($header, $payload, $signature);
+        $this->verifier->verify("$header.$payload", $signature);
     }
 
     /**
@@ -112,20 +116,18 @@ class JwtParser
             throw new InvalidTokenException('Token format is not valid');
         }
 
-        return [$sections[0], $sections[1], $sections[2]];
+        return $sections;
     }
 
     /**
      * Extract claims from JWT
      *
-     * @param string $jwt
+     * @param string $payload
      * @return array
      * @throws JsonDecodingException
      */
-    private function extractClaims(string $jwt): array
+    private function extractClaims(string $payload): array
     {
-        $payload = $this->explodeJwt($jwt)[1];
-
         return $this->jsonParser->decode($this->base64Parser->decode($payload));
     }
 
@@ -151,9 +153,11 @@ class JwtParser
      */
     public function validate(string $jwt)
     {
-        $this->verifySignature($jwt);
+        list($header, $payload, $signature) = $this->explodeJwt($jwt);
 
-        $claims = $this->extractClaims($jwt);
+        $this->verifySignature($header, $payload, $signature);
+
+        $claims = $this->extractClaims($payload);
         $this->validateClaims($claims);
     }
 
