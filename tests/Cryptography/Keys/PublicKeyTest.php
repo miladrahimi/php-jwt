@@ -10,8 +10,8 @@ class PublicKeyTest extends TestCase
 {
     public function test_with_valid_key_it_should_pass()
     {
-        new PublicKey(__DIR__ . '/../../../resources/test/keys/public.pem');
-        $this->assertTrue(true);
+        $key = new PublicKey(__DIR__ . '/../../../resources/test/keys/public.pem');
+        $this->assertNotNull($key->getResource());
     }
 
     public function test_with_invalid_key_it_should_fail()
