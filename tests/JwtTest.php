@@ -13,36 +13,6 @@ use MiladRahimi\Jwt\Validator\Rules\EqualsTo;
 
 class JwtTest extends TestCase
 {
-    /**
-     * @var Signer
-     */
-    private $signer;
-
-    /**
-     * @var Verifier
-     */
-    private $verifier;
-
-    /**
-     * @var array
-     */
-    private $sampleClaims;
-
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->signer = $this->verifier = new HS256('12345678901234567890123456789012');
-
-        $this->sampleClaims = [
-            'sub' => 666,
-            'exp' => time() + 60 * 60 * 24,
-            'nbf' => time(),
-            'iat' => time(),
-            'iss' => 'Test!',
-        ];
-    }
-
     public function test_generate_and_parse_with_sample_claims()
     {
         $generator = new JwtGenerator($this->signer);
