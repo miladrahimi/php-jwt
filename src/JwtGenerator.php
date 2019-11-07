@@ -5,8 +5,8 @@ namespace MiladRahimi\Jwt;
 use MiladRahimi\Jwt\Base64\SafeBase64Parser;
 use MiladRahimi\Jwt\Base64\Base64Parser;
 use MiladRahimi\Jwt\Cryptography\Signer;
-use MiladRahimi\Jwt\Json\StrictJson;
-use MiladRahimi\Jwt\Json\Json;
+use MiladRahimi\Jwt\Json\StrictJsonParser;
+use MiladRahimi\Jwt\Json\JsonParser;
 
 /**
  * Class JwtGenerator
@@ -21,7 +21,7 @@ class JwtGenerator
     private $signer;
 
     /**
-     * @var Json
+     * @var JsonParser
      */
     private $jsonParser;
 
@@ -34,16 +34,16 @@ class JwtGenerator
      * JwtGenerator constructor.
      *
      * @param Signer $signer
-     * @param Json|null $jsonParser
+     * @param JsonParser|null $jsonParser
      * @param Base64Parser|null $base64Parser
      */
     public function __construct(
         Signer $signer,
-        Json $jsonParser = null,
+        JsonParser $jsonParser = null,
         Base64Parser $base64Parser = null
     ) {
         $this->setSigner($signer);
-        $this->setJsonParser($jsonParser ?: new StrictJson());
+        $this->setJsonParser($jsonParser ?: new StrictJsonParser());
         $this->setBase64Parser($base64Parser ?: new SafeBase64Parser());
     }
 
@@ -76,17 +76,17 @@ class JwtGenerator
     }
 
     /**
-     * @return Json
+     * @return JsonParser
      */
-    public function getJsonParser(): Json
+    public function getJsonParser(): JsonParser
     {
         return $this->jsonParser;
     }
 
     /**
-     * @param Json $jsonParser
+     * @param JsonParser $jsonParser
      */
-    public function setJsonParser(Json $jsonParser)
+    public function setJsonParser(JsonParser $jsonParser)
     {
         $this->jsonParser = $jsonParser;
     }

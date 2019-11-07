@@ -6,11 +6,11 @@ use MiladRahimi\Jwt\Exceptions\JsonDecodingException;
 use MiladRahimi\Jwt\Exceptions\JsonEncodingException;
 
 /**
- * Interface Json
+ * Interface JsonParser
  *
  * @package MiladRahimi\Jwt\Json
  */
-interface Json
+interface JsonParser
 {
     /**
      * Encode array data to JSON

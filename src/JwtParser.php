@@ -9,8 +9,8 @@ use MiladRahimi\Jwt\Exceptions\JsonDecodingException;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 use MiladRahimi\Jwt\Exceptions\InvalidTokenException;
 use MiladRahimi\Jwt\Exceptions\ValidationException;
-use MiladRahimi\Jwt\Json\StrictJson;
-use MiladRahimi\Jwt\Json\Json;
+use MiladRahimi\Jwt\Json\StrictJsonParser;
+use MiladRahimi\Jwt\Json\JsonParser;
 use MiladRahimi\Jwt\Validator\DefaultValidator;
 use MiladRahimi\Jwt\Validator\BaseValidator;
 use MiladRahimi\Jwt\Validator\Validator;
@@ -28,7 +28,7 @@ class JwtParser
     private $verifier;
 
     /**
-     * @var Json
+     * @var JsonParser
      */
     private $jsonParser;
 
@@ -47,18 +47,18 @@ class JwtParser
      *
      * @param Verifier $verifier
      * @param BaseValidator|null $validator
-     * @param Json|null $jsonParser
+     * @param JsonParser|null $jsonParser
      * @param Base64Parser|null $base64Parser
      */
     public function __construct(
         Verifier $verifier,
         BaseValidator $validator = null,
-        Json $jsonParser = null,
+        JsonParser $jsonParser = null,
         Base64Parser $base64Parser = null
     ) {
         $this->setVerifier($verifier);
         $this->setValidator($validator ?: new DefaultValidator());
-        $this->setJsonParser($jsonParser ?: new StrictJson());
+        $this->setJsonParser($jsonParser ?: new StrictJsonParser());
         $this->setBase64Parser($base64Parser ?: new SafeBase64Parser());
     }
 
@@ -158,17 +158,17 @@ class JwtParser
     }
 
     /**
-     * @return Json
+     * @return JsonParser
      */
-    public function getJsonParser(): Json
+    public function getJsonParser(): JsonParser
     {
         return $this->jsonParser;
     }
 
     /**
-     * @param Json $jsonParser
+     * @param JsonParser $jsonParser
      */
-    public function setJsonParser(Json $jsonParser)
+    public function setJsonParser(JsonParser $jsonParser)
     {
         $this->jsonParser = $jsonParser;
     }

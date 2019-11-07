@@ -4,14 +4,14 @@ namespace MiladRahimi\Jwt\Tests;
 
 use MiladRahimi\Jwt\Base64\SafeBase64Parser;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
-use MiladRahimi\Jwt\Json\StrictJson;
+use MiladRahimi\Jwt\Json\StrictJsonParser;
 use MiladRahimi\Jwt\JwtGenerator;
 
 class JwtGeneratorTest extends TestCase
 {
     public function test_json_parser_getter_and_setter()
     {
-        $jsonParser = new StrictJson();
+        $jsonParser = new StrictJsonParser();
 
         $jwtGenerator = new JwtGenerator(new HS256('12345678901234567890123456789012'));
         $jwtGenerator->setJsonParser($jsonParser);

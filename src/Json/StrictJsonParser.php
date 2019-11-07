@@ -10,7 +10,7 @@ use MiladRahimi\Jwt\Exceptions\JsonEncodingException;
  *
  * @package MiladRahimi\Jwt\Json
  */
-class StrictJson implements Json
+class StrictJsonParser implements JsonParser
 {
     /**
      * @inheritdoc

@@ -3,7 +3,7 @@
 namespace MiladRahimi\Jwt\Tests\Json;
 
 use MiladRahimi\Jwt\Exceptions\JsonDecodingException;
-use MiladRahimi\Jwt\Json\StrictJson;
+use MiladRahimi\Jwt\Json\StrictJsonParser;
 use MiladRahimi\Jwt\Tests\TestCase;
 
 class StrictJsonTest extends TestCase
@@ -20,7 +20,7 @@ class StrictJsonTest extends TestCase
             'false' => false,
         ];
 
-        $strictJson = new StrictJson();
+        $strictJson = new StrictJsonParser();
         $encoded = $strictJson->encode($data);
         $decoded = $strictJson->decode($encoded);
 
@@ -35,7 +35,7 @@ class StrictJsonTest extends TestCase
      */
     public function test_decode_with_invalid_json_it_should_throw_exception()
     {
-        $strictJson = new StrictJson();
+        $strictJson = new StrictJsonParser();
 
         $this->expectException(JsonDecodingException::class);
         $strictJson->decode('Invalid JSON');
@@ -46,7 +46,7 @@ class StrictJsonTest extends TestCase
      */
     public function test_decode_with_non_standard_json_it_should_throw_exception()
     {
-        $strictJson = new StrictJson();
+        $strictJson = new StrictJsonParser();
 
         $this->expectException(JsonDecodingException::class);
         $strictJson->decode(json_encode('String!'));
