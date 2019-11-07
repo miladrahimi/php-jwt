@@ -25,8 +25,8 @@ class JwtGeneratorTest extends TestCase
 
     public function test_set_and_get_json_parser()
     {
-        $generator = new JwtGenerator($this->signer);
         $jsonParser = new StrictJsonParser();
+        $generator = new JwtGenerator($this->signer);
         $generator->setJsonParser($jsonParser);
 
         $this->assertSame($jsonParser, $generator->getJsonParser());
@@ -34,8 +34,8 @@ class JwtGeneratorTest extends TestCase
 
     public function test_set_and_get_base64_parser()
     {
-        $generator = new JwtGenerator($this->signer);
         $base64Parser = new SafeBase64Parser();
+        $generator = new JwtGenerator($this->signer);
         $generator->setBase64Parser($base64Parser);
 
         $this->assertSame($base64Parser, $generator->getBase64Parser());

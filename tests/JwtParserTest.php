@@ -2,8 +2,10 @@
 
 namespace MiladRahimi\Jwt\Tests;
 
+use MiladRahimi\Jwt\Base64\SafeBase64Parser;
 use MiladRahimi\Jwt\Exceptions\InvalidTokenException;
 use MiladRahimi\Jwt\Exceptions\ValidationException;
+use MiladRahimi\Jwt\Json\StrictJsonParser;
 use MiladRahimi\Jwt\JwtParser;
 use MiladRahimi\Jwt\Validator\BaseValidator;
 use MiladRahimi\Jwt\Validator\Rules\EqualsTo;
@@ -65,10 +67,43 @@ class JwtParserTest extends TestCase
     {
         $invalidJwt = "abc.xyz";
 
-        $parser = new JwtParser($this->verifier);
+            $parser = new JwtParser($this->verifier);
 
         $this->expectException(InvalidTokenException::class);
         $this->expectExceptionMessage('Token format is not valid');
         $parser->parse($invalidJwt);
+    }
+
+    public function test_set_and_get_verifier()
+    {
+        $parser = new JwtParser($this->verifier);
+
+        $this->assertSame($this->verifier, $parser->getVerifier());
+    }
+
+    public function test_set_and_get_validator()
+    {
+        $validator = new BaseValidator();
+        $parser = new JwtParser($this->verifier, $validator);
+
+        $this->assertSame($validator, $parser->getValidator());
+    }
+
+    public function test_set_and_get_json_parser()
+    {
+        $jsonParser = new StrictJsonParser();
+        $parser = new JwtParser($this->verifier);
+        $parser->setJsonParser($jsonParser);
+
+        $this->assertSame($jsonParser, $parser->getJsonParser());
+    }
+
+    public function test_set_and_get_base64_parser()
+    {
+        $base64Parser = new SafeBase64Parser();
+        $parser = new JwtParser($this->verifier);
+        $parser->setBase64Parser($base64Parser);
+
+        $this->assertSame($base64Parser, $parser->getBase64Parser());
     }
 }
