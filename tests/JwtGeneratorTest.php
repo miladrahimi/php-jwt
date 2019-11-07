@@ -8,6 +8,13 @@ use MiladRahimi\Jwt\JwtGenerator;
 
 class JwtGeneratorTest extends TestCase
 {
+    public function test_set_and_get_signer()
+    {
+        $generator = new JwtGenerator($this->signer);
+
+        $this->assertSame($this->signer, $generator->getSigner());
+    }
+
     public function test_set_and_get_json_parser()
     {
         $generator = new JwtGenerator($this->signer);
