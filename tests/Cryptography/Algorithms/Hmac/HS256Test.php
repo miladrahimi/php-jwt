@@ -39,4 +39,11 @@ class HS256Test extends TestCase
         $this->expectException(InvalidKeyException::class);
         new HS256('Invalid');
     }
+
+    public function test_set_and_get_key()
+    {
+        $signer = new HS256($this->key());
+
+        $this->assertSame($this->key(), $signer->getKey());
+    }
 }
