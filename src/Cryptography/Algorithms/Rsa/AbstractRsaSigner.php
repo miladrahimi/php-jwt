@@ -16,7 +16,7 @@ abstract class AbstractRsaSigner implements Signer
     use Naming;
 
     /**
-     * @var PrivateKey  Encryption key
+     * @var PrivateKey
      */
     protected $privateKey;
 

@@ -2,9 +2,8 @@
 
 namespace MiladRahimi\Jwt\Cryptography\Algorithms\Rsa;
 
-use MiladRahimi\Jwt\Base64\Base64;
-use MiladRahimi\Jwt\Cryptography\AbstractVerifier;
 use MiladRahimi\Jwt\Cryptography\Keys\PublicKey;
+use MiladRahimi\Jwt\Cryptography\Verifier;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 
 /**
@@ -12,12 +11,12 @@ use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
  *
  * @package MiladRahimi\Jwt\Cryptography\Algorithms\Rsa
  */
-abstract class AbstractRsaVerifier extends AbstractVerifier
+abstract class AbstractRsaVerifier implements Verifier
 {
     use Naming;
 
     /**
-     * @var PublicKey   Decryption key
+     * @var PublicKey
      */
     protected $publicKey;
 
@@ -25,24 +24,18 @@ abstract class AbstractRsaVerifier extends AbstractVerifier
      * AbstractRsaVerifier constructor.
      *
      * @param PublicKey $key
-     * @param Base64|null $base64Parser
      */
-    public function __construct(PublicKey $key, Base64 $base64Parser = null)
+    public function __construct(PublicKey $key)
     {
         $this->setPublicKey($key);
-
-        parent::__construct($base64Parser);
     }
 
     /**
      * @inheritdoc
      */
-    public function verify(string $header, string $payload, string $signature)
+    public function verify(string $plain, string $signature)
     {
-        $data = $header . '.' . $payload;
-        $signature = $this->base64Parser->decode($signature);
-
-        if (openssl_verify($data, $signature, $this->publicKey->getResource(), $this->algorithmName()) !== 1) {
+        if (openssl_verify($plain, $signature, $this->publicKey->getResource(), $this->algorithmName()) !== 1) {
             throw new InvalidSignatureException();
         }
     }

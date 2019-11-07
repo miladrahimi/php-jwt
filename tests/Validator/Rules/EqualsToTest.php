@@ -19,7 +19,7 @@ class EqualsToTest extends TestCase
 
     public function test_validate_it_should_fail_when_claim_doesnt_equals_to_string()
     {
-        $rule = new ConsistsOf('test');
+        $rule = new ConsistsOf('mid');
 
         $this->expectException(ValidationException::class);
         $this->expectExceptionMessage('The `claim` must consist of `mid`.');

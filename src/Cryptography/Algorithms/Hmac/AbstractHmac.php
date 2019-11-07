@@ -2,9 +2,8 @@
 
 namespace MiladRahimi\Jwt\Cryptography\Algorithms\Hmac;
 
-use MiladRahimi\Jwt\Base64\Base64;
-use MiladRahimi\Jwt\Cryptography\AbstractVerifier;
 use MiladRahimi\Jwt\Cryptography\Signer;
+use MiladRahimi\Jwt\Cryptography\Verifier;
 use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 use MiladRahimi\Jwt\Exceptions\SigningException;
@@ -14,7 +13,7 @@ use MiladRahimi\Jwt\Exceptions\SigningException;
  *
  * @package MiladRahimi\Jwt\Cryptography\Algorithms\Hmac
  */
-abstract class AbstractHmac extends AbstractVerifier implements Signer
+abstract class AbstractHmac implements Signer, Verifier
 {
     /**
      * @var string  Algorithm name
@@ -27,29 +26,14 @@ abstract class AbstractHmac extends AbstractVerifier implements Signer
     protected $key;
 
     /**
-     * HS constructor.
+     * AbstractHmac constructor.
      *
      * @param string $key
-     * @param Base64|null $base64Parser
      * @throws InvalidKeyException
      */
-    public function __construct(string $key, Base64 $base64Parser = null)
+    public function __construct(string $key)
     {
-        parent::__construct($base64Parser);
-
         $this->setKey($key);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function verify(string $header, string $payload, string $signature)
-    {
-        $tokenSignature = $this->base64Parser->encode($this->sign($header . '.' . $payload));
-
-        if ($tokenSignature != $signature) {
-            throw new InvalidSignatureException();
-        }
     }
 
     /**
@@ -64,6 +48,16 @@ abstract class AbstractHmac extends AbstractVerifier implements Signer
         }
 
         return $signature;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function verify(string $plain, string $signature)
+    {
+        if ($signature != $this->sign($plain)) {
+            throw new InvalidSignatureException();
+        }
     }
 
     /**

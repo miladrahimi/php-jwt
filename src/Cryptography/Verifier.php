@@ -14,10 +14,9 @@ interface Verifier
     /**
      * Verify token signature
      *
-     * @param string $header
-     * @param string $payload
+     * @param string $plain
      * @param string $signature
      * @throws InvalidSignatureException
      */
-    public function verify(string $header, string $payload, string $signature);
+    public function verify(string $plain, string $signature);
 }
