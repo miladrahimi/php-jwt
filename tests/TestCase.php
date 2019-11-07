@@ -28,6 +28,12 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
      */
     protected $sampleClaims;
 
+    /**
+     * @var string
+     */
+    protected $sampleJwt;
+
+
     public function setUp()
     {
         parent::setUp();
@@ -36,10 +42,14 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
         $this->sampleClaims = [
             'sub' => 666,
-            'exp' => time() + 60 * 60 * 24,
-            'nbf' => time(),
-            'iat' => time(),
+            'exp' => 1573252174 + 60 * 60 * 24,
+            'nbf' => 1573252174,
+            'iat' => 1573252174,
             'iss' => 'Test!',
         ];
+
+        $this->sampleJwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.' .
+            'eyJzdWIiOjY2NiwiZXhwIjoxNTczMzM4NTc0LCJuYmYiOjE1NzMyNTIxNzQsImlhdCI6MTU3MzI1MjE3NCwiaXNzIjoiVGVzdCEifQ.' .
+            'UlCWwqXCys7nttNb4YB3Ob477b5wZ-KHk5rCJmJWNaU';
     }
 }

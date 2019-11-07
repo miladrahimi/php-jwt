@@ -8,6 +8,14 @@ use MiladRahimi\Jwt\JwtGenerator;
 
 class JwtGeneratorTest extends TestCase
 {
+    public function test_generate_with_sample_claims_it_should_generate_jwt()
+    {
+        $generator = new JwtGenerator($this->signer);
+        $jwt = $generator->generate($this->sampleClaims);
+
+        $this->assertEquals($this->sampleJwt, $jwt);
+    }
+
     public function test_set_and_get_signer()
     {
         $generator = new JwtGenerator($this->signer);

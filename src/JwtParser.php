@@ -137,7 +137,7 @@ class JwtParser
      * @param array $claims
      * @throws ValidationException
      */
-    public function validateClaims(array $claims)
+    private function validateClaims(array $claims)
     {
         $this->validator->validate($claims);
     }
