@@ -12,7 +12,7 @@ use MiladRahimi\Jwt\Exceptions\ValidationException;
 class BaseValidator implements Validator
 {
     /**
-     * @var Rule[][]|array[string][int]Rule
+     * @var array[string][int]array
      */
     protected $rules = [];
 
@@ -21,10 +21,11 @@ class BaseValidator implements Validator
      *
      * @param string $claimName
      * @param Rule $rule
+     * @param bool $required
      */
-    public function addRule(string $claimName, Rule $rule)
+    public function addRule(string $claimName, Rule $rule, bool $required = true)
     {
-        $this->rules[$claimName][] = $rule;
+        $this->rules[$claimName][] = [$rule, $required];
     }
 
     /**
@@ -36,10 +37,18 @@ class BaseValidator implements Validator
             $exists = isset($claims[$claimName]);
             $value = $exists ? $claims[$claimName] : null;
 
-            foreach ($rules as $rule) {
-                if ($rule->check($value, $exists) == false) {
-                    $message = 'Validation failed for the claim: ' . $claimName;
-                    throw new ValidationException($message);
+            foreach ($rules as $ruleAndState) {
+                /**
+                 * @var Rule $rule
+                 * @var bool $required
+                 */
+                list($rule, $required) = $ruleAndState;
+
+                if ($exists) {
+                    $rule->validate($claimName, $value);
+                } elseif ($required) {
+                    $message = "The `$claimName` is required.";
+                    throw  new ValidationException($message);
                 }
             }
         }

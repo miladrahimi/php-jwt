@@ -2,6 +2,8 @@
 
 namespace MiladRahimi\Jwt\Validator;
 
+use MiladRahimi\Jwt\Exceptions\ValidationException;
+
 /**
  * Interface Rule
  *
@@ -10,11 +12,11 @@ namespace MiladRahimi\Jwt\Validator;
 interface Rule
 {
     /**
-     * Check value
+     * Validate given value
      *
+     * @param string $name
      * @param $value
-     * @param bool $exists
-     * @return bool
+     * @throws ValidationException
      */
-    public function check($value, bool $exists): bool;
+    public function validate(string $name, $value);
 }
