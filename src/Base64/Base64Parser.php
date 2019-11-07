@@ -3,11 +3,11 @@
 namespace MiladRahimi\Jwt\Base64;
 
 /**
- * Interface Base64
+ * Interface Base64Parser
  *
  * @package MiladRahimi\Jwt\Base64
  */
-interface Base64
+interface Base64Parser
 {
     /**
      * Encode plain data to Base64-encoded data

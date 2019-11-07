@@ -2,7 +2,7 @@
 
 namespace MiladRahimi\Jwt\Tests\Base64;
 
-use MiladRahimi\Jwt\Base64\SafeBase64;
+use MiladRahimi\Jwt\Base64\SafeBase64Parser;
 use MiladRahimi\Jwt\Tests\TestCase;
 
 class SafeBase64Test extends TestCase
@@ -11,7 +11,7 @@ class SafeBase64Test extends TestCase
     {
         $plain = md5(mt_rand(1, 100));
 
-        $safeBase64 = new SafeBase64();
+        $safeBase64 = new SafeBase64Parser();
         $encoded = $safeBase64->encode($plain);
         $decoded = $safeBase64->decode($encoded);
 

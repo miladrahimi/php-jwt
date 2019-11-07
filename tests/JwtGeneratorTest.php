@@ -2,7 +2,7 @@
 
 namespace MiladRahimi\Jwt\Tests;
 
-use MiladRahimi\Jwt\Base64\SafeBase64;
+use MiladRahimi\Jwt\Base64\SafeBase64Parser;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
 use MiladRahimi\Jwt\Json\StrictJson;
 use MiladRahimi\Jwt\JwtGenerator;
@@ -21,7 +21,7 @@ class JwtGeneratorTest extends TestCase
 
     public function test_base64_parser_getter_and_setter()
     {
-        $base64Parser = new SafeBase64();
+        $base64Parser = new SafeBase64Parser();
 
         $jwtGenerator = new JwtGenerator(new HS256('12345678901234567890123456789012'));
         $jwtGenerator->setBase64Parser($base64Parser);
