@@ -35,7 +35,7 @@ abstract class AbstractRsaVerifier implements Verifier
      */
     public function verify(string $plain, string $signature)
     {
-        if (openssl_verify($plain, $signature, $this->publicKey->getResource(), $this->algorithmName()) !== 1) {
+        if (openssl_verify($plain, $signature, $this->publicKey->getResource(), $this->algorithm()) !== 1) {
             throw new InvalidSignatureException();
         }
     }

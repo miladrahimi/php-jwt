@@ -26,7 +26,7 @@ trait Naming
     /**
      * @return int
      */
-    protected function algorithmName()
+    protected function algorithm()
     {
         $table = [
             'RS256' => OPENSSL_ALGO_SHA256,

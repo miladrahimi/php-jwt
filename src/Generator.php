@@ -54,6 +54,7 @@ class Generator
      * @param array|array[string]mixed $claims
      * @return string JWT
      * @throws Exceptions\JsonEncodingException
+     * @throws Exceptions\SigningException
      */
     public function generate(array $claims = []): string
     {

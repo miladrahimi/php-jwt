@@ -41,7 +41,7 @@ abstract class AbstractHmac implements Signer, Verifier
      */
     public function sign(string $message): string
     {
-        $signature = hash_hmac($this->algorithmName(), $message, $this->key, true);
+        $signature = hash_hmac($this->algorithm(), $message, $this->key, true);
 
         if ($signature === false) {
             throw new SigningException();
@@ -51,7 +51,7 @@ abstract class AbstractHmac implements Signer, Verifier
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
     public function verify(string $plain, string $signature)
     {
@@ -63,7 +63,7 @@ abstract class AbstractHmac implements Signer, Verifier
     /**
      * @return string
      */
-    protected function algorithmName(): string
+    protected function algorithm(): string
     {
         return 'sha' . substr($this->name(), 2);
     }
