@@ -16,12 +16,12 @@ use MiladRahimi\Jwt\Exceptions\SigningException;
 abstract class AbstractHmac implements Signer, Verifier
 {
     /**
-     * @var string  Algorithm name
+     * @var string Algorithm name
      */
     protected static $name;
 
     /**
-     * @var string  Encryption key
+     * @var string Encryption key
      */
     protected $key;
 
@@ -61,8 +61,6 @@ abstract class AbstractHmac implements Signer, Verifier
     }
 
     /**
-     * Convert JWT algorithm name to hash function name
-     *
      * @return string
      */
     protected function algorithmName(): string

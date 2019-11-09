@@ -31,4 +31,22 @@ class RS256 extends TestCase
         $this->expectException(InvalidSignatureException::class);
         $verifier->verify('WRONG!', $signature);
     }
+
+    public function test_set_and_get_private_key()
+    {
+        $key = $this->privateKey();
+
+        $signer = new RS256Signer($key);
+
+        $this->assertSame($key, $signer->getPrivateKey());
+    }
+
+    public function test_set_and_get_public_key()
+    {
+        $key = $this->publicKey();
+
+        $verifier = new RS256Verifier($key);
+
+        $this->assertSame($key, $verifier->getPublicKey());
+    }
 }
