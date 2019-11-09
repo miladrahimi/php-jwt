@@ -51,7 +51,7 @@ class Generator
     /**
      * Generate JWT with given claims
      *
-     * @param array $claims
+     * @param array|array[string]mixed $claims
      * @return string JWT
      * @throws Exceptions\JsonEncodingException
      */
@@ -67,7 +67,7 @@ class Generator
     /**
      * Generate the JWT header
      *
-     * @return string[] [alg, type]
+     * @return string[]
      */
     private function header(): array
     {

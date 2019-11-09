@@ -28,6 +28,14 @@ class ParserTest extends TestCase
         $this->assertTrue(true);
     }
 
+    public function test_verify_with_sample_jwt()
+    {
+        $parser = new Parser($this->verifier);
+        $parser->verify($this->sampleJwt);
+
+        $this->assertTrue(true);
+    }
+
     public function test_parse_with_validator_it_should_pass_when_rules_are_ok()
     {
         $validator = new BaseValidator();

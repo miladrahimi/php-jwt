@@ -12,7 +12,6 @@ use MiladRahimi\Jwt\Exceptions\ValidationException;
 use MiladRahimi\Jwt\Json\StrictJsonParser;
 use MiladRahimi\Jwt\Json\JsonParser;
 use MiladRahimi\Jwt\Validator\DefaultValidator;
-use MiladRahimi\Jwt\Validator\BaseValidator;
 use MiladRahimi\Jwt\Validator\Validator;
 
 /**
@@ -43,16 +42,16 @@ class Parser
     private $validator;
 
     /**
-     * JwtParser constructor.
+     * Parser constructor.
      *
      * @param Verifier $verifier
-     * @param BaseValidator|null $validator
+     * @param Validator|null $validator
      * @param JsonParser|null $jsonParser
      * @param Base64Parser|null $base64Parser
      */
     public function __construct(
         Verifier $verifier,
-        BaseValidator $validator = null,
+        Validator $validator = null,
         JsonParser $jsonParser = null,
         Base64Parser $base64Parser = null
     )
@@ -64,10 +63,10 @@ class Parser
     }
 
     /**
-     * Parse (verify and validate) JWT and retrieve claims
+     * Parse (and also verify and validate) the JWT, then retrieve claims
      *
      * @param string $jwt
-     * @return array[]
+     * @return array|array[string]mixed
      * @throws JsonDecodingException
      * @throws InvalidSignatureException
      * @throws InvalidTokenException
@@ -86,7 +85,21 @@ class Parser
     }
 
     /**
-     * Verify JWT signature
+     * Verify the JWT
+     *
+     * @param string $jwt
+     * @throws InvalidSignatureException
+     * @throws InvalidTokenException
+     */
+    public function verify(string $jwt)
+    {
+        list($header, $payload, $signature) = $this->explodeJwt($jwt);
+
+        $this->verifySignature($header, $payload, $signature);
+    }
+
+    /**
+     * Verify the JWT signature
      *
      * @param string $header
      * @param string $payload
@@ -94,7 +107,7 @@ class Parser
      * @throws InvalidSignatureException
      * @throws InvalidTokenException
      */
-    public function verifySignature(string $header, string $payload, string $signature)
+    private function verifySignature(string $header, string $payload, string $signature)
     {
         $signature = $this->base64Parser->decode($signature);
 

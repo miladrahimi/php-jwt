@@ -18,7 +18,7 @@ trait Naming
     /**
      * @inheritdoc
      */
-    public function getName(): string
+    public function name(): string
     {
         return static::$name;
     }
@@ -34,6 +34,6 @@ trait Naming
             'RS512' => OPENSSL_ALGO_SHA512,
         ];
 
-        return $table[$this->getName()];
+        return $table[$this->name()];
     }
 }
