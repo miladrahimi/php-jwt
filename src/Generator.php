@@ -31,7 +31,7 @@ class Generator
     private $base64Parser;
 
     /**
-     * JwtGenerator constructor.
+     * Generator constructor.
      *
      * @param Signer $signer
      * @param JsonParser|null $jsonParser
@@ -49,7 +49,7 @@ class Generator
     }
 
     /**
-     * Generate JWT from given claims
+     * Generate JWT with given claims
      *
      * @param array $claims
      * @return string JWT
@@ -57,7 +57,7 @@ class Generator
      */
     public function generate(array $claims = []): string
     {
-        $header = $this->base64Parser->encode($this->jsonParser->encode($this->generateHeader()));
+        $header = $this->base64Parser->encode($this->jsonParser->encode($this->header()));
         $payload = $this->base64Parser->encode($this->jsonParser->encode($claims));
         $signature = $this->base64Parser->encode($this->signer->sign("$header.$payload"));
 
@@ -65,13 +65,13 @@ class Generator
     }
 
     /**
-     * Generate JWT header
+     * Generate the JWT header
      *
      * @return string[] [alg, type]
      */
-    private function generateHeader(): array
+    private function header(): array
     {
-        return ['alg' => $this->signer->getName(), 'typ' => 'JWT'];
+        return ['alg' => $this->signer->name(), 'typ' => 'JWT'];
     }
 
     /**

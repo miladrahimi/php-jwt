@@ -65,13 +65,13 @@ abstract class AbstractHmac implements Signer, Verifier
      */
     protected function algorithmName(): string
     {
-        return 'sha' . substr($this->getName(), 2);
+        return 'sha' . substr($this->name(), 2);
     }
 
     /**
      * @return string
      */
-    public function getName(): string
+    public function name(): string
     {
         return static::$name;
     }

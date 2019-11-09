@@ -12,11 +12,11 @@ use MiladRahimi\Jwt\Exceptions\SigningException;
 interface Signer
 {
     /**
-     * Get algorithm name
+     * Algorithm name
      *
      * @return string
      */
-    public function getName(): string;
+    public function name(): string;
 
     /**
      * Sign the message
