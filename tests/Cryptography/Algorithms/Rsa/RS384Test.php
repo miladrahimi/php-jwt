@@ -13,9 +13,9 @@ class RS384Test extends TestCase
     /**
      * @throws Throwable
      */
-    public function test_sign_and_verify_it_should_sign_with_given_key()
+    public function test_signer_and_verifier_they_should_sign_and_verify_with_the_pair_key()
     {
-        $plain = 'Header Payload';
+        $plain = 'Text';
 
         $signer = new RS384Signer($this->privateKey());
         $signature = $signer->sign($plain);
@@ -29,7 +29,7 @@ class RS384Test extends TestCase
     /**
      * @throws Throwable
      */
-    public function test_sign_and_verify_it_should_fail_with_wrong_plain()
+    public function test_signer_and_verifier_they_should_fail_with_different_plains()
     {
         $signer = new RS384Signer($this->privateKey());
         $signature = $signer->sign('Header Payload');
@@ -37,6 +37,6 @@ class RS384Test extends TestCase
         $verifier = new RS384Verifier($this->publicKey());
 
         $this->expectException(InvalidSignatureException::class);
-        $verifier->verify('WRONG!', $signature);
+        $verifier->verify('Different!', $signature);
     }
 }

@@ -7,7 +7,7 @@ use MiladRahimi\Jwt\Json\StrictJsonParser;
 use MiladRahimi\Jwt\Tests\TestCase;
 use Throwable;
 
-class StrictJsonTest extends TestCase
+class StrictJsonParserTest extends TestCase
 {
     /**
      * @throws Throwable
@@ -34,7 +34,7 @@ class StrictJsonTest extends TestCase
     /**
      * @throws Throwable
      */
-    public function test_decode_with_invalid_json_it_should_throw_exception()
+    public function test_decode_with_invalid_json_it_should_fail()
     {
         $strictJson = new StrictJsonParser();
 
@@ -45,7 +45,7 @@ class StrictJsonTest extends TestCase
     /**
      * @throws Throwable
      */
-    public function test_decode_with_non_standard_json_it_should_throw_exception()
+    public function test_decode_with_non_standard_json_it_should_fail()
     {
         $strictJson = new StrictJsonParser();
 
