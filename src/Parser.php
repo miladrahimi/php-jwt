@@ -27,6 +27,11 @@ class Parser
     private $verifier;
 
     /**
+     * @var Validator
+     */
+    private $validator;
+
+    /**
      * @var JsonParser
      */
     private $jsonParser;
@@ -35,11 +40,6 @@ class Parser
      * @var Base64Parser
      */
     private $base64Parser;
-
-    /**
-     * @var Validator
-     */
-    private $validator;
 
     /**
      * Parser constructor.
@@ -79,9 +79,28 @@ class Parser
         $this->verifySignature($header, $payload, $signature);
 
         $claims = $this->extractClaims($payload);
-        $this->validateClaims($claims);
+
+        $this->validator->validate($claims);
 
         return $claims;
+    }
+
+    /**
+     * Explode jwt to its sections
+     *
+     * @param string $jwt
+     * @return string[] [header, payload, signature]
+     * @throws InvalidTokenException
+     */
+    private function explodeJwt(string $jwt): array
+    {
+        $sections = explode('.', $jwt);
+
+        if (count($sections) != 3) {
+            throw new InvalidTokenException('Token format is not valid');
+        }
+
+        return $sections;
     }
 
     /**
@@ -115,24 +134,6 @@ class Parser
     }
 
     /**
-     * Explode jwt to its sections
-     *
-     * @param string $jwt
-     * @return string[] [header, payload, signature]
-     * @throws InvalidTokenException
-     */
-    private function explodeJwt(string $jwt): array
-    {
-        $sections = explode('.', $jwt);
-
-        if (count($sections) != 3) {
-            throw new InvalidTokenException('Token format is not valid');
-        }
-
-        return $sections;
-    }
-
-    /**
      * Extract claims from JWT
      *
      * @param string $payload
@@ -142,17 +143,6 @@ class Parser
     private function extractClaims(string $payload): array
     {
         return $this->jsonParser->decode($this->base64Parser->decode($payload));
-    }
-
-    /**
-     * Validate claims
-     *
-     * @param array $claims
-     * @throws ValidationException
-     */
-    private function validateClaims(array $claims)
-    {
-        $this->validator->validate($claims);
     }
 
     /**
@@ -171,7 +161,8 @@ class Parser
         $this->verifySignature($header, $payload, $signature);
 
         $claims = $this->extractClaims($payload);
-        $this->validateClaims($claims);
+
+        $this->validator->validate($claims);
     }
 
     /**
