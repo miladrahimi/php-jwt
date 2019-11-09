@@ -5,6 +5,7 @@ namespace MiladRahimi\Jwt\Tests\Cryptography\Algorithms\Rsa;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS512Signer;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS512Verifier;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
+use MiladRahimi\Jwt\Tests\TestCase;
 
 class RS512 extends TestCase
 {

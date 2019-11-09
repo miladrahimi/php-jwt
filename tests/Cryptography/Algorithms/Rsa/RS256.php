@@ -5,6 +5,7 @@ namespace MiladRahimi\Jwt\Tests\Cryptography\Algorithms\Rsa;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS256Signer;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS256Verifier;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
+use MiladRahimi\Jwt\Tests\TestCase;
 
 class RS256 extends TestCase
 {

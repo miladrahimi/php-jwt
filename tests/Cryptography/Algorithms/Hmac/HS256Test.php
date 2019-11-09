@@ -9,16 +9,11 @@ use MiladRahimi\Jwt\Tests\TestCase;
 
 class HS256Test extends TestCase
 {
-    private function key(): string
-    {
-        return '12345678901234567890123456789012';
-    }
-
     public function test_sign_and_verify_it_should_sign_with_given_key()
     {
         $plain = 'Header Payload';
 
-        $signer = new HS256($this->key());
+        $signer = new HS256($this->key);
         $signature = $signer->sign($plain);
         $signer->verify($plain, $signature);
 
@@ -27,7 +22,7 @@ class HS256Test extends TestCase
 
     public function test_sign_and_verify_it_should_fail_with_wrong_plain()
     {
-        $signer = new HS256($this->key());
+        $signer = new HS256($this->key);
         $signature = $signer->sign('Header Payload');
 
         $this->expectException(InvalidSignatureException::class);
@@ -42,8 +37,8 @@ class HS256Test extends TestCase
 
     public function test_set_and_get_key()
     {
-        $signer = new HS256($this->key());
+        $signer = new HS256($this->key);
 
-        $this->assertSame($this->key(), $signer->getKey());
+        $this->assertSame($this->key, $signer->getKey());
     }
 }

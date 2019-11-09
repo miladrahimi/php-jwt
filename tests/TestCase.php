@@ -3,8 +3,11 @@
 namespace MiladRahimi\Jwt\Tests;
 
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
+use MiladRahimi\Jwt\Cryptography\Keys\PrivateKey;
+use MiladRahimi\Jwt\Cryptography\Keys\PublicKey;
 use MiladRahimi\Jwt\Cryptography\Signer;
 use MiladRahimi\Jwt\Cryptography\Verifier;
+use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
@@ -33,7 +36,6 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
      */
     protected $sampleJwt;
 
-
     public function setUp()
     {
         parent::setUp();
@@ -51,5 +53,23 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $this->sampleJwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.' .
             'eyJzdWIiOjY2NiwiZXhwIjoxNTczMjUyODYzLCJuYmYiOjE1NzMxNjY0NjMsImlhdCI6MTU3MzE2NjQ2MywiaXNzIjoiVGVzdCEifQ.' .
             'CpOJ34DnOpG1lnSgmUpoCby8jQW7LiYeNMSLNEEMiuY';
+    }
+
+    /**
+     * @return PrivateKey
+     * @throws InvalidKeyException
+     */
+    protected function privateKey(): PrivateKey
+    {
+        return new PrivateKey(__DIR__ . '/../resources/test/keys/private.pem');
+    }
+
+    /**
+     * @return PublicKey
+     * @throws InvalidKeyException
+     */
+    protected function publicKey(): PublicKey
+    {
+        return new PublicKey(__DIR__ . '/../resources/test/keys/public.pem');
     }
 }
