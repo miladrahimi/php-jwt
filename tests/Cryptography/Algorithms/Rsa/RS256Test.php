@@ -7,7 +7,7 @@ use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS256Verifier;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 use MiladRahimi\Jwt\Tests\TestCase;
 
-class RS256 extends TestCase
+class RS256Test extends TestCase
 {
     public function test_sign_and_verify_it_should_sign_with_given_key()
     {
