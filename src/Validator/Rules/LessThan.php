@@ -30,7 +30,7 @@ class LessThan implements Rule
      */
     public function validate(string $name, $value)
     {
-        if ($value > $this->number) {
+        if ($value >= $this->number) {
             throw new ValidationException($this->message($name));
         }
     }

@@ -18,10 +18,10 @@ class ConsistsOfTest extends TestCase
 
     public function test_validate_it_should_fail_when_claim_doesnt_consists_of_the_substr()
     {
-        $rule = new ConsistsOf('mid');
+        $rule = new ConsistsOf('other');
 
         $this->expectException(ValidationException::class);
-        $this->expectExceptionMessage('The `claim` must consist of `mid`.');
+        $this->expectExceptionMessage('The `claim` must consist of `other`.');
         $rule->validate('claim', 'pre-sub-post');
     }
 }

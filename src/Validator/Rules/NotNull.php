@@ -18,7 +18,7 @@ class NotNull implements Rule
     public function validate(string $name, $value)
     {
         if ($value === null) {
-            $message = "The `$name` must not be empty.";
+            $message = "The `$name` must not be null.";
             throw new ValidationException($message);
         }
     }

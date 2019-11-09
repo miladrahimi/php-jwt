@@ -3,11 +3,11 @@
 namespace MiladRahimi\Jwt\Validator\Rules;
 
 /**
- * Class NewerThanOrSameTimeWith
+ * Class NewerThanOrSame
  *
  * @package MiladRahimi\Jwt\Validator\Rules
  */
-class NewerThanOrSameTimeWith extends GreaterThanOrEqualTo
+class NewerThanOrSame extends GreaterThanOrEqualTo
 {
     /**
      * @param float $timestamp
@@ -22,6 +22,6 @@ class NewerThanOrSameTimeWith extends GreaterThanOrEqualTo
      */
     protected function message(string $name): string
     {
-        return "The `$name` must be newer than or equal to `$this->number`.";
+        return "The `$name` must be newer than or same `$this->number`.";
     }
 }

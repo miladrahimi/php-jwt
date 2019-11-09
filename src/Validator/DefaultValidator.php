@@ -4,7 +4,7 @@ namespace MiladRahimi\Jwt\Validator;
 
 use MiladRahimi\Jwt\Enums\PublicClaimNames;
 use MiladRahimi\Jwt\Validator\Rules\NewerThan;
-use MiladRahimi\Jwt\Validator\Rules\OlderThanOrSameTimeWith;
+use MiladRahimi\Jwt\Validator\Rules\OlderThanOrSame;
 
 /**
  * Class DefaultValidator
@@ -25,12 +25,12 @@ class DefaultValidator extends BaseValidator
         );
         $this->addRule(
             PublicClaimNames::NOT_BEFORE,
-            new OlderThanOrSameTimeWith(time()),
+            new OlderThanOrSame(time()),
             false
         );
         $this->addRule(
             PublicClaimNames::ISSUED_AT,
-            new OlderThanOrSameTimeWith(time()),
+            new OlderThanOrSame(time()),
             false
         );
     }
