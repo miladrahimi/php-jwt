@@ -9,11 +9,11 @@ use MiladRahimi\Jwt\Json\StrictJsonParser;
 use MiladRahimi\Jwt\Json\JsonParser;
 
 /**
- * Class JwtGenerator
+ * Class Generator
  *
  * @package MiladRahimi\Jwt
  */
-class JwtGenerator
+class Generator
 {
     /**
      * @var Signer

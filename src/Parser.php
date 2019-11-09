@@ -16,11 +16,11 @@ use MiladRahimi\Jwt\Validator\BaseValidator;
 use MiladRahimi\Jwt\Validator\Validator;
 
 /**
- * Class JwtParser
+ * Class Parser
  *
  * @package MiladRahimi\Jwt
  */
-class JwtParser
+class Parser
 {
     /**
      * @var Verifier
