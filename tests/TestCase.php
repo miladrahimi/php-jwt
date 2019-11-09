@@ -8,6 +8,7 @@ use MiladRahimi\Jwt\Cryptography\Keys\PublicKey;
 use MiladRahimi\Jwt\Cryptography\Signer;
 use MiladRahimi\Jwt\Cryptography\Verifier;
 use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
+use Throwable;
 
 abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
@@ -36,6 +37,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
      */
     protected $sampleJwt;
 
+    /**
+     * @throws Throwable
+     */
     public function setUp()
     {
         parent::setUp();

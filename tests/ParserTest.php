@@ -3,15 +3,20 @@
 namespace MiladRahimi\Jwt\Tests;
 
 use MiladRahimi\Jwt\Base64\SafeBase64Parser;
+use MiladRahimi\Jwt\Enums\PublicClaimNames;
 use MiladRahimi\Jwt\Exceptions\InvalidTokenException;
 use MiladRahimi\Jwt\Exceptions\ValidationException;
 use MiladRahimi\Jwt\Json\StrictJsonParser;
 use MiladRahimi\Jwt\Parser;
 use MiladRahimi\Jwt\Validator\BaseValidator;
 use MiladRahimi\Jwt\Validator\Rules\EqualsTo;
+use Throwable;
 
 class ParserTest extends TestCase
 {
+    /**
+     * @throws Throwable
+     */
     public function test_parse_with_sample_jwt()
     {
         $parser = new Parser($this->verifier, new BaseValidator());
@@ -20,6 +25,9 @@ class ParserTest extends TestCase
         $this->assertEquals($this->sampleClaims, $extractClaims);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function test_validate_with_sample_jwt()
     {
         $parser = new Parser($this->verifier, new BaseValidator());
@@ -28,6 +36,9 @@ class ParserTest extends TestCase
         $this->assertTrue(true);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function test_verify_with_sample_jwt()
     {
         $parser = new Parser($this->verifier);
@@ -36,10 +47,13 @@ class ParserTest extends TestCase
         $this->assertTrue(true);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function test_parse_with_validator_it_should_pass_when_rules_are_ok()
     {
         $validator = new BaseValidator();
-        $validator->addRule('sub', new EqualsTo(666));
+        $validator->addRule(PublicClaimNames::SUBJECT, new EqualsTo(666));
 
         $parser = new Parser($this->verifier, $validator);
         $extractClaims = $parser->parse($this->sampleJwt);
@@ -47,6 +61,9 @@ class ParserTest extends TestCase
         $this->assertEquals($this->sampleClaims, $extractClaims);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function test_parse_with_validator_it_should_fail_when_rules_are_not_ok()
     {
         $validator = new BaseValidator();
@@ -59,6 +76,9 @@ class ParserTest extends TestCase
         $parser->parse($this->sampleJwt);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function test_validate_with_validator_it_should_fail_when_rules_are_not_ok()
     {
         $validator = new BaseValidator();
@@ -71,11 +91,14 @@ class ParserTest extends TestCase
         $parser->validate($this->sampleJwt);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function test_parse_with_invalid_jwt_it_should_fail()
     {
         $invalidJwt = "abc.xyz";
 
-            $parser = new Parser($this->verifier);
+        $parser = new Parser($this->verifier);
 
         $this->expectException(InvalidTokenException::class);
         $this->expectExceptionMessage('Token format is not valid');

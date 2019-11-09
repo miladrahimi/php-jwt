@@ -5,9 +5,13 @@ namespace MiladRahimi\Jwt\Tests\Validator;
 use MiladRahimi\Jwt\Exceptions\ValidationException;
 use MiladRahimi\Jwt\Tests\TestCase;
 use MiladRahimi\Jwt\Validator\DefaultValidator;
+use Throwable;
 
 class DefaultValidatorTest extends TestCase
 {
+    /**
+     * @throws Throwable
+     */
     public function test_with_no_claim_it_should_pass()
     {
         $validator = new DefaultValidator();
@@ -16,6 +20,9 @@ class DefaultValidatorTest extends TestCase
         $this->assertTrue(true);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function test_with_exp_it_should_pass_with_unexpired_exp()
     {
         $validator = new DefaultValidator();
@@ -26,6 +33,9 @@ class DefaultValidatorTest extends TestCase
         $this->assertTrue(true);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function test_with_exp_it_should_fail_with_expired_exp()
     {
         $validator = new DefaultValidator();
@@ -37,6 +47,9 @@ class DefaultValidatorTest extends TestCase
         ]);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function test_with_nbf_it_should_pass_with_earlier_time()
     {
         $validator = new DefaultValidator();
@@ -47,6 +60,9 @@ class DefaultValidatorTest extends TestCase
         $this->assertTrue(true);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function test_with_nbf_it_should_fail_with_later_time()
     {
         $validator = new DefaultValidator();
@@ -58,6 +74,9 @@ class DefaultValidatorTest extends TestCase
         ]);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function test_with_iat_it_should_pass_with_earlier_time()
     {
         $validator = new DefaultValidator();
@@ -68,6 +87,9 @@ class DefaultValidatorTest extends TestCase
         $this->assertTrue(true);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function test_with_iat_it_should_fail_with_later_time()
     {
         $validator = new DefaultValidator();

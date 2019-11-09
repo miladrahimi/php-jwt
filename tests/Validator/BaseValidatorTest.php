@@ -7,9 +7,13 @@ use MiladRahimi\Jwt\Tests\TestCase;
 use MiladRahimi\Jwt\Validator\BaseValidator;
 use MiladRahimi\Jwt\Validator\Rules\ConsistsOf;
 use MiladRahimi\Jwt\Validator\Rules\IdenticalTo;
+use Throwable;
 
 class BaseValidatorTest extends TestCase
 {
+    /**
+     * @throws Throwable
+     */
     public function test_with_valid_rule_it_should_pass()
     {
         $validator = new BaseValidator();
@@ -21,6 +25,9 @@ class BaseValidatorTest extends TestCase
         $this->assertTrue(true);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function test_with_some_valid_rules_for_one_claim_it_should_pass()
     {
         $validator = new BaseValidator();
@@ -33,6 +40,9 @@ class BaseValidatorTest extends TestCase
         $this->assertTrue(true);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function test_with_some_valid_rules_for_different_claims_it_should_pass()
     {
         $validator = new BaseValidator();
@@ -46,6 +56,9 @@ class BaseValidatorTest extends TestCase
         $this->assertTrue(true);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function test_with_invalid_rule_it_should_fail()
     {
         $validator = new BaseValidator();
@@ -58,6 +71,9 @@ class BaseValidatorTest extends TestCase
         ]);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function test_with_required_rule_it_should_fail_when_claim_not_present()
     {
         $validator = new BaseValidator();
@@ -68,6 +84,9 @@ class BaseValidatorTest extends TestCase
         $validator->validate([]);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function test_with_optional_rule_it_should_pass_when_claim_not_present()
     {
         $validator = new BaseValidator();

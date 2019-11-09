@@ -5,11 +5,12 @@ namespace MiladRahimi\Jwt\Tests\Json;
 use MiladRahimi\Jwt\Exceptions\JsonDecodingException;
 use MiladRahimi\Jwt\Json\StrictJsonParser;
 use MiladRahimi\Jwt\Tests\TestCase;
+use Throwable;
 
 class StrictJsonTest extends TestCase
 {
     /**
-     * @throws JsonDecodingException
+     * @throws Throwable
      */
     public function test_encode_and_decode_with_sample_data()
     {
@@ -31,7 +32,7 @@ class StrictJsonTest extends TestCase
     }
 
     /**
-     * @throws JsonDecodingException
+     * @throws Throwable
      */
     public function test_decode_with_invalid_json_it_should_throw_exception()
     {
@@ -42,7 +43,7 @@ class StrictJsonTest extends TestCase
     }
 
     /**
-     * @throws JsonDecodingException
+     * @throws Throwable
      */
     public function test_decode_with_non_standard_json_it_should_throw_exception()
     {

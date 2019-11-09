@@ -5,9 +5,13 @@ namespace MiladRahimi\Jwt\Tests;
 use MiladRahimi\Jwt\Base64\SafeBase64Parser;
 use MiladRahimi\Jwt\Json\StrictJsonParser;
 use MiladRahimi\Jwt\Generator;
+use Throwable;
 
 class GeneratorTest extends TestCase
 {
+    /**
+     * @throws Throwable
+     */
     public function test_generate_with_sample_claims_it_should_generate_jwt()
     {
         $generator = new Generator($this->signer);

@@ -6,9 +6,13 @@ use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS384Signer;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS384Verifier;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 use MiladRahimi\Jwt\Tests\TestCase;
+use Throwable;
 
 class RS384Test extends TestCase
 {
+    /**
+     * @throws Throwable
+     */
     public function test_sign_and_verify_it_should_sign_with_given_key()
     {
         $plain = 'Header Payload';
@@ -22,6 +26,9 @@ class RS384Test extends TestCase
         $this->assertTrue(true);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function test_sign_and_verify_it_should_fail_with_wrong_plain()
     {
         $signer = new RS384Signer($this->privateKey());

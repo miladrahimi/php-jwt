@@ -5,9 +5,13 @@ namespace MiladRahimi\Jwt\Tests\Validator\Rules;
 use MiladRahimi\Jwt\Exceptions\ValidationException;
 use MiladRahimi\Jwt\Tests\TestCase;
 use MiladRahimi\Jwt\Validator\Rules\EqualsTo;
+use Throwable;
 
 class EqualsToTest extends TestCase
 {
+    /**
+     * @throws Throwable
+     */
     public function test_validate_it_should_pass_when_claim_equals_to_the_string()
     {
         $rule = new EqualsTo('text');
@@ -16,6 +20,9 @@ class EqualsToTest extends TestCase
         $this->assertTrue(true);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function test_validate_it_should_pass_when_claim_equals_to_the_int()
     {
         $rule = new EqualsTo(10);
@@ -24,6 +31,9 @@ class EqualsToTest extends TestCase
         $this->assertTrue(true);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function test_validate_it_should_pass_when_claim_equals_to_the_float()
     {
         $rule = new EqualsTo(3.14);
@@ -32,6 +42,9 @@ class EqualsToTest extends TestCase
         $this->assertTrue(true);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function test_validate_it_should_fail_when_claim_doesnt_equals_to_the_value()
     {
         $rule = new EqualsTo('text');

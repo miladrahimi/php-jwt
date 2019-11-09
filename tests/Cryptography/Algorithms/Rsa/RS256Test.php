@@ -6,9 +6,13 @@ use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS256Signer;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS256Verifier;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 use MiladRahimi\Jwt\Tests\TestCase;
+use Throwable;
 
 class RS256Test extends TestCase
 {
+    /**
+     * @throws Throwable
+     */
     public function test_sign_and_verify_it_should_sign_with_given_key()
     {
         $plain = 'Header Payload';
@@ -22,6 +26,9 @@ class RS256Test extends TestCase
         $this->assertTrue(true);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function test_sign_and_verify_it_should_fail_with_wrong_plain()
     {
         $signer = new RS256Signer($this->privateKey());
@@ -33,6 +40,9 @@ class RS256Test extends TestCase
         $verifier->verify('WRONG!', $signature);
     }
 
+    /**
+     * @throws Throwable
+     */
     public function test_set_and_get_private_key()
     {
         $key = $this->privateKey();
@@ -42,6 +52,9 @@ class RS256Test extends TestCase
         $this->assertSame($key, $signer->getPrivateKey());
     }
 
+    /**
+     * @throws Throwable
+     */
     public function test_set_and_get_public_key()
     {
         $key = $this->publicKey();
