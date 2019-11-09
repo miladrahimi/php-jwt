@@ -14,7 +14,7 @@ class JwtParserTest extends TestCase
 {
     public function test_parse_with_sample_jwt()
     {
-        $parser = new JwtParser($this->verifier);
+        $parser = new JwtParser($this->verifier, new BaseValidator());
         $extractClaims = $parser->parse($this->sampleJwt);
 
         $this->assertEquals($this->sampleClaims, $extractClaims);
@@ -22,7 +22,7 @@ class JwtParserTest extends TestCase
 
     public function test_validate_with_sample_jwt()
     {
-        $parser = new JwtParser($this->verifier);
+        $parser = new JwtParser($this->verifier, new BaseValidator());
         $parser->validate($this->sampleJwt);
 
         $this->assertTrue(true);
