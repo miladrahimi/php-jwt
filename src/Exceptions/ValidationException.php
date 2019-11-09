@@ -2,12 +2,14 @@
 
 namespace MiladRahimi\Jwt\Exceptions;
 
+use Exception;
+
 /**
  * Class ValidationException
  *
  * @package MiladRahimi\Jwt\Exceptions
  */
-class ValidationException extends TokenParsingException
+class ValidationException extends Exception
 {
     //
 }
