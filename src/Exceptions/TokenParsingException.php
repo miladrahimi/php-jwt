@@ -2,7 +2,7 @@
 
 namespace MiladRahimi\Jwt\Exceptions;
 
-use RuntimeException;
+use Exception;
 
 /**
  * Class TokenParsingException
@@ -10,7 +10,7 @@ use RuntimeException;
  *
  * @package MiladRahimi\Jwt\Exceptions
  */
-abstract class TokenParsingException extends RuntimeException
+abstract class TokenParsingException extends Exception
 {
     //
 }
