@@ -7,7 +7,7 @@ namespace MiladRahimi\Jwt\Exceptions;
  *
  * @package MiladRahimi\Jwt\Exceptions
  */
-class InvalidKeyException extends TokenParsingException
+class InvalidKeyException
 {
     //
 }
