@@ -17,10 +17,10 @@ class RS256Test extends TestCase
     {
         $plain = 'Text';
 
-        $signer = new RS256Signer($this->privateKey());
+        $signer = new RS256Signer($this->privateKey);
         $signature = $signer->sign($plain);
 
-        $verifier = new RS256Verifier($this->publicKey());
+        $verifier = new RS256Verifier($this->publicKey);
         $verifier->verify($plain, $signature);
 
         $this->assertTrue(true);
@@ -31,10 +31,10 @@ class RS256Test extends TestCase
      */
     public function test_signer_and_verifier_they_should_fail_with_different_plains()
     {
-        $signer = new RS256Signer($this->privateKey());
+        $signer = new RS256Signer($this->privateKey);
         $signature = $signer->sign('Header Payload');
 
-        $verifier = new RS256Verifier($this->publicKey());
+        $verifier = new RS256Verifier($this->publicKey);
 
         $this->expectException(InvalidSignatureException::class);
         $verifier->verify('Different!', $signature);
@@ -45,7 +45,7 @@ class RS256Test extends TestCase
      */
     public function test_set_and_get_private_key()
     {
-        $key = $this->privateKey();
+        $key = $this->privateKey;
 
         $signer = new RS256Signer($key);
 
@@ -57,7 +57,7 @@ class RS256Test extends TestCase
      */
     public function test_set_and_get_public_key()
     {
-        $key = $this->publicKey();
+        $key = $this->publicKey;
 
         $verifier = new RS256Verifier($key);
 
