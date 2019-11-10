@@ -14,7 +14,7 @@ class PublicKeyTest extends TestCase
      */
     public function test_with_valid_key_it_should_pass()
     {
-        $key = new PublicKey(__DIR__ . '/../../../resources/test/keys/public.pem');
+        $key = new PublicKey(__DIR__ . '/../../../resources/test/keys/rsa-public.pem');
         $this->assertNotNull($key->getResource());
     }
 

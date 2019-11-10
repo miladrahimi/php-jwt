@@ -14,7 +14,7 @@ class PrivateKeyTest extends TestCase
      */
     public function test_with_valid_key_it_should_pass()
     {
-        $key = new PrivateKey(__DIR__ . '/../../../resources/test/keys/private.pem');
+        $key = new PrivateKey(__DIR__ . '/../../../resources/test/keys/rsa-private.pem');
         $this->assertNotNull($key->getResource());
     }
 

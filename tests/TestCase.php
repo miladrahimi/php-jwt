@@ -53,9 +53,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     {
         parent::setUp();
 
-        $this->privateKey = new PrivateKey(__DIR__ . '/../resources/test/keys/private.pem');
+        $this->privateKey = new PrivateKey(__DIR__ . '/../resources/test/keys/rsa-private.pem');
 
-        $this->publicKey = new PublicKey(__DIR__ . '/../resources/test/keys/public.pem');
+        $this->publicKey = new PublicKey(__DIR__ . '/../resources/test/keys/rsa-public.pem');
 
         $this->signer = $this->verifier = new HS256($this->key);
 

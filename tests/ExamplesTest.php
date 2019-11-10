@@ -39,8 +39,8 @@ class ExamplesTest extends TestCase
      */
     public function test_rsa_algorithms()
     {
-        $privateKey = new PrivateKey(__DIR__ . '/../resources/test/keys/private.pem');
-        $publicKey = new PublicKey(__DIR__ . '/../resources/test/keys/public.pem');
+        $privateKey = new PrivateKey(__DIR__ . '/../resources/test/keys/rsa-private.pem');
+        $publicKey = new PublicKey(__DIR__ . '/../resources/test/keys/rsa-public.pem');
 
         $signer = new RS256Signer($privateKey);
         $verifier = new RS256Verifier($publicKey);
