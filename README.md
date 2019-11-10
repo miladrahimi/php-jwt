@@ -167,6 +167,25 @@ Validators use the rules to validate the claims. Each rule determines possible v
 
 You can see their description in their class doc-block.
 
+#### Required and Optional Rules
+
+You can add a rule to a validator as required or optional. If the rule is required, validation will fail when the claim is not present in the JWT claims.
+
+This example demonstrates how to add rules as required and optional:
+
+```php
+$validator = new DefaultValidator();
+
+// Add a rule as required
+$validator->addRule('exp', new NewerThan(time()));
+
+// Add a rule as required again!
+$validator->addRule('exp', new NewerThan(time()), true);
+
+// Add a rule as optional
+$validator->addRule('exp', new NewerThan(time()), false);
+```
+
 ### Custom Validation
 
 The `JwtParser` uses the `DefaultValidator` to validate tokens in the `parse()` and `validate()` methods. This validator takes care of `exp`, `iat` and `nbf` claims when they are present in the payload.
