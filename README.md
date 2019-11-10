@@ -18,7 +18,7 @@ Confirmed by [JWT.io](https://jwt.io).
 Add the package to your Composer dependencies with the following command:
 
 ```bash
-composer require miladrahimi/php-jwt "1.*"
+composer require miladrahimi/php-jwt "2.*"
 ```
 
 Now, you are ready to use the package!
