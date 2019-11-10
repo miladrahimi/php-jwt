@@ -121,10 +121,11 @@ echo $claims; // ['sub' => 1, 'jti' => 2]
 In default, the package verifies the JWT signature, validate some of the public claims if they exist (using `DefaultValidator`), and parse the claims. If you have your custom claims, you can add their validation rules, as well. See this example:
 
 ```php
-use MiladRahimi\Jwt\Generator;
 use MiladRahimi\Jwt\Parser;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
 use MiladRahimi\Jwt\Exceptions\ValidationException;
+use MiladRahimi\Jwt\Validator\Rules\EqualsTo;
+use MiladRahimi\Jwt\Validator\Rules\GreaterThan;
 
 $jwt = '...'; // Get the JWT from the user
 
@@ -146,6 +147,25 @@ try {
 ```
 
 In the example above, we used the `DefaultValidator`. This validator has some built-in rules for public claims. We also recommend you to use it for your validation. The `DefaultValidator` is a subclass of the `BaseValidator`. You can also use the `BaseValidator` for your validations, but you will lose the built-in rules, and you have to add all the rules yourself.
+
+#### Rules
+
+Validators use the rules to validate the claims. Each rule determines possible values for a claim. These are the built-in rules you can find under the namespace `MiladRahimi\Jwt\Validator\Rules`:
+* ConsistsOf
+* EqualsTo
+* GreaterThan
+* GreaterThanOrEqualTo
+* IdenticalTo
+* LessThan
+* LessThanOrEqualTo
+* NewerThan
+* NewerThanOrSame
+* NotEmpty
+* NotNull
+* OlderThan
+* OlderThanOrSame
+
+You can see their description in their class doc-block.
 
 ### Custom Validation
 
