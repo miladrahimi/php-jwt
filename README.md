@@ -62,13 +62,13 @@ RSA algorithms are asymmetric. A paired key is needed to sign and verify tokens.
 ```php
 use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS256Signer;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS256Verifier;
-use MiladRahimi\Jwt\Cryptography\Keys\PrivateKey;
-use MiladRahimi\Jwt\Cryptography\Keys\PublicKey;
+use MiladRahimi\Jwt\Cryptography\Keys\RsaPrivateKey;
+use MiladRahimi\Jwt\Cryptography\Keys\RsaPublicKey;
 use MiladRahimi\Jwt\Generator;
 use MiladRahimi\Jwt\Parser;
 
-$privateKey = new PrivateKey('/path/to/private.pem');
-$publicKey = new PublicKey('/path/to/public.pem');
+$privateKey = new RsaPrivateKey('/path/to/private.pem');
+$publicKey = new RsaPublicKey('/path/to/public.pem');
 
 $signer = new RS256Signer($privateKey);
 $verifier = new RS256Verifier($publicKey);

@@ -5,11 +5,11 @@ namespace MiladRahimi\Jwt\Cryptography\Keys;
 use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
 
 /**
- * Class PublicKey
+ * Class RsaPrivateKey
  *
  * @package MiladRahimi\Jwt\Cryptography\Keys
  */
-class PublicKey
+class RsaPrivateKey
 {
     /**
      * @var resource    Key file resource handler
@@ -17,14 +17,15 @@ class PublicKey
     private $resource;
 
     /**
-     * PublicKey constructor.
+     * PrivateKey constructor.
      *
-     * @param string $fileFullPath
+     * @param string $filePath
+     * @param string $passphrase
      * @throws InvalidKeyException
      */
-    public function __construct(string $fileFullPath)
+    public function __construct(string $filePath, $passphrase = '')
     {
-        $this->resource = openssl_pkey_get_public('file:///' . $fileFullPath);
+        $this->resource = openssl_pkey_get_private('file:///' . $filePath, $passphrase);
 
         if (empty($this->resource)) {
             throw new InvalidKeyException();
@@ -37,5 +38,13 @@ class PublicKey
     public function getResource()
     {
         return $this->resource;
+    }
+
+    /**
+     * Close key resource
+     */
+    public function close()
+    {
+        openssl_free_key($this->getResource());
     }
 }

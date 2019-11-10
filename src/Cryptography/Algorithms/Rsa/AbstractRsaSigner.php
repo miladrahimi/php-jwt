@@ -2,7 +2,7 @@
 
 namespace MiladRahimi\Jwt\Cryptography\Algorithms\Rsa;
 
-use MiladRahimi\Jwt\Cryptography\Keys\PrivateKey;
+use MiladRahimi\Jwt\Cryptography\Keys\RsaPrivateKey;
 use MiladRahimi\Jwt\Cryptography\Signer;
 use MiladRahimi\Jwt\Exceptions\SigningException;
 
@@ -16,16 +16,16 @@ abstract class AbstractRsaSigner implements Signer
     use Naming;
 
     /**
-     * @var PrivateKey
+     * @var RsaPrivateKey
      */
     protected $privateKey;
 
     /**
      * AbstractRsaSigner constructor.
      *
-     * @param PrivateKey $publicKey
+     * @param RsaPrivateKey $publicKey
      */
-    public function __construct(PrivateKey $publicKey)
+    public function __construct(RsaPrivateKey $publicKey)
     {
         $this->setPrivateKey($publicKey);
     }
@@ -38,6 +38,8 @@ abstract class AbstractRsaSigner implements Signer
         $signature = '';
 
         if (openssl_sign($message, $signature, $this->privateKey->getResource(), $this->algorithm()) === true) {
+            $this->privateKey->close();
+
             return $signature;
         }
 
@@ -45,17 +47,17 @@ abstract class AbstractRsaSigner implements Signer
     }
 
     /**
-     * @return PrivateKey
+     * @return RsaPrivateKey
      */
-    public function getPrivateKey(): PrivateKey
+    public function getPrivateKey(): RsaPrivateKey
     {
         return $this->privateKey;
     }
 
     /**
-     * @param PrivateKey $privateKey
+     * @param RsaPrivateKey $privateKey
      */
-    public function setPrivateKey(PrivateKey $privateKey)
+    public function setPrivateKey(RsaPrivateKey $privateKey)
     {
         $this->privateKey = $privateKey;
     }

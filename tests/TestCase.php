@@ -3,8 +3,8 @@
 namespace MiladRahimi\Jwt\Tests;
 
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
-use MiladRahimi\Jwt\Cryptography\Keys\PrivateKey;
-use MiladRahimi\Jwt\Cryptography\Keys\PublicKey;
+use MiladRahimi\Jwt\Cryptography\Keys\RsaPrivateKey;
+use MiladRahimi\Jwt\Cryptography\Keys\RsaPublicKey;
 use MiladRahimi\Jwt\Cryptography\Signer;
 use MiladRahimi\Jwt\Cryptography\Verifier;
 use Throwable;
@@ -17,12 +17,12 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     protected $key = '12345678901234567890123456789012';
 
     /**
-     * @var PrivateKey
+     * @var RsaPrivateKey
      */
     protected $privateKey;
 
     /**
-     * @var PublicKey
+     * @var RsaPublicKey
      */
     protected $publicKey;
 
@@ -53,9 +53,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     {
         parent::setUp();
 
-        $this->privateKey = new PrivateKey(__DIR__ . '/../resources/test/keys/rsa-private.pem');
+        $this->privateKey = new RsaPrivateKey(__DIR__ . '/../resources/test/keys/rsa-private.pem');
 
-        $this->publicKey = new PublicKey(__DIR__ . '/../resources/test/keys/rsa-public.pem');
+        $this->publicKey = new RsaPublicKey(__DIR__ . '/../resources/test/keys/rsa-public.pem');
 
         $this->signer = $this->verifier = new HS256($this->key);
 

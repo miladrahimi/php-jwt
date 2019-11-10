@@ -5,8 +5,8 @@ namespace MiladRahimi\Jwt\Tests;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS256Signer;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS256Verifier;
-use MiladRahimi\Jwt\Cryptography\Keys\PrivateKey;
-use MiladRahimi\Jwt\Cryptography\Keys\PublicKey;
+use MiladRahimi\Jwt\Cryptography\Keys\RsaPrivateKey;
+use MiladRahimi\Jwt\Cryptography\Keys\RsaPublicKey;
 use MiladRahimi\Jwt\Generator;
 use MiladRahimi\Jwt\Parser;
 use MiladRahimi\Jwt\Validator\DefaultValidator;
@@ -39,8 +39,8 @@ class ExamplesTest extends TestCase
      */
     public function test_rsa_algorithms()
     {
-        $privateKey = new PrivateKey(__DIR__ . '/../resources/test/keys/rsa-private.pem');
-        $publicKey = new PublicKey(__DIR__ . '/../resources/test/keys/rsa-public.pem');
+        $privateKey = new RsaPrivateKey(__DIR__ . '/../resources/test/keys/rsa-private.pem');
+        $publicKey = new RsaPublicKey(__DIR__ . '/../resources/test/keys/rsa-public.pem');
 
         $signer = new RS256Signer($privateKey);
         $verifier = new RS256Verifier($publicKey);
