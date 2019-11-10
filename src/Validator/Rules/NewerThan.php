@@ -4,6 +4,7 @@ namespace MiladRahimi\Jwt\Validator\Rules;
 
 /**
  * Class NewerThan
+ * It checks if the claim is newer than the given timestamp
  *
  * @package MiladRahimi\Jwt\Validator\Rules
  */

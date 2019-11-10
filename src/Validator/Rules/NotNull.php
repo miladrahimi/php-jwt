@@ -7,6 +7,7 @@ use MiladRahimi\Jwt\Validator\Rule;
 
 /**
  * Class NotNull
+ * It checks if the claim is not null
  *
  * @package MiladRahimi\Jwt\Validator\Rules
  */

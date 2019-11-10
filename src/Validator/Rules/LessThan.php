@@ -7,6 +7,7 @@ use MiladRahimi\Jwt\Validator\Rule;
 
 /**
  * Class LessThan
+ * It checks if the claim is less than the given number
  *
  * @package MiladRahimi\Jwt\Validator\Rules
  */

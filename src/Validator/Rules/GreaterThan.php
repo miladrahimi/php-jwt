@@ -7,6 +7,7 @@ use MiladRahimi\Jwt\Validator\Rule;
 
 /**
  * Class GreaterThan
+ * It checks if the claim is greater than the given number
  *
  * @package MiladRahimi\Jwt\Validator\Rules
  */

@@ -7,6 +7,7 @@ use MiladRahimi\Jwt\Validator\Rule;
 
 /**
  * Class EqualsTo
+ * It checks if the claim equals to the given value
  *
  * @package MiladRahimi\Jwt\Validator\Rules
  */

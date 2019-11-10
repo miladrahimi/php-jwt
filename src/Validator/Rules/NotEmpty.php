@@ -6,7 +6,8 @@ use MiladRahimi\Jwt\Exceptions\ValidationException;
 use MiladRahimi\Jwt\Validator\Rule;
 
 /**
- * Class NotNull
+ * Class NotEmpty
+ * It checks if the claim is not empty
  *
  * @package MiladRahimi\Jwt\Validator\Rules
  */

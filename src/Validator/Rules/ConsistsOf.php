@@ -7,6 +7,7 @@ use MiladRahimi\Jwt\Validator\Rule;
 
 /**
  * Class ConsistsOf
+ * It checks if the claim consists of the given substr
  *
  * @package MiladRahimi\Jwt\Validator\Rules
  */

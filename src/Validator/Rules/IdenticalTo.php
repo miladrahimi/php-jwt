@@ -7,6 +7,7 @@ use MiladRahimi\Jwt\Validator\Rule;
 
 /**
  * Class IdenticalTo
+ * It checks if the claim is identical to the given value (and its type)
  *
  * @package MiladRahimi\Jwt\Validator\Rules
  */

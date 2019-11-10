@@ -67,6 +67,7 @@ class Parser
      *
      * @param string $jwt
      * @return array|array[string]mixed
+     * @throws Exceptions\SigningException
      * @throws InvalidSignatureException
      * @throws InvalidTokenException
      * @throws JsonDecodingException
@@ -107,6 +108,7 @@ class Parser
      * Verify the JWT
      *
      * @param string $jwt
+     * @throws Exceptions\SigningException
      * @throws InvalidSignatureException
      * @throws InvalidTokenException
      */
@@ -123,6 +125,7 @@ class Parser
      * @param string $header
      * @param string $payload
      * @param string $signature
+     * @throws Exceptions\SigningException
      * @throws InvalidSignatureException
      */
     private function verifySignature(string $header, string $payload, string $signature)
@@ -148,6 +151,7 @@ class Parser
      * Validate JWT (verify signature and validate claims)
      *
      * @param string $jwt
+     * @throws Exceptions\SigningException
      * @throws InvalidSignatureException
      * @throws InvalidTokenException
      * @throws JsonDecodingException
