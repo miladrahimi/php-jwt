@@ -13,6 +13,10 @@ Confirmed by [JWT.io](https://jwt.io).
 
 ## Documentation
 
+### Versions
+* 2.x.x (LTS)
+* 1.x.x (Unsupported)
+
 ### Installation
 
 Add the package to your Composer dependencies with the following command:
