@@ -17,6 +17,11 @@ Confirmed by [JWT.io](https://jwt.io).
 * 2.x.x (LTS)
 * 1.x.x (Unsupported)
 
+### What is JWT?
+
+In case you are unfamiliar with JWT you can read [Wikipedia](https://en.wikipedia.org/wiki/JSON_Web_Token) or 
+[JWT.io](https://jwt.io).
+
 ### Installation
 
 Add the package to your Composer dependencies with the following command:
@@ -25,23 +30,16 @@ Add the package to your Composer dependencies with the following command:
 composer require miladrahimi/php-jwt "2.*"
 ```
 
-Now, you are ready to use the package!
-
-### What is JWT?
-
-In case you are unfamiliar with JWT you can read [Wikipedia](https://en.wikipedia.org/wiki/JSON_Web_Token) or 
-[JWT.io](https://jwt.io).
-
 ### Simple example
 
-The following example shows how to generate a JWT using the HS256 algorithm and parse it.
+    The following example shows how to generate a JWT and parse it using the *HS256* algorithm.
 
 ```php
 use MiladRahimi\Jwt\Generator;
 use MiladRahimi\Jwt\Parser;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
 
-// Signer and verifier is the same HS256
+// Use HS256 to generate and parse tokens
 $signer = new HS256('12345678901234567890123456789012');
 
 // Generate a token
@@ -88,7 +86,7 @@ $claims = $parser->parse($jwt);
 echo $claims; // ['sub' => 1, 'jti' => 2]
 ```
 
-You can read [this instruction](https://en.wikibooks.org/wiki/Cryptography/Generate_a_keypair_using_OpenSSL) to learn how to generate a pair (public/private) key.
+You can read [this instruction](https://en.wikibooks.org/wiki/Cryptography/Generate_a_keypair_using_OpenSSL) to learn how to generate a pair (public/private) RSA key.
 
 ### Validation
 
@@ -99,7 +97,6 @@ use MiladRahimi\Jwt\Parser;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
 use MiladRahimi\Jwt\Exceptions\ValidationException;
 use MiladRahimi\Jwt\Validator\Rules\EqualsTo;
-use MiladRahimi\Jwt\Validator\Rules\GreaterThan;
 
 $jwt = '...'; // Get the JWT from the user
 
@@ -108,10 +105,10 @@ $signer = new HS256('12345678901234567890123456789012');
 // Add Validation (Extend the DefaultValidator)
 $validator = new DefaultValidator();
 $validator->addRule('is-admin', new EqualsTo(true));
-$validator->addRule('id', new GreaterThan(600));
 
 // Parse the token
 $parser = new Parser($signer, $validator);
+
 try {
     $claims = $parser->parse($jwt);
     echo $claims; // ['sub' => 1, 'jti' => 2]
@@ -120,24 +117,24 @@ try {
 }
 ```
 
-In the example above, we used the `DefaultValidator`. This validator has some built-in rules for public claims. We also recommend you to use it for your validation. The `DefaultValidator` is a subclass of the `BaseValidator`. You can also use the `BaseValidator` for your validations, but you will lose the built-in rules, and you have to add all the rules yourself.
+In the example above, we used the `DefaultValidator`. This validator has some built-in rules for public claims. We also recommend you to extend it for your validation. The `DefaultValidator` is a subclass of the `BaseValidator`. You can also use the `BaseValidator` for your validations, but you will lose the built-in rules, and you have to add all the rules yourself.
 
 #### Rules
 
 Validators use the rules to validate the claims. Each rule determines possible values for a claim. These are the built-in rules you can find under the namespace `MiladRahimi\Jwt\Validator\Rules`:
-* ConsistsOf
-* EqualsTo
-* GreaterThan
-* GreaterThanOrEqualTo
-* IdenticalTo
-* LessThan
-* LessThanOrEqualTo
-* NewerThan
-* NewerThanOrSame
-* NotEmpty
-* NotNull
-* OlderThan
-* OlderThanOrSame
+* [ConsistsOf](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/ConsistsOf.php)
+* [EqualsTo](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/EqualsTo.php)
+* [GreaterThan](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/GreaterThan.php)
+* [GreaterThanOrEqualTo](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/GreaterThanOrEqualTo.php)
+* [IdenticalTo](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/IdenticalTo.php)
+* [LessThan](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/LessThan.php)
+* [LessThanOrEqualTo](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/LessThanOrEqualTo.php)
+* [NewerThan](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/NewerThan.php)
+* [NewerThanOrSame](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/NewerThanOrSame.php)
+* [NotEmpty](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/NotEmpty.php)
+* [NotNull](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/NotNull.php)
+* [OlderThan](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/OlderThan.php)
+* [OlderThanOrSame](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/OlderThanOrSame.php)
 
 You can see their description in their class doc-block.
 
