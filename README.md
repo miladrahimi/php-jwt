@@ -136,7 +136,7 @@ Validators use the rules to validate the claims. Each rule determines possible v
 * [OlderThan](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/OlderThan.php)
 * [OlderThanOrSame](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/OlderThanOrSame.php)
 
-You can see their description in their class doc-block.
+You can see their description in their class doc-blocks.
 
 #### Required and Optional Rules
 
