@@ -83,7 +83,7 @@ $jwt = $generator->generate(['id' => 666, 'is-admin' => true]);
 $parser = new Parser($verifier);
 $claims = $parser->parse($jwt);
 
-echo $claims; // ['sub' => 1, 'jti' => 2]
+echo $claims; // ['id' => 666, 'is-admin' => true]
 ```
 
 You can read [this instruction](https://en.wikibooks.org/wiki/Cryptography/Generate_a_keypair_using_OpenSSL) to learn how to generate a pair (public/private) RSA key.
@@ -111,7 +111,7 @@ $parser = new Parser($signer, $validator);
 
 try {
     $claims = $parser->parse($jwt);
-    echo $claims; // ['sub' => 1, 'jti' => 2]
+    echo $claims; // ['id' => 666, 'is-admin' => true]
 } catch (ValidationException $e) {
     // Handle error.
 }
