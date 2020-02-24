@@ -32,7 +32,7 @@ composer require miladrahimi/php-jwt "2.*"
 
 ### Simple example
 
-    The following example shows how to generate a JWT and parse it using the *HS256* algorithm.
+The following example shows how to generate a JWT and parse it using the *HS256* algorithm.
 
 ```php
 use MiladRahimi\Jwt\Generator;
