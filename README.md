@@ -170,7 +170,7 @@ class Even implements Rule
     public function validate(string $name, $value)
     {
         if ($value % 2 != 0) {
-            throw new ValidationException("The `$name` must an even number.");
+            throw new ValidationException("The `$name` must be an even number.");
         }
     }
 }
