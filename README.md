@@ -121,7 +121,8 @@ In the example above, we used the `DefaultValidator`. This validator has some bu
 
 #### Rules
 
-Validators use the rules to validate the claims. Each rule determines possible values for a claim. These are the built-in rules you can find under the namespace `MiladRahimi\Jwt\Validator\Rules`:
+Validators use the rules to validate the claims. Each rule determines eligible values for a claim. These are the built-in rules you can find under the namespace `MiladRahimi\Jwt\Validator\Rules`:
+
 * [ConsistsOf](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/ConsistsOf.php)
 * [EqualsTo](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/EqualsTo.php)
 * [GreaterThan](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/GreaterThan.php)
