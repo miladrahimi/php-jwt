@@ -55,7 +55,7 @@ echo $claims; // ['id' => 666, 'is-admin' => true]
 
 ### HMAC Algorithms
 
-HMAC algorithms are symmetric, the same algorithm can both sign and verify JWTs. This package supports HS256, HS384, and HS512 of HMAC algorithms. The example mentioned above demonstrates how to use an HMAC algorithm to sign and verify a JWT.
+HMAC algorithms use symmetric keys, the same key can both sign and verify JWTs. This package supports HS256, HS384, and HS512 of HMAC algorithms. The example mentioned above demonstrates how to use an HMAC algorithm (HS256) to sign and verify a JWT.
 
 ### RSA Algorithms
 
