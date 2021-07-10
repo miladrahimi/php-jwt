@@ -1,6 +1,6 @@
 [![Latest Stable Version](https://poser.pugx.org/miladrahimi/php-jwt/v/stable)](https://packagist.org/packages/miladrahimi/php-jwt)
 [![Total Downloads](https://poser.pugx.org/miladrahimi/php-jwt/downloads)](https://packagist.org/packages/miladrahimi/php-jwt)
-[![Build Status](https://travis-ci.org/miladrahimi/php-jwt.svg?branch=master)](https://travis-ci.org/miladrahimi/php-jwt)
+[![Build Status](https://travis-ci.com/miladrahimi/php-jwt.svg?branch=master)](https://travis-ci.com/miladrahimi/php-jwt)
 [![Coverage Status](https://coveralls.io/repos/github/miladrahimi/php-jwt/badge.svg?branch=master)](https://coveralls.io/github/miladrahimi/php-jwt?branch=master)
 [![License](https://poser.pugx.org/miladrahimi/php-jwt/license)](https://packagist.org/packages/miladrahimi/php-jwt)
 
