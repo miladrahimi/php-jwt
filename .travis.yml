@@ -8,6 +8,11 @@ php:
 - 7.3
 - 7.4
 
+os:
+  - linux
+  - osx
+  - windows
+
 branches:
   only:
   - master
