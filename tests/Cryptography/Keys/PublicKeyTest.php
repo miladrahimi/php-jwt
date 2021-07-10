@@ -21,9 +21,18 @@ class PublicKeyTest extends TestCase
     /**
      * @throws Throwable
      */
-    public function test_with_invalid_key_it_should_fail()
+    public function test_with_invalid_key_path_it_should_fail()
     {
         $this->expectException(InvalidKeyException::class);
         new RsaPublicKey('Invalid Key!');
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function test_with_invalid_key_file_it_should_fail()
+    {
+        $this->expectException(InvalidKeyException::class);
+        new RsaPublicKey(__DIR__ . '/../../../resources/test/file.empty');
     }
 }
