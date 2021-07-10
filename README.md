@@ -197,13 +197,27 @@ class Even implements Rule
 ### Error Handling
 
 Here are the exceptions that the package throw:
-* `InvalidKeyException`: It will be thrown by `Generator` or `Parser` when the provided key is not valid.
-* `InvalidSignatureException`: It will be thrown by `Parser::parse()`, `Parser::verify()`, or `Parser::validate()` when the JWT signature is not valid.
-* `InvalidTokenException`: It will be thrown by `Parser::parse()`, `Parser::verify()`, or `Parser::validate()` when the JWT format is not valid (for example it has no payload).
-* `JsonDecodingException`: It will be thrown by `Parser::parse()`, or `Parser::validate()` when the JSON extracted from JWT is not valid.
-* `JsonEncodingException`: It will be thrown by `Generator::generate()` when cannot convert the provided claims to JSON.
-* `SigningException`: It will be thrown by `Generator::generate()` when cannot sign the token using the provided signer or key.
-* `ValidationException`: It will be thrown by `Parser::parse()`, or `Parser::validate()` when one of the validation rules fail.
+* `InvalidKeyException`:
+  * By `Generator` and `Parser` methods.
+  * When the provided key is not valid.
+* `InvalidSignatureException`:
+  * By `Parser::parse()`, `Parser::verify()`, and `Parser::validate()` methods.
+  * When the JWT signature is not valid.
+* `InvalidTokenException`:
+  * By `Parser::parse()`, `Parser::verify()`, and `Parser::validate()` methods.
+  * When the JWT format is not valid (for example it has no payload).
+* `JsonDecodingException`:
+  * By `Parser::parse()` and `Parser::validate()` methods.
+  * When the JSON extracted from JWT is not valid.
+* `JsonEncodingException`:
+  * By `Generator::generate()` method.
+  * When cannot convert the provided claims to JSON.
+* `SigningException`:
+  * By `Generator::generate()` method.
+  * When cannot sign the token using the provided signer or key.
+* `ValidationException`:
+  * By `Parser::parse()` and `Parser::validate()` methods.
+  * When one of the validation rules fail.
 
 ## License
 PHP-JWT is initially created by [Milad Rahimi](http://miladrahimi.com)
