@@ -49,7 +49,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     /**
      * @throws Throwable
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -70,5 +70,14 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         $this->sampleJwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.' .
             'eyJzdWIiOjY2NiwiZXhwIjoxNTczMjUyODYzLCJuYmYiOjE1NzMxNjY0NjMsImlhdCI6MTU3MzE2NjQ2MywiaXNzIjoiVGVzdCEifQ.' .
             'CpOJ34DnOpG1lnSgmUpoCby8jQW7LiYeNMSLNEEMiuY';
+    }
+
+    protected function expectExceptionMessageFormat(string $format)
+    {
+        if (method_exists($this, 'expectExceptionMessageMatches')) {
+            $this->expectExceptionMessageMatches($format);
+        } else {
+            $this->expectExceptionMessageRegExp($format);
+        }
     }
 }
