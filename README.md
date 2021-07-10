@@ -55,11 +55,18 @@ echo $claims; // ['id' => 666, 'is-admin' => true]
 
 ### HMAC Algorithms
 
-HMAC algorithms use symmetric keys, the same key can both sign and verify JWTs. This package supports HS256, HS384, and HS512 of HMAC algorithms. The example mentioned above demonstrates how to use an HMAC algorithm (HS256) to sign and verify a JWT.
+HMAC algorithms use symmetric keys.
+A single key can both sign and verify JWTs.
+This package supports HS256, HS384, and HS512 of HMAC algorithms.
+The example mentioned above demonstrates how to use an HMAC algorithm (HS256) to sign and verify a JWT.
 
 ### RSA Algorithms
 
-RSA algorithms are asymmetric. A paired key is needed to sign and verify tokens. To sign a JWT, we use a private key, and to verify it, we use the related public key. These algorithms are useful when the authentication server cannot trust resource owners. Take a look at the following example:
+RSA algorithms are asymmetric.
+A paired key is needed to sign and verify tokens.
+To sign a JWT, we use a private key, and to verify it, we use the related public key.
+These algorithms can be useful when the authentication server cannot trust resource owners.
+Take a look at the following example:
 
 ```php
 use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS256Signer;
@@ -90,7 +97,9 @@ You can read [this instruction](https://en.wikibooks.org/wiki/Cryptography/Gener
 
 ### Validation
 
-In default, the package verifies the JWT signature, validate some of the public claims if they exist (using `DefaultValidator`), and parse the claims. If you have your custom claims, you can add their validation rules, as well. See this example:
+In default, the package verifies the JWT signature, validates some of the public claims if they exist (using `DefaultValidator`), and parse the claims.
+If you have your custom claims, you can add their validation rules, as well.
+See this example:
 
 ```php
 use MiladRahimi\Jwt\Parser;
@@ -117,11 +126,17 @@ try {
 }
 ```
 
-In the example above, we used the `DefaultValidator`. This validator has some built-in rules for public claims. We also recommend you to extend it for your validation. The `DefaultValidator` is a subclass of the `BaseValidator`. You can also use the `BaseValidator` for your validations, but you will lose the built-in rules, and you have to add all the rules yourself.
+In the example above, we used the `DefaultValidator`.
+This validator has some built-in Rules for public claims.
+We also recommend you extend it for your validation.
+The `DefaultValidator` is a subclass of the `BaseValidator`.
+You can also use the `BaseValidator` for your validations, but you will lose the built-in Rules, and you have to add all the Rules by yourself.
 
 #### Rules
 
-Validators use the rules to validate the claims. Each rule determines eligible values for a claim. These are the built-in rules you can find under the namespace `MiladRahimi\Jwt\Validator\Rules`:
+Validators use the Rules to validate the claims.
+Each Rule determines eligible values for a claim.
+These are the built-in Rules you can find under the namespace `MiladRahimi\Jwt\Validator\Rules`:
 
 * [ConsistsOf](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/ConsistsOf.php)
 * [EqualsTo](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/EqualsTo.php)
@@ -141,7 +156,8 @@ You can see their description in their class doc-blocks.
 
 #### Required and Optional Rules
 
-You can add a rule to a validator as required or optional. If the rule is required, validation will fail when the claim is not present in the JWT claims.
+You can add a rule to a validator as required or optional.
+If the Rule is required, validation will fail when the related claim is not present in the JWT claims.
 
 This example demonstrates how to add rules as required and optional:
 
@@ -160,7 +176,8 @@ $validator->addRule('exp', new NewerThan(time()), false);
 
 #### Custom Rules
 
-You create your own rules if the built-in ones cannot meet your needs. To create a rule, you must implement the `Rule` interface like the following example that shows `Even` rule which is going to check if the given claim is an even number or not:
+You create your own Rules if the built-in ones cannot meet your needs.
+To create a Rule, you must implement the `Rule` interface like the following example that shows the `Even` Rule which is going to check if the given claim is an even number or not:
 
 ```php
 use MiladRahimi\Jwt\Exceptions\ValidationException;
