@@ -49,7 +49,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
     /**
      * @throws Throwable
      */
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
