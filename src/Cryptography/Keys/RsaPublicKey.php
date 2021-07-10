@@ -44,6 +44,6 @@ class RsaPublicKey
      */
     public function close()
     {
-        openssl_free_key($this->getResource());
+        unset($this->resource);
     }
 }
