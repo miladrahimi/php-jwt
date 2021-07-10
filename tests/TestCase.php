@@ -71,4 +71,13 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
             'eyJzdWIiOjY2NiwiZXhwIjoxNTczMjUyODYzLCJuYmYiOjE1NzMxNjY0NjMsImlhdCI6MTU3MzE2NjQ2MywiaXNzIjoiVGVzdCEifQ.' .
             'CpOJ34DnOpG1lnSgmUpoCby8jQW7LiYeNMSLNEEMiuY';
     }
+
+    protected function expectExceptionMessageFormat(string $format)
+    {
+        if (method_exists($this, 'expectExceptionMessageMatches')) {
+            $this->expectExceptionMessageMatches($format);
+        } else {
+            $this->expectExceptionMessageRegExp($format);
+        }
+    }
 }
