@@ -125,7 +125,7 @@ try {
 }
 ```
 
-In the example above, we used the `DefaultValidator`.
+In the example above, we extended `DefaultValidator`.
 This validator has some built-in Rules for public claims.
 We also recommend you extend it for your validation.
 The `DefaultValidator` is a subclass of the `BaseValidator`.
