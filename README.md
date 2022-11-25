@@ -76,24 +76,23 @@ use MiladRahimi\Jwt\Cryptography\Keys\RsaPublicKey;
 use MiladRahimi\Jwt\Generator;
 use MiladRahimi\Jwt\Parser;
 
-$privateKey = new RsaPrivateKey('/path/to/private.pem');
-$publicKey = new RsaPublicKey('/path/to/public.pem');
-
-$signer = new RS256Signer($privateKey);
-$verifier = new RS256Verifier($publicKey);
-
 // Generate a token
+$privateKey = new RsaPrivateKey('/path/to/private.pem');
+$signer = new RS256Signer($privateKey);
 $generator = new Generator($signer);
 $jwt = $generator->generate(['id' => 666, 'is-admin' => true]);
 
 // Parse the token
+$publicKey = new RsaPublicKey('/path/to/public.pem');
+$verifier = new RS256Verifier($publicKey);
 $parser = new Parser($verifier);
 $claims = $parser->parse($jwt);
 
-echo $claims; // ['id' => 666, 'is-admin' => true]
+print_r($claims); // ['id' => 666, 'is-admin' => true]
 ```
 
-You can read [this instruction](https://en.wikibooks.org/wiki/Cryptography/Generate_a_keypair_using_OpenSSL) to learn how to generate a pair (public/private) RSA key.
+You can read [this instruction](https://en.wikibooks.org/wiki/Cryptography/Generate_a_keypair_using_OpenSSL)
+to learn how to generate a pair (public/private) RSA key.
 
 ### Validation
 
