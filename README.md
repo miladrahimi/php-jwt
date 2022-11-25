@@ -50,7 +50,7 @@ $jwt = $generator->generate(['id' => 666, 'is-admin' => true]);
 $parser = new Parser($signer);
 $claims = $parser->parse($jwt);
 
-echo $claims; // ['id' => 666, 'is-admin' => true]
+print_r($claims); // ['id' => 666, 'is-admin' => true]
 ```
 
 ### HMAC Algorithms
