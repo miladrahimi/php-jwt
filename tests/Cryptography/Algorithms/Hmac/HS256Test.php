@@ -3,6 +3,7 @@
 namespace MiladRahimi\Jwt\Tests\Cryptography\Algorithms\Hmac;
 
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
+use MiladRahimi\Jwt\Cryptography\Keys\HmacKey;
 use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 use MiladRahimi\Jwt\Tests\TestCase;
@@ -42,7 +43,7 @@ class HS256Test extends TestCase
     public function test_with_invalid_key_it_should_fail()
     {
         $this->expectException(InvalidKeyException::class);
-        new HS256('Invalid Key!');
+        HmacKey::create('Invalid Key!');
     }
 
     /**

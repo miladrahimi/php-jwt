@@ -14,7 +14,7 @@ class PrivateKeyTest extends TestCase
      */
     public function test_with_valid_key_it_should_pass()
     {
-        $key = new RsaPrivateKey(__DIR__ . '/../../../resources/test/keys/rsa-private.pem');
+        $key = new RsaPrivateKey(__DIR__ . '/../../../assets/keys/rsa-private.pem');
         $this->assertNotNull($key->getResource());
     }
 
@@ -33,6 +33,6 @@ class PrivateKeyTest extends TestCase
     public function test_with_invalid_key_file_it_should_fail()
     {
         $this->expectException(InvalidKeyException::class);
-        new RsaPrivateKey(__DIR__ . '/../../../resources/test/file.empty');
+        new RsaPrivateKey(__DIR__ . '/../../../assets/file.empty');
     }
 }

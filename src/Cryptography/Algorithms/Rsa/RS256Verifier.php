@@ -1,13 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace MiladRahimi\Jwt\Cryptography\Algorithms\Rsa;
 
-/**
- * Class RS256Verifier
- *
- * @package MiladRahimi\Jwt\Cryptography\Algorithms\Rsa
- */
 class RS256Verifier extends AbstractRsaVerifier
 {
-    protected static $name = 'RS256';
+    protected static string $name = 'RS256';
 }

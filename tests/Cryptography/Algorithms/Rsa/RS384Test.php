@@ -17,10 +17,10 @@ class RS384Test extends TestCase
     {
         $plain = 'Text';
 
-        $signer = new RS384Signer($this->privateKey);
+        $signer = new RS384Signer($this->rsaPrivateKey);
         $signature = $signer->sign($plain);
 
-        $verifier = new RS384Verifier($this->publicKey);
+        $verifier = new RS384Verifier($this->rsaPublicKey);
         $verifier->verify($plain, $signature);
 
         $this->assertTrue(true);
@@ -31,10 +31,10 @@ class RS384Test extends TestCase
      */
     public function test_signer_and_verifier_they_should_fail_with_different_plains()
     {
-        $signer = new RS384Signer($this->privateKey);
+        $signer = new RS384Signer($this->rsaPrivateKey);
         $signature = $signer->sign('Header Payload');
 
-        $verifier = new RS384Verifier($this->publicKey);
+        $verifier = new RS384Verifier($this->rsaPublicKey);
 
         $this->expectException(InvalidSignatureException::class);
         $verifier->verify('Different!', $signature);

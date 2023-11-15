@@ -101,7 +101,7 @@ class ParserTest extends TestCase
         $parser = new Parser($this->verifier);
 
         $this->expectException(InvalidTokenException::class);
-        $this->expectExceptionMessage('Token format is not valid');
+        $this->expectExceptionMessage('JWT format is not valid');
         $parser->parse($invalidJwt);
     }
 

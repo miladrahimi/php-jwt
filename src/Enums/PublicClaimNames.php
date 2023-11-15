@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace MiladRahimi\Jwt\Enums;
 
@@ -15,5 +15,5 @@ class PublicClaimNames
     const EXPIRATION_TIME = 'exp';
     const NOT_BEFORE = 'nbf';
     const ISSUED_AT = 'iat';
-    const ID = 'jti';
+    const JTI = 'jti';
 }

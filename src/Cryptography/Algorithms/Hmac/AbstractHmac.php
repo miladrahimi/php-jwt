@@ -1,39 +1,23 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace MiladRahimi\Jwt\Cryptography\Algorithms\Hmac;
 
+use MiladRahimi\Jwt\Cryptography\Keys\HmacKey;
 use MiladRahimi\Jwt\Cryptography\Signer;
 use MiladRahimi\Jwt\Cryptography\Verifier;
-use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 use MiladRahimi\Jwt\Exceptions\SigningException;
+use ValueError;
 
-/**
- * Class AbstractHmac
- *
- * @package MiladRahimi\Jwt\Cryptography\Algorithms\Hmac
- */
 abstract class AbstractHmac implements Signer, Verifier
 {
-    /**
-     * @var string Algorithm name
-     */
-    protected static $name;
+    protected static string $name;
 
-    /**
-     * @var string Encryption key
-     */
-    protected $key;
+    protected HmacKey $key;
 
-    /**
-     * AbstractHmac constructor.
-     *
-     * @param string $key
-     * @throws InvalidKeyException
-     */
-    public function __construct(string $key)
+    public function __construct(HmacKey $key)
     {
-        $this->setKey($key);
+        $this->key = $key;
     }
 
     /**
@@ -41,59 +25,35 @@ abstract class AbstractHmac implements Signer, Verifier
      */
     public function sign(string $message): string
     {
-        $signature = hash_hmac($this->algorithm(), $message, $this->key, true);
-
-        if ($signature === false) {
-            throw new SigningException();
+        try {
+            return hash_hmac($this->algorithm(), $message, "$this->key", true);
+        } catch (ValueError $e) {
+            throw new SigningException('Cannot sign the signature', 0, $e);
         }
-
-        return $signature;
     }
 
     /**
      * @inheritDoc
      */
-    public function verify(string $plain, string $signature)
+    public function verify(string $plain, string $signature): void
     {
-        if ($signature != $this->sign($plain)) {
+        if ($signature !== $this->sign($plain)) {
             throw new InvalidSignatureException();
         }
     }
 
-    /**
-     * @return string
-     */
     protected function algorithm(): string
     {
         return 'sha' . substr($this->name(), 2);
     }
 
-    /**
-     * @return string
-     */
     public function name(): string
     {
         return static::$name;
     }
 
-    /**
-     * @return string
-     */
-    public function getKey(): string
+    public function getKey(): HmacKey
     {
         return $this->key;
-    }
-
-    /**
-     * @param string $key
-     * @throws InvalidKeyException
-     */
-    public function setKey(string $key)
-    {
-        if (strlen($key) < 32 || strlen($key) > 6144) {
-            throw new InvalidKeyException();
-        }
-
-        $this->key = $key;
     }
 }

@@ -1,28 +1,23 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace MiladRahimi\Jwt\Cryptography;
 
 use MiladRahimi\Jwt\Exceptions\SigningException;
 
 /**
- * Interface Signer
- *
- * @package MiladRahimi\Jwt\Cryptography
+ * It employs cryptographic algorithms to sign messages, serving as
+ * the mechanism for generating the signature in JSON Web Tokens (JWTs).
  */
 interface Signer
 {
     /**
-     * Algorithm name
-     *
-     * @return string
+     * Retrieve the signer name
      */
     public function name(): string;
 
     /**
      * Sign the message
      *
-     * @param string $message
-     * @return string
      * @throws SigningException
      */
     public function sign(string $message): string;

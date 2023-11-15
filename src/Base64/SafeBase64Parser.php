@@ -1,12 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace MiladRahimi\Jwt\Base64;
 
-/**
- * Class SafeBase64
- *
- * @package MiladRahimi\Jwt\Base64
- */
 class SafeBase64Parser implements Base64Parser
 {
     /**

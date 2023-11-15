@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace MiladRahimi\Jwt\Cryptography\Algorithms\Rsa;
 
@@ -6,55 +6,31 @@ use MiladRahimi\Jwt\Cryptography\Keys\RsaPublicKey;
 use MiladRahimi\Jwt\Cryptography\Verifier;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 
-/**
- * Class AbstractRsaVerifier
- *
- * @package MiladRahimi\Jwt\Cryptography\Algorithms\Rsa
- */
-abstract class AbstractRsaVerifier implements Verifier
+class AbstractRsaVerifier implements Verifier
 {
     use Naming;
 
-    /**
-     * @var RsaPublicKey
-     */
-    protected $publicKey;
+    protected RsaPublicKey $publicKey;
 
-    /**
-     * AbstractRsaVerifier constructor.
-     *
-     * @param RsaPublicKey $key
-     */
     public function __construct(RsaPublicKey $key)
     {
-        $this->setPublicKey($key);
+        $this->publicKey = $key;
     }
 
     /**
      * @inheritdoc
      */
-    public function verify(string $plain, string $signature)
+    public function verify(string $plain, string $signature): void
     {
         if (openssl_verify($plain, $signature, $this->publicKey->getResource(), $this->algorithm()) !== 1) {
-            throw new InvalidSignatureException();
+            throw new InvalidSignatureException(openssl_error_string() ?: "The signature is invalid.");
         }
 
         $this->publicKey->close();
     }
 
-    /**
-     * @return RsaPublicKey
-     */
     public function getPublicKey(): RsaPublicKey
     {
         return $this->publicKey;
-    }
-
-    /**
-     * @param RsaPublicKey $publicKey
-     */
-    public function setPublicKey(RsaPublicKey $publicKey)
-    {
-        $this->publicKey = $publicKey;
     }
 }

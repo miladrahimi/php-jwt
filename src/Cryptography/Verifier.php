@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace MiladRahimi\Jwt\Cryptography;
 
@@ -6,19 +6,16 @@ use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 use MiladRahimi\Jwt\Exceptions\SigningException;
 
 /**
- * Interface Verifier
- *
- * @package MiladRahimi\Jwt\Cryptography
+ * It employs cryptographic algorithms to verify messages, serving as
+ * the mechanism for verifying the signature in JSON Web Tokens (JWTs).
  */
 interface Verifier
 {
     /**
-     * Verify token signature
+     * Verify JWT signature
      *
-     * @param string $plain
-     * @param string $signature
      * @throws InvalidSignatureException
      * @throws SigningException
      */
-    public function verify(string $plain, string $signature);
+    public function verify(string $plain, string $signature): void;
 }

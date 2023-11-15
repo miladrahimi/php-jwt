@@ -14,7 +14,7 @@ class PublicKeyTest extends TestCase
      */
     public function test_with_valid_key_it_should_pass()
     {
-        $key = new RsaPublicKey(__DIR__ . '/../../../resources/test/keys/rsa-public.pem');
+        $key = new RsaPublicKey(__DIR__ . '/../../../assets/keys/rsa-public.pem');
         $this->assertNotNull($key->getResource());
     }
 
@@ -33,6 +33,6 @@ class PublicKeyTest extends TestCase
     public function test_with_invalid_key_file_it_should_fail()
     {
         $this->expectException(InvalidKeyException::class);
-        new RsaPublicKey(__DIR__ . '/../../../resources/test/file.empty');
+        new RsaPublicKey(__DIR__ . '/../../../assets/file.empty');
     }
 }
