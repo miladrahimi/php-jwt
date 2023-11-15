@@ -13,6 +13,7 @@ os:
 branches:
   only:
   - master
+  - v3
 
 before_script:
   - composer install --no-interaction --no-suggest
