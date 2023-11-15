@@ -3,6 +3,8 @@
 namespace MiladRahimi\Jwt\Tests;
 
 use MiladRahimi\Jwt\Base64\SafeBase64Parser;
+use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
+use MiladRahimi\Jwt\Cryptography\Verifier;
 use MiladRahimi\Jwt\Enums\PublicClaimNames;
 use MiladRahimi\Jwt\Exceptions\InvalidTokenException;
 use MiladRahimi\Jwt\Exceptions\ValidationException;
@@ -14,6 +16,15 @@ use Throwable;
 
 class ParserTest extends TestCase
 {
+    protected Verifier $verifier;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->verifier = new HS256('12345678901234567890123456789012');
+    }
+
     /**
      * @throws Throwable
      */
@@ -101,7 +112,7 @@ class ParserTest extends TestCase
         $parser = new Parser($this->verifier);
 
         $this->expectException(InvalidTokenException::class);
-        $this->expectExceptionMessage('Token format is not valid');
+        $this->expectExceptionMessage('JWT format is not valid');
         $parser->parse($invalidJwt);
     }
 
@@ -123,8 +134,7 @@ class ParserTest extends TestCase
     public function test_set_and_get_json_parser()
     {
         $jsonParser = new StrictJsonParser();
-        $parser = new Parser($this->verifier);
-        $parser->setJsonParser($jsonParser);
+        $parser = new Parser($this->verifier, null, $jsonParser);
 
         $this->assertSame($jsonParser, $parser->getJsonParser());
     }
@@ -132,8 +142,7 @@ class ParserTest extends TestCase
     public function test_set_and_get_base64_parser()
     {
         $base64Parser = new SafeBase64Parser();
-        $parser = new Parser($this->verifier);
-        $parser->setBase64Parser($base64Parser);
+        $parser = new Parser($this->verifier, null, null, $base64Parser);
 
         $this->assertSame($base64Parser, $parser->getBase64Parser());
     }

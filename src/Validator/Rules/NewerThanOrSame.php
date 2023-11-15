@@ -1,23 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace MiladRahimi\Jwt\Validator\Rules;
 
 /**
- * Class NewerThanOrSame
  * It checks if the claim is newer than or same the given timestamp
- *
- * @package MiladRahimi\Jwt\Validator\Rules
  */
 class NewerThanOrSame extends GreaterThanOrEqualTo
 {
-    /**
-     * @param float $timestamp
-     */
-    public function __construct(float $timestamp)
-    {
-        parent::__construct($timestamp);
-    }
-
     /**
      * @inheritDoc
      */

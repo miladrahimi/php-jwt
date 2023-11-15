@@ -3,12 +3,23 @@
 namespace MiladRahimi\Jwt\Tests;
 
 use MiladRahimi\Jwt\Base64\SafeBase64Parser;
+use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
+use MiladRahimi\Jwt\Cryptography\Signer;
 use MiladRahimi\Jwt\Json\StrictJsonParser;
 use MiladRahimi\Jwt\Generator;
 use Throwable;
 
 class GeneratorTest extends TestCase
 {
+    protected Signer $signer;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->signer = new HS256('12345678901234567890123456789012');
+    }
+
     /**
      * @throws Throwable
      */
@@ -30,8 +41,7 @@ class GeneratorTest extends TestCase
     public function test_set_and_get_json_parser()
     {
         $jsonParser = new StrictJsonParser();
-        $generator = new Generator($this->signer);
-        $generator->setJsonParser($jsonParser);
+        $generator = new Generator($this->signer, $jsonParser);
 
         $this->assertSame($jsonParser, $generator->getJsonParser());
     }
@@ -39,8 +49,7 @@ class GeneratorTest extends TestCase
     public function test_set_and_get_base64_parser()
     {
         $base64Parser = new SafeBase64Parser();
-        $generator = new Generator($this->signer);
-        $generator->setBase64Parser($base64Parser);
+        $generator = new Generator($this->signer, null, $base64Parser);
 
         $this->assertSame($base64Parser, $generator->getBase64Parser());
     }

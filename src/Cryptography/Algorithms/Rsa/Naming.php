@@ -1,19 +1,13 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace MiladRahimi\Jwt\Cryptography\Algorithms\Rsa;
 
 /**
- * Trait Naming
- * Automatic name generator for RSA algorithm classes
- *
- * @package MiladRahimi\Jwt\Cryptography\Algorithms\Rsa
+ * Automatic algorithm name generator
  */
 trait Naming
 {
-    /**
-     * @var string  Algorithm name
-     */
-    protected static $name;
+    protected static string $name;
 
     /**
      * @inheritdoc
@@ -23,17 +17,12 @@ trait Naming
         return static::$name;
     }
 
-    /**
-     * @return int
-     */
-    protected function algorithm()
+    protected function algorithm(): int
     {
-        $table = [
+        return [
             'RS256' => OPENSSL_ALGO_SHA256,
             'RS384' => OPENSSL_ALGO_SHA384,
             'RS512' => OPENSSL_ALGO_SHA512,
-        ];
-
-        return $table[$this->name()];
+        ][$this->name()];
     }
 }

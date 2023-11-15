@@ -3,13 +3,22 @@
 namespace MiladRahimi\Jwt\Tests\Cryptography\Algorithms\Hmac;
 
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
-use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
+use MiladRahimi\Jwt\Exceptions\SigningException;
 use MiladRahimi\Jwt\Tests\TestCase;
 use Throwable;
 
 class HS256Test extends TestCase
 {
+    protected string $key = '12345678901234567890123456789012';
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->key = '12345678901234567890123456789012';
+    }
+
     /**
      * @throws Throwable
      */
@@ -41,8 +50,9 @@ class HS256Test extends TestCase
      */
     public function test_with_invalid_key_it_should_fail()
     {
-        $this->expectException(InvalidKeyException::class);
-        new HS256('Invalid Key!');
+        $this->expectException(SigningException::class);
+        $signer = new HS256('Invalid Key');
+        $signer->sign('Text');
     }
 
     /**

@@ -1,18 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace MiladRahimi\Jwt\Validator;
 
 use MiladRahimi\Jwt\Exceptions\ValidationException;
 
 /**
- * Interface Validator
- *
- * @package MiladRahimi\Jwt\Validator
+ * Validation is responsible for validating extracted claims from JWTs.
  */
 interface Validator
 {
     /**
-     * Validate given claims
+     * Validate the given claims
      *
      * @param string[] $claims
      * @throws ValidationException

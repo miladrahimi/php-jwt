@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace MiladRahimi\Jwt;
 
@@ -9,50 +9,27 @@ use MiladRahimi\Jwt\Json\StrictJsonParser;
 use MiladRahimi\Jwt\Json\JsonParser;
 
 /**
- * Class Generator
- *
- * @package MiladRahimi\Jwt
+ * Generator is responsible for crafting JSON Web Tokens (JWTs)
+ * based on specified claims.
  */
 class Generator
 {
-    /**
-     * @var Signer
-     */
-    private $signer;
+    private Signer $signer;
 
-    /**
-     * @var JsonParser
-     */
-    private $jsonParser;
+    private JsonParser $jsonParser;
 
-    /**
-     * @var Base64Parser
-     */
-    private $base64Parser;
+    private Base64Parser $base64Parser;
 
-    /**
-     * Generator constructor.
-     *
-     * @param Signer $signer
-     * @param JsonParser|null $jsonParser
-     * @param Base64Parser|null $base64Parser
-     */
-    public function __construct(
-        Signer $signer,
-        JsonParser $jsonParser = null,
-        Base64Parser $base64Parser = null
-    )
+    public function __construct(Signer $signer, JsonParser $jsonParser = null, Base64Parser $base64Parser = null)
     {
-        $this->setSigner($signer);
-        $this->setJsonParser($jsonParser ?: new StrictJsonParser());
-        $this->setBase64Parser($base64Parser ?: new SafeBase64Parser());
+        $this->signer = $signer;
+        $this->jsonParser = $jsonParser ?: new StrictJsonParser();
+        $this->base64Parser = $base64Parser ?: new SafeBase64Parser();
     }
 
     /**
-     * Generate JWT with given claims
+     * Generate JWT for the given claims
      *
-     * @param array|array[string]mixed $claims
-     * @return string JWT
      * @throws Exceptions\JsonEncodingException
      * @throws Exceptions\SigningException
      */
@@ -67,59 +44,24 @@ class Generator
 
     /**
      * Generate the JWT header
-     *
-     * @return string[]
      */
     private function header(): array
     {
         return ['alg' => $this->signer->name(), 'typ' => 'JWT'];
     }
 
-    /**
-     * @return JsonParser
-     */
     public function getJsonParser(): JsonParser
     {
         return $this->jsonParser;
     }
 
-    /**
-     * @param JsonParser $jsonParser
-     */
-    public function setJsonParser(JsonParser $jsonParser)
-    {
-        $this->jsonParser = $jsonParser;
-    }
-
-    /**
-     * @return Base64Parser
-     */
     public function getBase64Parser(): Base64Parser
     {
         return $this->base64Parser;
     }
 
-    /**
-     * @param Base64Parser $base64Parser
-     */
-    public function setBase64Parser(Base64Parser $base64Parser)
-    {
-        $this->base64Parser = $base64Parser;
-    }
-
-    /**
-     * @return Signer
-     */
     public function getSigner(): Signer
     {
         return $this->signer;
-    }
-
-    /**
-     * @param Signer $signer
-     */
-    public function setSigner(Signer $signer)
-    {
-        $this->signer = $signer;
     }
 }

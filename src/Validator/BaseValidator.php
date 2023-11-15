@@ -1,27 +1,24 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace MiladRahimi\Jwt\Validator;
 
 use MiladRahimi\Jwt\Exceptions\ValidationException;
 
 /**
- * Class BaseValidator
- *
- * @package MiladRahimi\Jwt\Validator
+ * The BaseValidator is an implementation of the Validator interface,
+ * utilizing predefined rules to validate claims. It is strongly recommended
+ * to use or extend this implementation rather than creating your own
+ * Validator interface implementation.
  */
 class BaseValidator implements Validator
 {
     /**
      * @var array[string][int]array
      */
-    protected $rules = [];
+    protected array $rules = [];
 
     /**
      * Add a new rule
-     *
-     * @param string $claimName
-     * @param Rule $rule
-     * @param bool $required
      */
     public function addRule(string $claimName, Rule $rule, bool $required = true)
     {
@@ -42,7 +39,7 @@ class BaseValidator implements Validator
                  * @var Rule $rule
                  * @var bool $required
                  */
-                list($rule, $required) = $ruleAndState;
+                [$rule, $required] = $ruleAndState;
 
                 if ($exists) {
                     $rule->validate($claimName, $value);

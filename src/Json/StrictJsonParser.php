@@ -1,15 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace MiladRahimi\Jwt\Json;
 
 use MiladRahimi\Jwt\Exceptions\JsonDecodingException;
 use MiladRahimi\Jwt\Exceptions\JsonEncodingException;
 
-/**
- * Class StrictJson
- *
- * @package MiladRahimi\Jwt\Json
- */
 class StrictJsonParser implements JsonParser
 {
     /**
@@ -37,9 +32,8 @@ class StrictJsonParser implements JsonParser
             throw new JsonDecodingException(json_last_error_msg(), json_last_error());
         }
 
-        // It must be a standard JSON
-        if (is_array($result) == false) {
-            throw new JsonDecodingException();
+        if (!is_array($result)) {
+            throw new JsonDecodingException('Claims are not in array format.');
         }
 
         return $result;

@@ -1,13 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace MiladRahimi\Jwt\Cryptography\Algorithms\Rsa;
 
-/**
- * Class RS384Signer
- *
- * @package MiladRahimi\Jwt\Cryptography\Algorithms\Rsa
- */
 class RS384Signer extends AbstractRsaSigner
 {
-    protected static $name = 'RS384';
+    protected static string $name = 'RS384';
 }

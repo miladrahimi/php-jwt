@@ -9,6 +9,15 @@ use Throwable;
 
 class HS512Test extends TestCase
 {
+    protected string $key;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->key = '12345678901234567890123456789012';
+    }
+
     /**
      * @throws Throwable
      */

@@ -4,12 +4,26 @@ namespace MiladRahimi\Jwt\Tests\Cryptography\Algorithms\Rsa;
 
 use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS256Signer;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS256Verifier;
+use MiladRahimi\Jwt\Cryptography\Keys\RsaPrivateKey;
+use MiladRahimi\Jwt\Cryptography\Keys\RsaPublicKey;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 use MiladRahimi\Jwt\Tests\TestCase;
 use Throwable;
 
 class RS256Test extends TestCase
 {
+    protected RsaPrivateKey $rsaPrivateKey;
+
+    protected RsaPublicKey $rsaPublicKey;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->rsaPrivateKey = new RsaPrivateKey(__DIR__ . '/../../../../assets/keys/rsa-private.pem');
+        $this->rsaPublicKey = new RsaPublicKey(__DIR__ . '/../../../../assets/keys/rsa-public.pem');
+    }
+
     /**
      * @throws Throwable
      */
@@ -17,10 +31,10 @@ class RS256Test extends TestCase
     {
         $plain = 'Text';
 
-        $signer = new RS256Signer($this->privateKey);
+        $signer = new RS256Signer($this->rsaPrivateKey);
         $signature = $signer->sign($plain);
 
-        $verifier = new RS256Verifier($this->publicKey);
+        $verifier = new RS256Verifier($this->rsaPublicKey);
         $verifier->verify($plain, $signature);
 
         $this->assertTrue(true);
@@ -31,10 +45,10 @@ class RS256Test extends TestCase
      */
     public function test_signer_and_verifier_they_should_fail_with_different_plains()
     {
-        $signer = new RS256Signer($this->privateKey);
+        $signer = new RS256Signer($this->rsaPrivateKey);
         $signature = $signer->sign('Header Payload');
 
-        $verifier = new RS256Verifier($this->publicKey);
+        $verifier = new RS256Verifier($this->rsaPublicKey);
 
         $this->expectException(InvalidSignatureException::class);
         $verifier->verify('Different!', $signature);
@@ -45,7 +59,7 @@ class RS256Test extends TestCase
      */
     public function test_set_and_get_private_key()
     {
-        $key = $this->privateKey;
+        $key = $this->rsaPrivateKey;
 
         $signer = new RS256Signer($key);
 
@@ -57,7 +71,7 @@ class RS256Test extends TestCase
      */
     public function test_set_and_get_public_key()
     {
-        $key = $this->publicKey;
+        $key = $this->rsaPublicKey;
 
         $verifier = new RS256Verifier($key);
 

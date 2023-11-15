@@ -2,19 +2,19 @@
 
 namespace MiladRahimi\Jwt\Tests\Cryptography\Keys;
 
-use MiladRahimi\Jwt\Cryptography\Keys\RsaPublicKey;
+use MiladRahimi\Jwt\Cryptography\Keys\RsaPrivateKey;
 use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
 use MiladRahimi\Jwt\Tests\TestCase;
 use Throwable;
 
-class PublicKeyTest extends TestCase
+class RsaPrivateKeyTest extends TestCase
 {
     /**
      * @throws Throwable
      */
     public function test_with_valid_key_it_should_pass()
     {
-        $key = new RsaPublicKey(__DIR__ . '/../../../resources/test/keys/rsa-public.pem');
+        $key = new RsaPrivateKey(__DIR__ . '/../../../assets/keys/rsa-private.pem');
         $this->assertNotNull($key->getResource());
     }
 
@@ -24,7 +24,7 @@ class PublicKeyTest extends TestCase
     public function test_with_invalid_key_path_it_should_fail()
     {
         $this->expectException(InvalidKeyException::class);
-        new RsaPublicKey('Invalid Key!');
+        new RsaPrivateKey('Invalid Key!');
     }
 
     /**
@@ -33,6 +33,6 @@ class PublicKeyTest extends TestCase
     public function test_with_invalid_key_file_it_should_fail()
     {
         $this->expectException(InvalidKeyException::class);
-        new RsaPublicKey(__DIR__ . '/../../../resources/test/file.empty');
+        new RsaPrivateKey(__DIR__ . '/../../../assets/file.empty');
     }
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace MiladRahimi\Jwt\Validator\Rules;
 
@@ -6,21 +6,12 @@ use MiladRahimi\Jwt\Exceptions\ValidationException;
 use MiladRahimi\Jwt\Validator\Rule;
 
 /**
- * Class LessThanOrEqualTo
  * It checks if the claim is less than or equal to the given number
- *
- * @package MiladRahimi\Jwt\Validator\Rules
  */
 class LessThanOrEqualTo implements Rule
 {
-    /**
-     * @var float
-     */
-    protected $number;
+    protected float $number;
 
-    /**
-     * @param float $number
-     */
     public function __construct(float $number)
     {
         $this->number = $number;
@@ -38,9 +29,6 @@ class LessThanOrEqualTo implements Rule
 
     /**
      * Generate error message
-     *
-     * @param string $name
-     * @return string
      */
     protected function message(string $name): string
     {

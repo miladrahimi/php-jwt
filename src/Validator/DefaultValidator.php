@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace MiladRahimi\Jwt\Validator;
 
@@ -7,15 +7,11 @@ use MiladRahimi\Jwt\Validator\Rules\NewerThan;
 use MiladRahimi\Jwt\Validator\Rules\OlderThanOrSame;
 
 /**
- * Class DefaultValidator
- *
- * @package MiladRahimi\Jwt\Validator
+ * DefaultValidator is equipped with essential rules right from the start,
+ * making it well-suited for general use.
  */
 class DefaultValidator extends BaseValidator
 {
-    /**
-     * DefaultVerifier constructor.
-     */
     public function __construct()
     {
         $this->addRule(

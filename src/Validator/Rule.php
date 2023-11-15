@@ -1,21 +1,17 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace MiladRahimi\Jwt\Validator;
 
 use MiladRahimi\Jwt\Exceptions\ValidationException;
 
 /**
- * Interface Rule
- *
- * @package MiladRahimi\Jwt\Validator
+ * Rule represents a validation logic that will be executed against a JWT claim.
  */
 interface Rule
 {
     /**
-     * Validate given value
+     * Validate the given value
      *
-     * @param string $name
-     * @param $value
      * @throws ValidationException
      */
     public function validate(string $name, $value);

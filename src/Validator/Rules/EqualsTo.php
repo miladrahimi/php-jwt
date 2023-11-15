@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace MiladRahimi\Jwt\Validator\Rules;
 
@@ -6,10 +6,7 @@ use MiladRahimi\Jwt\Exceptions\ValidationException;
 use MiladRahimi\Jwt\Validator\Rule;
 
 /**
- * Class EqualsTo
  * It checks if the claim equals to the given value
- *
- * @package MiladRahimi\Jwt\Validator\Rules
  */
 class EqualsTo implements Rule
 {
