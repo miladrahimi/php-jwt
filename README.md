@@ -6,67 +6,62 @@
 
 # PHP-JWT
 
-PHP-JWT is a package written in PHP programming language to encode (generate), decode (parse), verify and validate JWTs 
-(JSON Web Tokens). It provides a fluent, easy-to-use, and object-oriented interface.
+PHP-JWT is a PHP programming language package designed for encoding (generation), decoding (parsing), verification, and validation of JSON Web Tokens (JWTs).
+Featuring a fluent, user-friendly, and object-oriented interface.
 
 Confirmed by [JWT.io](https://jwt.io).
 
 ## Documentation
 
-### Versions
-* 2.x.x (LTS)
-* 1.x.x (Unsupported)
-
 ### What is JWT?
 
-In case you are unfamiliar with JWT you can read [Wikipedia](https://en.wikipedia.org/wiki/JSON_Web_Token) or 
-[JWT.io](https://jwt.io).
+If you're not familiar with JWTs, you can refer to the [Wikipedia page](https://en.wikipedia.org/wiki/JSON_Web_Token) or visit [JWT.io](https://jwt.io) for more information.
 
 ### Installation
 
-Add the package to your Composer dependencies with the following command:
+Include the package in your Composer dependencies using the following command:
 
 ```bash
-composer require miladrahimi/php-jwt "2.*"
+composer require miladrahimi/php-jwt "3.*"
 ```
 
-### Simple example
+### Quick Start
 
-The following example shows how to generate a JWT and parse it using the *HS256* algorithm.
+Here's an example demonstrating how to generate a JWT and parse it using the `HS256` algorithm:
 
 ```php
 use MiladRahimi\Jwt\Generator;
 use MiladRahimi\Jwt\Parser;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
 
-// Use HS256 to generate and parse tokens
+// Use HS256 to generate and parse JWTs
 $signer = new HS256('12345678901234567890123456789012');
 
-// Generate a token
+// Generate a JWT
 $generator = new Generator($signer);
-$jwt = $generator->generate(['id' => 666, 'is-admin' => true]);
+$jwt = $generator->generate(['id' => 13, 'is-admin' => true]);
+
+print_r($jwt); // "abc.123.xyz"
 
 // Parse the token
 $parser = new Parser($signer);
 $claims = $parser->parse($jwt);
 
-print_r($claims); // ['id' => 666, 'is-admin' => true]
+print_r($claims); // ['id' => 13, 'is-admin' => true]
 ```
 
 ### HMAC Algorithms
 
-HMAC algorithms use symmetric keys.
-A single key can both sign and verify JWTs.
-This package supports HS256, HS384, and HS512 of HMAC algorithms.
-The example mentioned above demonstrates how to use an HMAC algorithm (HS256) to sign and verify a JWT.
+HMAC algorithms indeed rely on symmetric keys, allowing a single key to both sign and verify JWTs.
+This package supports HS256, HS384, and HS512 HMAC algorithms.
+The example above showcases the utilization of an HMAC algorithm (HS256) to both sign and verify a JWT.
 
 ### RSA Algorithms
 
-RSA algorithms are asymmetric.
-A paired key is needed to sign and verify tokens.
-To sign a JWT, we use a private key, and to verify it, we use the related public key.
-These algorithms can be useful when the authentication server cannot trust resource owners.
-Take a look at the following example:
+RSA algorithms work with pairs of keys: a private key for signing JWTs and a corresponding public key for verification.
+This method is useful when the authentication server can't completely trust resource owners.
+This package supports RS256, RS384, and RS512 RSA algorithms.
+The example below demonstrates this process.
 
 ```php
 use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS256Signer;
@@ -80,7 +75,9 @@ use MiladRahimi\Jwt\Parser;
 $privateKey = new RsaPrivateKey('/path/to/private.pem');
 $signer = new RS256Signer($privateKey);
 $generator = new Generator($signer);
-$jwt = $generator->generate(['id' => 666, 'is-admin' => true]);
+$jwt = $generator->generate(['id' => 13, 'is-admin' => true]);
+
+print_r($jwt); // "abc.123.xyz"
 
 // Parse the token
 $publicKey = new RsaPublicKey('/path/to/public.pem');
@@ -88,11 +85,42 @@ $verifier = new RS256Verifier($publicKey);
 $parser = new Parser($verifier);
 $claims = $parser->parse($jwt);
 
-print_r($claims); // ['id' => 666, 'is-admin' => true]
+print_r($claims); // ['id' => 13, 'is-admin' => true]
 ```
 
-You can read [this instruction](https://en.wikibooks.org/wiki/Cryptography/Generate_a_keypair_using_OpenSSL)
-to learn how to generate a pair (public/private) RSA key.
+You can refer to [this instruction](https://en.wikibooks.org/wiki/Cryptography/Generate_a_keypair_using_OpenSSL) to learn how to generate a pair of RSA keys,
+one for public use and the other for private use, using OpenSSL.
+
+### ECDSA Algorithms
+
+The ECDSA algorithm, like RSA, operates asymmetrically, providing a comparably secure solution while offering heightened security measures.
+This package supports ES256, ES256K, and RS384 ECDSA algorithms.
+The example below demonstrates this process.
+
+```php
+use MiladRahimi\Jwt\Cryptography\Algorithms\Ecdsa\ES384Signer;
+use MiladRahimi\Jwt\Cryptography\Algorithms\Ecdsa\ES384Verifier;
+use MiladRahimi\Jwt\Cryptography\Keys\EcdsaPrivateKey;
+use MiladRahimi\Jwt\Cryptography\Keys\EcdsaPublicKey;
+use MiladRahimi\Jwt\Generator;
+use MiladRahimi\Jwt\Parser;
+
+// Generate a token
+$privateKey = new EcdsaPrivateKey('/path/to/private.pem');
+$signer = new ES384Signer($privateKey);
+$generator = new Generator($signer);
+$jwt = $generator->generate(['id' => 13, 'is-admin' => true]);
+
+print_r($jwt); // "abc.123.xyz"
+
+// Parse the token
+$publicKey = new EcdsaPublicKey('/path/to/public.pem');
+$verifier = new ES384Verifier($publicKey);
+$parser = new Parser($verifier);
+$claims = $parser->parse($jwt);
+
+print_r($claims); // ['id' => 13, 'is-admin' => true]
+```
 
 ### Validation
 
