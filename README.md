@@ -52,15 +52,15 @@ print_r($claims); // ['id' => 13, 'is-admin' => true]
 
 ### HMAC Algorithms
 
-HMAC algorithms indeed rely on symmetric keys, allowing a single key to both sign and verify JWTs.
-This package supports HS256, HS384, and HS512 HMAC algorithms.
-The example above showcases the utilization of an HMAC algorithm (HS256) to both sign and verify a JWT.
+HMAC algorithms indeed rely on symmetric keys, allowing a single key to both encode (sign) and decode (verify) JWTs.
+The PHP-JWT package supports `HS256`, `HS384`, and `HS512` HMAC algorithms.
+The example above showcases the utilization of an HMAC algorithm to both sign and verify a JWT.
 
 ### RSA Algorithms
 
 RSA algorithms work with pairs of keys: a private key for signing JWTs and a corresponding public key for verification.
 This method is useful when the authentication server can't completely trust resource owners.
-This package supports RS256, RS384, and RS512 RSA algorithms.
+The PHP-JWT package supports `RS256`, `RS384`, and `RS512` RSA algorithms.
 The example below demonstrates this process.
 
 ```php
@@ -93,8 +93,8 @@ one for public use and the other for private use, using OpenSSL.
 
 ### ECDSA Algorithms
 
-The ECDSA algorithm, like RSA, operates asymmetrically, providing a comparably secure solution while offering heightened security measures.
-This package supports ES256, ES256K, and RS384 ECDSA algorithms.
+The ECDSA algorithm, similar to RSA, operates asymmetrically, providing even stronger security measures than RSA.
+The PHP-JWT package supports `ES256`, `ES256K`, and `RS384` ECDSA algorithms.
 The example below demonstrates this process.
 
 ```php
@@ -122,11 +122,42 @@ $claims = $parser->parse($jwt);
 print_r($claims); // ['id' => 13, 'is-admin' => true]
 ```
 
+## EdDSA Algorithm
+
+EdDSA, similar to RSA and ECDSA, is an asymmetric cryptography algorithm and is widely recommended.
+In order to utilize it, ensure that the `sodium` PHP extension is installed in your environment.
+The following example demonstrates how to use it.
+
+```php
+use MiladRahimi\Jwt\Cryptography\Algorithms\Eddsa\EdDsaSigner;
+use MiladRahimi\Jwt\Cryptography\Algorithms\Eddsa\EdDsaVerifier;
+use MiladRahimi\Jwt\Generator;
+use MiladRahimi\Jwt\Parser;
+
+// Generate a token
+$privateKey = base64_decode(file_get_contents(__DIR__ . '/../assets/keys/ed25519.sec'));
+$signer = new EdDsaSigner($privateKey);
+$generator = new Generator($signer);
+$jwt = $generator->generate(['id' => 666, 'is-admin' => true]);
+
+print_r($jwt); // "abc.123.xyz"
+
+// Parse the token
+$publicKey = base64_decode(file_get_contents(__DIR__ . '/../assets/keys/ed25519.pub'));
+$verifier = new EdDsaVerifier($publicKey);
+$parser = new Parser($verifier);
+$claims = $parser->parse($jwt);
+
+print_r($claims); // ['id' => 13, 'is-admin' => true]
+```
+
+Please note that EdDSA keys must be in string format. If they are already base64 encoded, decoding them is necessary before use.
+
 ### Validation
 
-In default, the package verifies the JWT signature, validates some of the public claims if they exist (using `DefaultValidator`), and parse the claims.
-If you have your custom claims, you can add their validation rules, as well.
-See this example:
+By default, the package validates certain public claims if present (using `DefaultValidator`), and parses the claims.
+If you have custom claims, you can include their validation rules as well.
+Check out this example:
 
 ```php
 use MiladRahimi\Jwt\Parser;
@@ -138,7 +169,7 @@ $jwt = '...'; // Get the JWT from the user
 
 $signer = new HS256('12345678901234567890123456789012');
 
-// Add Validation (Extend the DefaultValidator)
+// Extend the DefaultValidator
 $validator = new DefaultValidator();
 $validator->addRule('is-admin', new EqualsTo(true));
 
@@ -153,17 +184,15 @@ try {
 }
 ```
 
-In the example above, we extended `DefaultValidator`.
-This validator has some built-in Rules for public claims.
-We also recommend you extend it for your validation.
-The `DefaultValidator` is a subclass of the `BaseValidator`.
-You can also use the `BaseValidator` for your validations, but you will lose the built-in Rules, and you have to add all the Rules by yourself.
+In the aforementioned example, we extended `DefaultValidator`, which comes with pre-defined Rules for public claims.
+We strongly suggest extending it for your validation.
+Note that `DefaultValidator` is a subclass of `BaseValidator`.
+While you can utilize `BaseValidator` for your validations, opting for this means losing the built-in Rules, requiring you to manually add all the Rules yourself.
 
 #### Rules
 
-Validators use the Rules to validate the claims.
-Each Rule determines eligible values for a claim.
-These are the built-in Rules you can find under the namespace `MiladRahimi\Jwt\Validator\Rules`:
+Validators rely on Rules to validate claims, with each Rule specifying acceptable values for a claim.
+You can access the built-in Rules within the `MiladRahimi\Jwt\Validator\Rules` namespace.
 
 * [ConsistsOf](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/ConsistsOf.php)
 * [EqualsTo](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/EqualsTo.php)
@@ -179,14 +208,14 @@ These are the built-in Rules you can find under the namespace `MiladRahimi\Jwt\V
 * [OlderThan](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/OlderThan.php)
 * [OlderThanOrSame](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/OlderThanOrSame.php)
 
-You can see their description in their class doc-blocks.
+Descriptions for each Rule can be found within their respective class doc-blocks.
 
 #### Required and Optional Rules
 
-You can add a rule to a validator as required or optional.
-If the Rule is required, validation will fail when the related claim is not present in the JWT claims.
+You can assign a rule as required or optional within a validator.
+When a Rule is marked as required, the validation will fail if the associated claim is missing from the JWT claims.
 
-This example demonstrates how to add rules as required and optional:
+Here's an example illustrating how to designate rules as required or optional:
 
 ```php
 $validator = new DefaultValidator();
@@ -203,8 +232,9 @@ $validator->addRule('exp', new NewerThan(time()), false);
 
 #### Custom Rules
 
-You create your own Rules if the built-in ones cannot meet your needs.
-To create a Rule, you must implement the `Rule` interface like the following example that shows the `Even` Rule which is going to check if the given claim is an even number or not:
+If the provided built-in Rules don't fulfill your requirements, you can create custom Rules.
+To do so, implement the `Rule` interface.
+For instance, consider the `Even` Rule below, designed to verify whether a given claim represents an even number:
 
 ```php
 use MiladRahimi\Jwt\Exceptions\ValidationException;
@@ -223,7 +253,7 @@ class Even implements Rule
 
 ### Error Handling
 
-Here are the exceptions that the package throw:
+Here are the exceptions that the package might throw:
 * `InvalidKeyException`:
   * By `Generator` and `Parser` methods.
   * When the provided key is not valid.
@@ -244,7 +274,7 @@ Here are the exceptions that the package throw:
   * When cannot sign the token using the provided signer or key.
 * `ValidationException`:
   * By `Parser::parse()` and `Parser::validate()` methods.
-  * When one of the validation rules fail.
+  * When one of the validation rules fails.
 
 ## License
 PHP-JWT is initially created by [Milad Rahimi](http://miladrahimi.com)
