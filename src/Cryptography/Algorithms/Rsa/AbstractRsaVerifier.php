@@ -8,7 +8,7 @@ use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 
 class AbstractRsaVerifier implements Verifier
 {
-    use Naming;
+    use Algorithm;
 
     protected RsaPublicKey $publicKey;
 
@@ -25,8 +25,6 @@ class AbstractRsaVerifier implements Verifier
         if (openssl_verify($plain, $signature, $this->publicKey->getResource(), $this->algorithm()) !== 1) {
             throw new InvalidSignatureException(openssl_error_string() ?: "The signature is invalid.");
         }
-
-        $this->publicKey->close();
     }
 
     public function getPublicKey(): RsaPublicKey

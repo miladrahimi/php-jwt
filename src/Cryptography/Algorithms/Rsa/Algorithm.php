@@ -3,9 +3,9 @@
 namespace MiladRahimi\Jwt\Cryptography\Algorithms\Rsa;
 
 /**
- * Automatic algorithm name generator
+ * Automatic algorithm-based value generator
  */
-trait Naming
+trait Algorithm
 {
     protected static string $name;
 

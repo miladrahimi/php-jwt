@@ -2,7 +2,9 @@
 
 namespace MiladRahimi\Jwt\Cryptography\Algorithms\Ecdsa;
 
+use MiladRahimi\Jwt\Cryptography\Keys\EcdsaPublicKey;
 use MiladRahimi\Jwt\Cryptography\Verifier;
+use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 use function chr;
 use function ltrim;
 use function ord;
@@ -11,11 +13,28 @@ use function strlen;
 
 abstract class AbstractEcdsaVerifier implements Verifier
 {
-    use Naming;
+    use Algorithm;
 
-    private const ASN1_INTEGER = 0x02;
-    private const ASN1_SEQUENCE = 0x10;
-    private const ASN1_BIT_STRING = 0x03;
+    protected const ASN1_INTEGER = 0x02;
+    protected const ASN1_SEQUENCE = 0x10;
+
+    protected EcdsaPublicKey $publicKey;
+
+    public function __construct(EcdsaPublicKey $key)
+    {
+        $this->publicKey = $key;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function verify(string $plain, string $signature): void
+    {
+        $signature = $this->signatureToDer($signature);
+        if (openssl_verify($plain, $signature, $this->publicKey->getResource(), $this->algorithm()) !== 1) {
+            throw new InvalidSignatureException(openssl_error_string() ?: "The signature is invalid.");
+        }
+    }
 
     protected function signatureToDer(string $signature): string
     {
@@ -49,5 +68,10 @@ abstract class AbstractEcdsaVerifier implements Verifier
         $der .= chr(strlen($value));
 
         return $der . $value;
+    }
+
+    public function getPublicKey(): EcdsaPublicKey
+    {
+        return $this->publicKey;
     }
 }

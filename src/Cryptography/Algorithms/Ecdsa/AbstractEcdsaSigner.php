@@ -2,7 +2,9 @@
 
 namespace MiladRahimi\Jwt\Cryptography\Algorithms\Ecdsa;
 
+use MiladRahimi\Jwt\Cryptography\Keys\EcdsaPrivateKey;
 use MiladRahimi\Jwt\Cryptography\Signer;
+use MiladRahimi\Jwt\Exceptions\SigningException;
 use function ltrim;
 use function ord;
 use function str_pad;
@@ -11,9 +13,25 @@ use function substr;
 
 abstract class AbstractEcdsaSigner implements Signer
 {
-    use Naming;
+    use Algorithm;
 
-    private const ASN1_BIT_STRING = 0x03;
+    protected const ASN1_BIT_STRING = 0x03;
+
+    protected EcdsaPrivateKey $privateKey;
+
+    public function __construct(EcdsaPrivateKey $privateKey)
+    {
+        $this->privateKey = $privateKey;
+    }
+
+    public function sign(string $message): string
+    {
+        if (openssl_sign($message, $signature, $this->privateKey->getResource(), $this->algorithm()) === true) {
+            return $this->derToSignature($signature, $this->keySize());
+        }
+
+        throw new SigningException(openssl_error_string() ?: "OpenSSL cannot sign the token.");
+    }
 
     protected function derToSignature(string $der, int $keySize): string
     {
@@ -54,9 +72,14 @@ abstract class AbstractEcdsaSigner implements Signer
             $data = substr($der, $pos, $len);
             $pos += $len;
         } else {
-            $data = null;
+            $data = '';
         }
 
         return [$pos, $data];
+    }
+
+    public function getPrivateKey(): EcdsaPrivateKey
+    {
+        return $this->privateKey;
     }
 }

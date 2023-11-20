@@ -112,7 +112,11 @@ class ExamplesTest extends TestCase
      */
     public function test_validation()
     {
-        $jwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjY2LCJpcy1hZG1pbiI6dHJ1ZX0.Abq2XaKQKCxGEdp9_CHsT8FHL1VGAoE76q7zx8-uqX0';
+        $jwt = join('.', [
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9',
+            'eyJpZCI6NjY2LCJpcy1hZG1pbiI6dHJ1ZX0',
+            'Abq2XaKQKCxGEdp9_CHsT8FHL1VGAoE76q7zx8-uqX0',
+        ]);
 
         $signer = new HS256('12345678901234567890123456789012');
 

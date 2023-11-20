@@ -8,7 +8,7 @@ use MiladRahimi\Jwt\Exceptions\SigningException;
 
 class AbstractRsaSigner implements Signer
 {
-    use Naming;
+    use Algorithm;
 
     protected RsaPrivateKey $privateKey;
 
@@ -25,7 +25,6 @@ class AbstractRsaSigner implements Signer
         $signature = '';
 
         if (openssl_sign($message, $signature, $this->privateKey->getResource(), $this->algorithm()) === true) {
-            $this->privateKey->close();
             return $signature;
         }
 

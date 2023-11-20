@@ -3,9 +3,9 @@
 namespace MiladRahimi\Jwt\Cryptography\Algorithms\Ecdsa;
 
 /**
- * Automatic algorithm name generator
+ * Automatic algorithm-based value generator
  */
-trait Naming
+trait Algorithm
 {
     protected static string $name;
 
@@ -22,7 +22,16 @@ trait Naming
         return [
             'ES256' => OPENSSL_ALGO_SHA256,
             'ES256K' => OPENSSL_ALGO_SHA256,
-            'ES384' => OPENSSL_ALGO_SHA384,
+            'ES384' => OPENSSL_ALGO_SHA512,
         ][$this->name()];
+    }
+
+    protected function keySize(): int
+    {
+        return [
+            'ES256' => 256,
+            'ES256K' => 256,
+            'ES384' => 384,
+        ][static::$name];
     }
 }
