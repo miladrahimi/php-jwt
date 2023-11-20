@@ -15,9 +15,12 @@ abstract class AbstractHmac implements Signer, Verifier
 
     protected string $key;
 
-    public function __construct(string $key)
+    protected ?string $kid;
+
+    public function __construct(string $key, ?string $kid = null)
     {
         $this->key = $key;
+        $this->kid = $kid;
     }
 
     /**
@@ -45,14 +48,28 @@ abstract class AbstractHmac implements Signer, Verifier
         }
     }
 
+    /**
+     * Generate algorithm name based on the key name
+     */
     protected function algorithm(): string
     {
         return 'sha' . substr($this->name(), 2);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function name(): string
     {
         return static::$name;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function kid(): string
+    {
+        return $this->key;
     }
 
     public function getKey(): string

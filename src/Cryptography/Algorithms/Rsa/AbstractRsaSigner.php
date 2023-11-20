@@ -12,9 +12,12 @@ class AbstractRsaSigner implements Signer
 
     protected RsaPrivateKey $privateKey;
 
-    public function __construct(RsaPrivateKey $publicKey)
+    protected ?string $kid;
+
+    public function __construct(RsaPrivateKey $publicKey, ?string $kid = null)
     {
         $this->privateKey = $publicKey;
+        $this->kid = $kid;
     }
 
     /**
@@ -29,6 +32,14 @@ class AbstractRsaSigner implements Signer
         }
 
         throw new SigningException(openssl_error_string() ?: "OpenSSL cannot sign the token.");
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function kid(): ?string
+    {
+        return $this->kid;
     }
 
     public function getPrivateKey(): RsaPrivateKey

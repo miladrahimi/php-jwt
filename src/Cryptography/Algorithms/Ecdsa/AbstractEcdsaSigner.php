@@ -19,6 +19,8 @@ abstract class AbstractEcdsaSigner implements Signer
 
     protected EcdsaPrivateKey $privateKey;
 
+    protected ?string $kid;
+
     public function __construct(EcdsaPrivateKey $privateKey)
     {
         $this->privateKey = $privateKey;
@@ -76,6 +78,14 @@ abstract class AbstractEcdsaSigner implements Signer
         }
 
         return [$pos, $data];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function kid(): ?string
+    {
+        return $this->kid;
     }
 
     public function getPrivateKey(): EcdsaPrivateKey

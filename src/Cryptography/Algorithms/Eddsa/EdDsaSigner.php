@@ -14,9 +14,12 @@ class EdDsaSigner implements Signer
 
     protected string $privateKey;
 
-    public function __construct(string $privateKey)
+    protected ?string $kid;
+
+    public function __construct(string $privateKey, ?string $kid = null)
     {
         $this->privateKey = $privateKey;
+        $this->kid = $kid;
     }
 
     /**
@@ -38,6 +41,11 @@ class EdDsaSigner implements Signer
     public function name(): string
     {
         return static::$name;
+    }
+
+    public function kid(): ?string
+    {
+        return $this->kid;
     }
 
     public function getPrivateKey(): string
