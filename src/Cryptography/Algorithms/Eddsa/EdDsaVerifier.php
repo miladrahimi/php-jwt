@@ -2,8 +2,7 @@
 
 namespace MiladRahimi\Jwt\Cryptography\Algorithms\Eddsa;
 
-use MiladRahimi\Jwt\Base64\Base64Parser;
-use MiladRahimi\Jwt\Base64\SafeBase64Parser;
+use MiladRahimi\Jwt\Cryptography\Keys\EdDsaPublicKey;
 use MiladRahimi\Jwt\Cryptography\Verifier;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 use RuntimeException;
@@ -13,11 +12,11 @@ class EdDsaVerifier implements Verifier
 {
     protected static string $name = 'EdDSA';
 
-    protected string $publicKey;
+    protected EdDsaPublicKey $publicKey;
 
-    public function __construct(string $key)
+    public function __construct(EdDsaPublicKey $publicKey)
     {
-        $this->publicKey = $key;
+        $this->publicKey = $publicKey;
     }
 
     /**
@@ -27,7 +26,7 @@ class EdDsaVerifier implements Verifier
     {
         if (function_exists('sodium_crypto_sign_verify_detached')) {
             try {
-                if (!sodium_crypto_sign_verify_detached($signature, $plain, $this->publicKey)) {
+                if (!sodium_crypto_sign_verify_detached($signature, $plain, $this->publicKey->getContent())) {
                     throw new InvalidSignatureException('Signature is to verified');
                 }
             } catch (SodiumException $e) {
@@ -43,7 +42,15 @@ class EdDsaVerifier implements Verifier
         return static::$name;
     }
 
-    public function getPublicKey(): string
+    /**
+     * @inheritDoc
+     */
+    public function kid(): ?string
+    {
+        return $this->publicKey->getId();
+    }
+
+    public function getPublicKey(): EdDsaPublicKey
     {
         return $this->publicKey;
     }

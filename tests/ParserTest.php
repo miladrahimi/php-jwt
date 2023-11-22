@@ -4,6 +4,7 @@ namespace MiladRahimi\Jwt\Tests;
 
 use MiladRahimi\Jwt\Base64\SafeBase64Parser;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
+use MiladRahimi\Jwt\Cryptography\Keys\HmacKey;
 use MiladRahimi\Jwt\Cryptography\Verifier;
 use MiladRahimi\Jwt\Enums\PublicClaimNames;
 use MiladRahimi\Jwt\Exceptions\InvalidTokenException;
@@ -22,7 +23,7 @@ class ParserTest extends TestCase
     {
         parent::setUp();
 
-        $this->verifier = new HS256('12345678901234567890123456789012');
+        $this->verifier = new HS256(new HmacKey('12345678901234567890123456789012'));
     }
 
     /**

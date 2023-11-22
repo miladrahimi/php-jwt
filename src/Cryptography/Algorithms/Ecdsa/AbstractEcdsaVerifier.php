@@ -20,9 +20,9 @@ abstract class AbstractEcdsaVerifier implements Verifier
 
     protected EcdsaPublicKey $publicKey;
 
-    public function __construct(EcdsaPublicKey $key)
+    public function __construct(EcdsaPublicKey $publicKey)
     {
-        $this->publicKey = $key;
+        $this->publicKey = $publicKey;
     }
 
     /**
@@ -68,6 +68,14 @@ abstract class AbstractEcdsaVerifier implements Verifier
         $der .= chr(strlen($value));
 
         return $der . $value;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function kid(): ?string
+    {
+        return $this->publicKey->getId();
     }
 
     public function getPublicKey(): EcdsaPublicKey

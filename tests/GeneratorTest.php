@@ -4,6 +4,7 @@ namespace MiladRahimi\Jwt\Tests;
 
 use MiladRahimi\Jwt\Base64\SafeBase64Parser;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
+use MiladRahimi\Jwt\Cryptography\Keys\HmacKey;
 use MiladRahimi\Jwt\Cryptography\Signer;
 use MiladRahimi\Jwt\Json\StrictJsonParser;
 use MiladRahimi\Jwt\Generator;
@@ -17,7 +18,7 @@ class GeneratorTest extends TestCase
     {
         parent::setUp();
 
-        $this->signer = new HS256('12345678901234567890123456789012');
+        $this->signer = new HS256(new HmacKey('12345678901234567890123456789012'));
     }
 
     /**

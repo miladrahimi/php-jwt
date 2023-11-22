@@ -135,15 +135,15 @@ use MiladRahimi\Jwt\Generator;
 use MiladRahimi\Jwt\Parser;
 
 // Generate a token
-$privateKey = base64_decode(file_get_contents(__DIR__ . '/../assets/keys/ed25519.sec'));
+$privateKey = base64_decode(file_get_contents('/path/to/ed25519.sec'));
 $signer = new EdDsaSigner($privateKey);
 $generator = new Generator($signer);
-$jwt = $generator->generate(['id' => 666, 'is-admin' => true]);
+$jwt = $generator->generate(['id' => 13, 'is-admin' => true]);
 
 print_r($jwt); // "abc.123.xyz"
 
 // Parse the token
-$publicKey = base64_decode(file_get_contents(__DIR__ . '/../assets/keys/ed25519.pub'));
+$publicKey = base64_decode(file_get_contents('/path/to/ed25519.pub'));
 $verifier = new EdDsaVerifier($publicKey);
 $parser = new Parser($verifier);
 $claims = $parser->parse($jwt);
@@ -178,7 +178,7 @@ $parser = new Parser($signer, $validator);
 
 try {
     $claims = $parser->parse($jwt);
-    echo $claims; // ['id' => 666, 'is-admin' => true]
+    echo $claims; // ['id' => 13, 'is-admin' => true]
 } catch (ValidationException $e) {
     // Handle error.
 }
