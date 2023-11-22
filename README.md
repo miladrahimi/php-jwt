@@ -2,6 +2,7 @@
 [![Total Downloads](https://poser.pugx.org/miladrahimi/php-jwt/downloads)](https://packagist.org/packages/miladrahimi/php-jwt)
 [![Build](https://github.com/miladrahimi/php-jwt/actions/workflows/ci.yml/badge.svg)](https://github.com/miladrahimi/php-jwt/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/miladrahimi/php-jwt/graph/badge.svg?token=KctrYUweFd)](https://codecov.io/gh/miladrahimi/php-jwt)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/miladrahimi/php-jwt/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/miladrahimi/php-jwt/?branch=master)
 [![License](https://poser.pugx.org/miladrahimi/php-jwt/license)](https://packagist.org/packages/miladrahimi/php-jwt)
 
 # PHP-JWT
