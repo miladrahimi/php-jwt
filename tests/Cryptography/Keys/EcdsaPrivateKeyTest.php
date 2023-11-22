@@ -3,6 +3,7 @@
 namespace Cryptography\Keys;
 
 use MiladRahimi\Jwt\Cryptography\Keys\EcdsaPrivateKey;
+use MiladRahimi\Jwt\Cryptography\Keys\RsaPrivateKey;
 use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
 use MiladRahimi\Jwt\Tests\TestCase;
 use Throwable;
@@ -16,6 +17,15 @@ class EcdsaPrivateKeyTest extends TestCase
     {
         $key = new EcdsaPrivateKey(__DIR__ . '/../../../assets/keys/ecdsa256-private.pem');
         $this->assertNotNull($key->getResource());
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function test_id()
+    {
+        $key = new EcdsaPrivateKey(__DIR__ . '/../../../assets/keys/ecdsa256-private.pem', '', 'id-1');
+        $this->assertEquals('id-1', $key->getId());
     }
 
     /**
