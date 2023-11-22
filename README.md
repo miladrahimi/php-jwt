@@ -252,7 +252,7 @@ class Even implements Rule
 }
 ```
 
-### KID Header
+### Multiple Keys
 
 The `kid` parameter within the JWT header plays a crucial role in managing multiple keys efficiently.
 By leveraging the "kid" header, you can assign a unique key identifier (kid) to each key that you use to sign JWTs.
