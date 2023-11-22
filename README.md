@@ -310,15 +310,18 @@ print_r($claims); // ['id' => 13, 'is-admin' => true]
 ### Error Handling
 
 Here are the exceptions that the package might throw:
-* `InvalidKeyException` when the provided key is not valid (encoding).
-* `InvalidSignatureException` when the JWT signature is not valid (decoding).
-* `InvalidTokenException` when the JWT format is not valid, for example, it has no payload (decoding).
-* `JsonDecodingException` when the JSON extracted from JWT is not valid (decoding).
-* `JsonEncodingException` when cannot convert the provided claims to JSON (encoding).
-* `SigningException` when cannot sign the token using the provided signer or key (encoding).
-* `ValidationException` when one of the validation rules fails (decoding).
-* `NoKidException` by `VerifierFactory` when there is no `kid` in the token header.
-* `VerifierNotFoundException` by `VerifierFactory` when no key/verifier matches the `kid` in the token header.
+* Encoding:
+  * `InvalidKeyException` when the provided key is not valid.
+  * `JsonEncodingException` when cannot convert the provided claims to JSON.
+  * `SigningException` when cannot sign the token using the provided signer or key.
+* Decoding:
+  * `InvalidTokenException` when the JWT format is not valid (for example, it has no payload).
+  * `InvalidSignatureException` when the JWT signature is not valid.
+  * `JsonDecodingException` when the JSON extracted from JWT is not valid.
+  * `ValidationException` when at least one of the validation rules fails.
+* Finding Verifier:
+  * `NoKidException` when there is no `kid` in the token header.
+  * `VerifierNotFoundException` when no key/verifier matches the `kid` in the token header.
 
 ## License
 PHP-JWT is initially created by [Milad Rahimi](http://miladrahimi.com)
