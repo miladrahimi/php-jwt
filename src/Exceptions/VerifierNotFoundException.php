@@ -4,7 +4,7 @@ namespace MiladRahimi\Jwt\Exceptions;
 
 use Exception;
 
-class JsonDecodingException extends Exception
+class VerifierNotFoundException extends Exception
 {
     //
 }

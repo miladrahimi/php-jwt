@@ -2,13 +2,10 @@
 
 namespace MiladRahimi\Jwt\Tests\Cryptography\Algorithms\Eddsa;
 
-use MiladRahimi\Jwt\Cryptography\Algorithms\Ecdsa\ES256Signer;
-use MiladRahimi\Jwt\Cryptography\Algorithms\Ecdsa\ES256Verifier;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Eddsa\EdDsaSigner;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Eddsa\EdDsaVerifier;
-use MiladRahimi\Jwt\Cryptography\Keys\EcdsaPrivateKey;
-use MiladRahimi\Jwt\Cryptography\Keys\EcdsaPublicKey;
-use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
+use MiladRahimi\Jwt\Cryptography\Keys\EdDsaPrivateKey;
+use MiladRahimi\Jwt\Cryptography\Keys\EdDsaPublicKey;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 use MiladRahimi\Jwt\Exceptions\SigningException;
 use MiladRahimi\Jwt\Tests\TestCase;
@@ -16,15 +13,19 @@ use Throwable;
 
 class EdDsaTest extends TestCase
 {
-    protected string $privateKey;
-    protected string $publicKey;
+    protected EdDsaPrivateKey $privateKey;
+    protected EdDsaPublicKey $publicKey;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->privateKey = base64_decode(file_get_contents(__DIR__ . '/../../../../assets/keys/ed25519.sec'));
-        $this->publicKey = base64_decode(file_get_contents(__DIR__ . '/../../../../assets/keys/ed25519.pub'));
+        $this->privateKey = new EdDsaPrivateKey(
+            base64_decode(file_get_contents(__DIR__ . '/../../../../assets/keys/ed25519.sec'))
+        );
+        $this->publicKey = new EdDsaPublicKey(
+            base64_decode(file_get_contents(__DIR__ . '/../../../../assets/keys/ed25519.pub'))
+        );
     }
 
     /**
@@ -64,7 +65,7 @@ class EdDsaTest extends TestCase
     {
         $this->expectException(SigningException::class);
 
-        $signer = new EdDsaSigner('Invalid Key!');
+        $signer = new EdDsaSigner(new EdDsaPrivateKey('Invalid Key!'));
         $signer->sign('Header Payload');
     }
 

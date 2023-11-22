@@ -27,18 +27,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         ];
 
         $this->sampleJwt = join('.', [
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9',
+            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9',
             'eyJzdWIiOjY2NiwiZXhwIjoxNTczMjUyODYzLCJuYmYiOjE1NzMxNjY0NjMsImlhdCI6MTU3MzE2NjQ2MywiaXNzIjoiVGVzdCEifQ',
-            'CpOJ34DnOpG1lnSgmUpoCby8jQW7LiYeNMSLNEEMiuY'
+            'zWb5oOGhQNCf39ahmFofCRJhzWTFFPMdKrzro5XGq5U',
         ]);
-    }
-
-    protected function expectExceptionMessageFormat(string $format)
-    {
-        if (method_exists($this, 'expectExceptionMessageMatches')) {
-            $this->expectExceptionMessageMatches($format);
-        } else {
-            $this->expectExceptionMessageRegExp($format);
-        }
     }
 }

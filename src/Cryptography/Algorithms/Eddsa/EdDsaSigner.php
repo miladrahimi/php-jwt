@@ -2,6 +2,7 @@
 
 namespace MiladRahimi\Jwt\Cryptography\Algorithms\Eddsa;
 
+use MiladRahimi\Jwt\Cryptography\Keys\EdDsaPrivateKey;
 use MiladRahimi\Jwt\Cryptography\Signer;
 use MiladRahimi\Jwt\Exceptions\SigningException;
 use RuntimeException;
@@ -12,14 +13,11 @@ class EdDsaSigner implements Signer
 {
     protected static string $name = 'EdDSA';
 
-    protected string $privateKey;
+    protected EdDsaPrivateKey $privateKey;
 
-    protected ?string $kid;
-
-    public function __construct(string $privateKey, ?string $kid = null)
+    public function __construct(EdDsaPrivateKey $privateKey)
     {
         $this->privateKey = $privateKey;
-        $this->kid = $kid;
     }
 
     /**
@@ -29,7 +27,7 @@ class EdDsaSigner implements Signer
     {
         if (function_exists('sodium_crypto_sign_detached')) {
             try {
-                return sodium_crypto_sign_detached($message, $this->privateKey);
+                return sodium_crypto_sign_detached($message, $this->privateKey->getContent());
             } catch (SodiumException $e) {
                 throw new SigningException("Cannot sign using Sodium extension", 0, $e);
             }
@@ -45,10 +43,10 @@ class EdDsaSigner implements Signer
 
     public function kid(): ?string
     {
-        return $this->kid;
+        return $this->privateKey->getId();
     }
 
-    public function getPrivateKey(): string
+    public function getPrivateKey(): EdDsaPrivateKey
     {
         return $this->privateKey;
     }

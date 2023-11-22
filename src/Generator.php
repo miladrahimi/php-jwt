@@ -47,7 +47,11 @@ class Generator
      */
     private function header(): array
     {
-        return ['alg' => $this->signer->name(), 'typ' => 'JWT'];
+        $header = ['typ' => 'JWT', 'alg' => $this->signer->name()];
+        if ($this->signer->kid() !== null) {
+            $header['kid'] = $this->signer->kid();
+        }
+        return $header;
     }
 
     public function getJsonParser(): JsonParser

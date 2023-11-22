@@ -2,6 +2,7 @@
 
 namespace MiladRahimi\Jwt\Cryptography\Algorithms\Hmac;
 
+use MiladRahimi\Jwt\Cryptography\Keys\HmacKey;
 use MiladRahimi\Jwt\Cryptography\Signer;
 use MiladRahimi\Jwt\Cryptography\Verifier;
 use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
@@ -13,14 +14,11 @@ abstract class AbstractHmac implements Signer, Verifier
 {
     protected static string $name;
 
-    protected string $key;
+    protected HmacKey $key;
 
-    protected ?string $kid;
-
-    public function __construct(string $key, ?string $kid = null)
+    public function __construct(HmacKey $key)
     {
         $this->key = $key;
-        $this->kid = $kid;
     }
 
     /**
@@ -29,10 +27,10 @@ abstract class AbstractHmac implements Signer, Verifier
     public function sign(string $message): string
     {
         try {
-            if (strlen($this->key) < 32 || strlen($this->key) > 6144) {
+            if (strlen($this->key->getContent()) < 32 || strlen($this->key->getContent()) > 6144) {
                 throw new InvalidKeyException('Key length must be between 32 and 6144');
             }
-            return hash_hmac($this->algorithm(), $message, "$this->key", true);
+            return hash_hmac($this->algorithm(), $message, $this->key->getContent(), true);
         } catch (ValueError|InvalidKeyException $e) {
             throw new SigningException('Cannot sign the signature', 0, $e);
         }
@@ -67,12 +65,12 @@ abstract class AbstractHmac implements Signer, Verifier
     /**
      * @inheritDoc
      */
-    public function kid(): string
+    public function kid(): ?string
     {
-        return $this->key;
+        return $this->key->getId();
     }
 
-    public function getKey(): string
+    public function getKey(): HmacKey
     {
         return $this->key;
     }

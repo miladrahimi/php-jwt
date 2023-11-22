@@ -12,12 +12,9 @@ class AbstractRsaSigner implements Signer
 
     protected RsaPrivateKey $privateKey;
 
-    protected ?string $kid;
-
-    public function __construct(RsaPrivateKey $publicKey, ?string $kid = null)
+    public function __construct(RsaPrivateKey $publicKey)
     {
         $this->privateKey = $publicKey;
-        $this->kid = $kid;
     }
 
     /**
@@ -39,7 +36,7 @@ class AbstractRsaSigner implements Signer
      */
     public function kid(): ?string
     {
-        return $this->kid;
+        return $this->privateKey->getId();
     }
 
     public function getPrivateKey(): RsaPrivateKey

@@ -12,9 +12,9 @@ class AbstractRsaVerifier implements Verifier
 
     protected RsaPublicKey $publicKey;
 
-    public function __construct(RsaPublicKey $key)
+    public function __construct(RsaPublicKey $publicKey)
     {
-        $this->publicKey = $key;
+        $this->publicKey = $publicKey;
     }
 
     /**
@@ -25,6 +25,14 @@ class AbstractRsaVerifier implements Verifier
         if (openssl_verify($plain, $signature, $this->publicKey->getResource(), $this->algorithm()) !== 1) {
             throw new InvalidSignatureException(openssl_error_string() ?: "The signature is invalid.");
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function kid(): ?string
+    {
+        return $this->publicKey->getId();
     }
 
     public function getPublicKey(): RsaPublicKey

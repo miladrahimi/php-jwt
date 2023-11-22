@@ -41,7 +41,7 @@ class DefaultValidatorTest extends TestCase
         $validator = new DefaultValidator();
 
         $this->expectException(ValidationException::class);
-        $this->expectExceptionMessageFormat('/^The `exp` must be newer than `.+`.$/');
+        $this->expectExceptionMessageMatches('/^The `exp` must be newer than `.+`.$/');
         $validator->validate([
             'exp' => time() - 60 * 60 * 24,
         ]);
@@ -68,7 +68,7 @@ class DefaultValidatorTest extends TestCase
         $validator = new DefaultValidator();
 
         $this->expectException(ValidationException::class);
-        $this->expectExceptionMessageFormat('/^The `nbf` must be older than or same `.+`.$/');
+        $this->expectExceptionMessageMatches('/^The `nbf` must be older than or same `.+`.$/');
         $validator->validate([
             'nbf' => time() + 60 * 60 * 24,
         ]);
@@ -95,7 +95,7 @@ class DefaultValidatorTest extends TestCase
         $validator = new DefaultValidator();
 
         $this->expectException(ValidationException::class);
-        $this->expectExceptionMessageFormat('/^The `iat` must be older than or same `.+`.$/');
+        $this->expectExceptionMessageMatches('/^The `iat` must be older than or same `.+`.$/');
         $validator->validate([
             'iat' => time() + 60 * 60 * 24,
         ]);

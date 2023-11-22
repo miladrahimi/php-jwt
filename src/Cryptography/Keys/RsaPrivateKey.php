@@ -12,10 +12,12 @@ class RsaPrivateKey
      */
     private $resource;
 
+    protected ?string $id;
+
     /**
      * @throws InvalidKeyException
      */
-    public function __construct(string $filePath, string $passphrase = '')
+    public function __construct(string $filePath, string $passphrase = '', ?string $id = null)
     {
         try {
             $this->resource = openssl_pkey_get_private(file_get_contents(realpath($filePath)), $passphrase);
@@ -26,6 +28,8 @@ class RsaPrivateKey
         if ($this->resource === false) {
             throw new InvalidKeyException(openssl_error_string());
         }
+
+        $this->id = $id;
     }
 
     /**
@@ -34,5 +38,10 @@ class RsaPrivateKey
     public function getResource()
     {
         return $this->resource;
+    }
+
+    public function getId(): ?string
+    {
+        return $this->id;
     }
 }
