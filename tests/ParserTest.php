@@ -141,7 +141,7 @@ class ParserTest extends TestCase
         $parser = new Parser($this->verifier);
 
         $this->expectException(InvalidTokenException::class);
-        $this->expectExceptionMessage('JWT of type x is not supported.');
+        $this->expectExceptionMessage('JWT of type `x` is not supported.');
         $parser->parse($noTypJwt);
     }
 

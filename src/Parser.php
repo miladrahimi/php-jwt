@@ -76,7 +76,7 @@ class Parser
         $sections = explode('.', $jwt);
 
         if (count($sections) !== 3) {
-            throw new Exceptions\InvalidTokenException('JWT format is not valid');
+            throw new Exceptions\InvalidTokenException('JWT format is not valid.');
         }
 
         return $sections;
@@ -151,7 +151,7 @@ class Parser
             throw new InvalidTokenException('JWT header does not have `typ` field.');
         }
         if ($fields['typ'] !== 'JWT') {
-            throw new InvalidTokenException("JWT of type {$fields['typ']} is not supported.");
+            throw new InvalidTokenException("JWT of type `{$fields['typ']}` is not supported.");
         }
 
         if (isset($fields['kid'])) {
