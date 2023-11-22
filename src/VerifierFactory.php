@@ -48,7 +48,7 @@ class VerifierFactory
      * @throws NoKidException
      * @throws VerifierNotFoundException
      */
-    public function getVerifier(string $jwt)
+    public function getVerifier(string $jwt): Verifier
     {
         $header = $this->jsonParser->decode($this->base64Parser->decode($this->extractHeader($jwt)));
 
