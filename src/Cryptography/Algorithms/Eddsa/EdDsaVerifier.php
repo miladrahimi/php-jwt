@@ -27,13 +27,13 @@ class EdDsaVerifier implements Verifier
         if (function_exists('sodium_crypto_sign_verify_detached')) {
             try {
                 if (!sodium_crypto_sign_verify_detached($signature, $plain, $this->publicKey->getContent())) {
-                    throw new InvalidSignatureException('Signature is to verified');
+                    throw new InvalidSignatureException('Signature is to verified.');
                 }
             } catch (SodiumException $e) {
-                throw new InvalidSignatureException('Sodium cannot verify the signature', 0, $e);
+                throw new InvalidSignatureException('Sodium cannot verify the signature.', 0, $e);
             }
         } else {
-            throw new RuntimeException('sodium_crypto_sign_verify_detached function is not available');
+            throw new RuntimeException('sodium_crypto_sign_verify_detached function is not available.');
         }
     }
 

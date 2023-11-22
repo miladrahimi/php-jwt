@@ -29,11 +29,11 @@ class EdDsaSigner implements Signer
             try {
                 return sodium_crypto_sign_detached($message, $this->privateKey->getContent());
             } catch (SodiumException $e) {
-                throw new SigningException("Cannot sign using Sodium extension", 0, $e);
+                throw new SigningException("Cannot sign using Sodium extension.", 0, $e);
             }
         }
 
-        throw new RuntimeException('The sodium_crypto_sign_detached function is not available');
+        throw new RuntimeException('The sodium_crypto_sign_detached function is not available.');
     }
 
     public function name(): string

@@ -57,7 +57,7 @@ class VerifierFactory
                 return $this->verifiers[$header['kid']];
             }
 
-            throw new VerifierNotFoundException("No verifier found for {$header['kid']}");
+            throw new VerifierNotFoundException("No verifier found for kid `{$header['kid']}`.");
         }
 
         throw new NoKidException();
@@ -73,7 +73,7 @@ class VerifierFactory
         $sections = explode('.', $jwt);
 
         if (count($sections) !== 3) {
-            throw new Exceptions\InvalidTokenException('JWT format is not valid');
+            throw new Exceptions\InvalidTokenException('JWT format is not valid,');
         }
 
         return $sections[0];

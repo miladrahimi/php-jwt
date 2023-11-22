@@ -129,11 +129,10 @@ class ExamplesTest extends TestCase
         // Generate tokens
 
         $signer1 = new RS256Signer($privateKey1);
-        $signer2 = new ES384Signer($privateKey2);
-
         $generator1 = new Generator($signer1);
         $jwt1 = $generator1->generate(['id' => 13, 'is-admin' => true]);
 
+        $signer2 = new ES384Signer($privateKey2);
         $generator2 = new Generator($signer2);
         $jwt2 = $generator2->generate(['id' => 13, 'is-admin' => true]);
 
