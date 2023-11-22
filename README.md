@@ -179,7 +179,7 @@ $parser = new Parser($signer, $validator);
 
 try {
     $claims = $parser->parse($jwt);
-    echo $claims; // ['id' => 13, 'is-admin' => true]
+    print_r($claims); // ['id' => 13, 'is-admin' => true]
 } catch (ValidationException $e) {
     // Handle error.
 }
@@ -250,6 +250,61 @@ class Even implements Rule
         }
     }
 }
+```
+
+### KID Header
+
+The `kid` parameter within the JWT header plays a crucial role in managing multiple keys efficiently.
+By leveraging the "kid" header, you can assign a unique key identifier (kid) to each key that you use to sign JWTs.
+This enables seamless verification of JWTs by associating them with their respective key identifiers (kid).
+Check out this example:
+
+```php
+use MiladRahimi\Jwt\Cryptography\Algorithms\Ecdsa\ES384Signer;
+use MiladRahimi\Jwt\Cryptography\Algorithms\Ecdsa\ES384Verifier;
+use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS256Signer;
+use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS256Verifier;
+use MiladRahimi\Jwt\Cryptography\Keys\EcdsaPrivateKey;
+use MiladRahimi\Jwt\Cryptography\Keys\EcdsaPublicKey;
+use MiladRahimi\Jwt\Cryptography\Keys\RsaPrivateKey;
+use MiladRahimi\Jwt\Cryptography\Keys\RsaPublicKey;
+use MiladRahimi\Jwt\Generator;
+use MiladRahimi\Jwt\Parser;
+
+$privateKey1 = new RsaPrivateKey('/path/to/rsa-private.pem', '', 'key-1');
+$publicKey1 = new RsaPublicKey('/path/to/rsa-public.pem', 'key-1');
+
+$privateKey2 = new EcdsaPrivateKey('/path/to/ecdsa384-private.pem', '', 'key-2');
+$publicKey2 = new EcdsaPublicKey('/path/to/ecdsa384-public.pem', 'key-2');
+
+// Generate tokens
+
+$signer1 = new RS256Signer($privateKey1);
+$generator1 = new Generator($signer1);
+$jwt1 = $generator1->generate(['id' => 13, 'is-admin' => true]);
+// JWT header: {"alg": "RS256", "typ": "JWT", "kid": "key-1"}
+
+$signer2 = new ES384Signer($privateKey2);
+$generator2 = new Generator($signer2);
+$jwt2 = $generator2->generate(['id' => 13, 'is-admin' => true]);
+// JWT header: {"alg": "ES384", "typ": "JWT", "kid": "key-2"}
+
+// Parse tokens
+
+$verifierFactory = new VerifierFactory([
+    new RS256Verifier($publicKey1),
+    new ES384Verifier($publicKey2),
+]);
+
+$verifier1 = $verifierFactory->getVerifier($jwt1); // instance of RS256Verifier
+$parser1 = new Parser($verifier1);
+$claims = $parser1->parse($jwt1); // ['id' => 13, 'is-admin' => true]
+print_r($claims); // ['id' => 13, 'is-admin' => true]
+
+$verifier2 = $verifierFactory->getVerifier($jwt2); // instance of ES384Verifier
+$parser2 = new Parser($verifier2);
+$claims = $parser2->parse($jwt2);
+print_r($claims); // ['id' => 13, 'is-admin' => true]
 ```
 
 ### Error Handling
