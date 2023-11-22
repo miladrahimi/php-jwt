@@ -298,13 +298,13 @@ $verifierFactory = new VerifierFactory([
 
 $verifier1 = $verifierFactory->getVerifier($jwt1); // instance of RS256Verifier
 $parser1 = new Parser($verifier1);
-$claims = $parser1->parse($jwt1);
-print_r($claims); // ['id' => 13, 'is-admin' => true]
+$claims1 = $parser1->parse($jwt1);
+print_r($claims1); // ['id' => 13, 'is-admin' => true]
 
 $verifier2 = $verifierFactory->getVerifier($jwt2); // instance of ES384Verifier
 $parser2 = new Parser($verifier2);
-$claims = $parser2->parse($jwt2);
-print_r($claims); // ['id' => 13, 'is-admin' => true]
+$claims2 = $parser2->parse($jwt2);
+print_r($claims2); // ['id' => 13, 'is-admin' => true]
 ```
 
 ### Error Handling
