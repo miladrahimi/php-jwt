@@ -6,6 +6,7 @@ use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS256Signer;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS256Verifier;
 use MiladRahimi\Jwt\Cryptography\Keys\RsaPrivateKey;
 use MiladRahimi\Jwt\Cryptography\Keys\RsaPublicKey;
+use MiladRahimi\Jwt\Exceptions\InvalidTokenException;
 use MiladRahimi\Jwt\Exceptions\NoKidException;
 use MiladRahimi\Jwt\Exceptions\VerifierNotFoundException;
 use MiladRahimi\Jwt\Generator;
@@ -43,12 +44,18 @@ class VerifierFactoryTest extends TestCase
         $verifierFactory->getVerifier($noKidJwt);
 
         $this->expectException(VerifierNotFoundException::class);
-        $noKidJwt = join('.', [
+        $differentKidJwt = join('.', [
             'eyJ0eXAiOiJKV1QiLCJraWQiOiJyYW5kb20iLCJhbGciOiJIUzI1NiJ9',
             'eyJzdWIiOjY2NiwiZXhwIjoxNTczMjUyODYzLCJuYmYiOjE1NzMxNjY0NjMsImlhdCI6MTU3MzE2NjQ2MywiaXNzIjoiVGVzdCEifQ',
             'tGm81161CtfqSi0iKKC4E7afIxTjiEPY_UVb-knYFa4',
         ]);
+        $verifierFactory->getVerifier($differentKidJwt);
+
+        $this->expectException(InvalidTokenException::class);
+        $noKidJwt = join('.', [
+            'eyJ0eXAiOiJKV1QiLCJraWQiOiJyYW5kb20iLCJhbGciOiJIUzI1NiJ9',
+            'eyJzdWIiOjY2NiwiZXhwIjoxNTczMjUyODYzLCJuYmYiOjE1NzMxNjY0NjMsImlhdCI6MTU3MzE2NjQ2MywiaXNzIjoiVGVzdCEifQ',
+        ]);
         $verifierFactory->getVerifier($noKidJwt);
     }
-
 }
