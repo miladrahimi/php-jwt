@@ -311,17 +311,17 @@ print_r($claims); // ['id' => 13, 'is-admin' => true]
 
 Here are the exceptions that the package might throw:
 * Encoding:
-  * `InvalidKeyException` when the provided key is not valid.
-  * `JsonEncodingException` when cannot convert the provided claims to JSON.
-  * `SigningException` when cannot sign the token using the provided signer or key.
+  * [InvalidKeyException](src/Exceptions/InvalidKeyException.php) when the provided key is not valid.
+  * [JsonEncodingException](src/Exceptions/JsonEncodingException.php) when cannot convert the provided claims to JSON.
+  * [SigningException](src/Exceptions/SigningException.php) when cannot sign the token using the provided signer or key.
 * Decoding:
-  * `InvalidTokenException` when the JWT format is not valid (for example, it has no payload).
-  * `InvalidSignatureException` when the JWT signature is not valid.
-  * `JsonDecodingException` when the JSON extracted from JWT is not valid.
-  * `ValidationException` when at least one of the validation rules fails.
+  * [InvalidTokenException](src/Exceptions/InvalidTokenException.php) when the JWT format is not valid (for example, it has no payload).
+  * [InvalidSignatureException](src/Exceptions/InvalidSignatureException.php) when the JWT signature is not valid.
+  * [JsonDecodingException](src/Exceptions/JsonDecodingException.php) when the JSON extracted from JWT is not valid.
+  * [ValidationException](src/Exceptions/ValidationException.php) when at least one of the validation rules fails.
 * Finding Verifier:
-  * `NoKidException` when there is no `kid` in the token header.
-  * `VerifierNotFoundException` when no key/verifier matches the `kid` in the token header.
+  * [NoKidException](src/Exceptions/NoKidException.php) when there is no `kid` in the token header.
+  * [VerifierNotFoundException](src/Exceptions/VerifierNotFoundException.php) when no key/verifier matches the `kid` in the token header.
 
 ## License
 PHP-JWT is initially created by [Milad Rahimi](http://miladrahimi.com)
