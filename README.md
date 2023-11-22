@@ -262,10 +262,10 @@ Here are the exceptions that the package might throw:
   * By `Parser::parse()`, `Parser::verify()`, and `Parser::validate()` methods.
   * When the JWT signature is not valid.
 * `InvalidTokenException`:
-  * By `Parser::parse()`, `Parser::verify()`, and `Parser::validate()` methods.
+  * By `Parser::parse()`, `Parser::verify()`, `Parser::validate()`, and `VerifierFactory::getVerifier()` methods.
   * When the JWT format is not valid (for example it has no payload).
 * `JsonDecodingException`:
-  * By `Parser::parse()` and `Parser::validate()` methods.
+  * By `Parser::parse()` and `Parser::validate()`, and `VerifierFactory::getVerifier()` methods.
   * When the JSON extracted from JWT is not valid.
 * `JsonEncodingException`:
   * By `Generator::generate()` method.
@@ -276,6 +276,12 @@ Here are the exceptions that the package might throw:
 * `ValidationException`:
   * By `Parser::parse()` and `Parser::validate()` methods.
   * When one of the validation rules fails.
+* `NoKidException`:
+  * By `VerifierFactory::getVerifier()` method.
+  * When there is no `kid` in the token header.
+* `VerifierNotFoundException`:
+  * By `VerifierFactory::getVerifier()` method.
+  * When no key/verifier is found for the requested `kid` in the token header.
 
 ## License
 PHP-JWT is initially created by [Milad Rahimi](http://miladrahimi.com)
