@@ -2,6 +2,7 @@
 [![Total Downloads](https://poser.pugx.org/miladrahimi/php-jwt/downloads)](https://packagist.org/packages/miladrahimi/php-jwt)
 [![Build](https://github.com/miladrahimi/php-jwt/actions/workflows/ci.yml/badge.svg)](https://github.com/miladrahimi/php-jwt/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/miladrahimi/php-jwt/graph/badge.svg?token=KctrYUweFd)](https://codecov.io/gh/miladrahimi/php-jwt)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/miladrahimi/php-jwt/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/miladrahimi/php-jwt/?branch=master)
 [![License](https://poser.pugx.org/miladrahimi/php-jwt/license)](https://packagist.org/packages/miladrahimi/php-jwt)
 
 # PHP-JWT
@@ -178,7 +179,7 @@ $parser = new Parser($signer, $validator);
 
 try {
     $claims = $parser->parse($jwt);
-    echo $claims; // ['id' => 13, 'is-admin' => true]
+    print_r($claims); // ['id' => 13, 'is-admin' => true]
 } catch (ValidationException $e) {
     // Handle error.
 }
@@ -208,7 +209,7 @@ You can access the built-in Rules within the `MiladRahimi\Jwt\Validator\Rules` n
 * [OlderThan](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/OlderThan.php)
 * [OlderThanOrSame](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/OlderThanOrSame.php)
 
-Descriptions for each Rule can be found within their respective class doc-blocks.
+Descriptions for each Rule can be found within their respective class doc blocks.
 
 #### Required and Optional Rules
 
@@ -251,30 +252,73 @@ class Even implements Rule
 }
 ```
 
+### KID Header
+
+The `kid` parameter within the JWT header plays a crucial role in managing multiple keys efficiently.
+By leveraging the "kid" header, you can assign a unique key identifier (kid) to each key that you use to sign JWTs.
+This enables seamless verification of JWTs by associating them with their respective key identifiers (kid).
+Check out this example:
+
+```php
+use MiladRahimi\Jwt\Cryptography\Algorithms\Ecdsa\ES384Signer;
+use MiladRahimi\Jwt\Cryptography\Algorithms\Ecdsa\ES384Verifier;
+use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS256Signer;
+use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS256Verifier;
+use MiladRahimi\Jwt\Cryptography\Keys\EcdsaPrivateKey;
+use MiladRahimi\Jwt\Cryptography\Keys\EcdsaPublicKey;
+use MiladRahimi\Jwt\Cryptography\Keys\RsaPrivateKey;
+use MiladRahimi\Jwt\Cryptography\Keys\RsaPublicKey;
+use MiladRahimi\Jwt\Generator;
+use MiladRahimi\Jwt\Parser;
+
+$privateKey1 = new RsaPrivateKey('/path/to/rsa-private.pem', '', 'key-1');
+$publicKey1 = new RsaPublicKey('/path/to/rsa-public.pem', 'key-1');
+
+$privateKey2 = new EcdsaPrivateKey('/path/to/ecdsa384-private.pem', '', 'key-2');
+$publicKey2 = new EcdsaPublicKey('/path/to/ecdsa384-public.pem', 'key-2');
+
+// Generate tokens
+
+$signer1 = new RS256Signer($privateKey1);
+$generator1 = new Generator($signer1);
+$jwt1 = $generator1->generate(['id' => 13, 'is-admin' => true]);
+// $jwt1 header: {"alg": "RS256", "typ": "JWT", "kid": "key-1"}
+
+$signer2 = new ES384Signer($privateKey2);
+$generator2 = new Generator($signer2);
+$jwt2 = $generator2->generate(['id' => 13, 'is-admin' => true]);
+// $jwt2 header: {"alg": "ES384", "typ": "JWT", "kid": "key-2"}
+
+// Parse tokens
+
+$verifierFactory = new VerifierFactory([
+    new RS256Verifier($publicKey1),
+    new ES384Verifier($publicKey2),
+]);
+
+$verifier1 = $verifierFactory->getVerifier($jwt1); // instance of RS256Verifier
+$parser1 = new Parser($verifier1);
+$claims = $parser1->parse($jwt1);
+print_r($claims); // ['id' => 13, 'is-admin' => true]
+
+$verifier2 = $verifierFactory->getVerifier($jwt2); // instance of ES384Verifier
+$parser2 = new Parser($verifier2);
+$claims = $parser2->parse($jwt2);
+print_r($claims); // ['id' => 13, 'is-admin' => true]
+```
+
 ### Error Handling
 
 Here are the exceptions that the package might throw:
-* `InvalidKeyException`:
-  * By `Generator` and `Parser` methods.
-  * When the provided key is not valid.
-* `InvalidSignatureException`:
-  * By `Parser::parse()`, `Parser::verify()`, and `Parser::validate()` methods.
-  * When the JWT signature is not valid.
-* `InvalidTokenException`:
-  * By `Parser::parse()`, `Parser::verify()`, and `Parser::validate()` methods.
-  * When the JWT format is not valid (for example it has no payload).
-* `JsonDecodingException`:
-  * By `Parser::parse()` and `Parser::validate()` methods.
-  * When the JSON extracted from JWT is not valid.
-* `JsonEncodingException`:
-  * By `Generator::generate()` method.
-  * When cannot convert the provided claims to JSON.
-* `SigningException`:
-  * By `Generator::generate()` method.
-  * When cannot sign the token using the provided signer or key.
-* `ValidationException`:
-  * By `Parser::parse()` and `Parser::validate()` methods.
-  * When one of the validation rules fails.
+* `InvalidKeyException` when the provided key is not valid (encoding).
+* `InvalidSignatureException` when the JWT signature is not valid (decoding).
+* `InvalidTokenException` when the JWT format is not valid, for example, it has no payload (decoding).
+* `JsonDecodingException` when the JSON extracted from JWT is not valid (decoding).
+* `JsonEncodingException` when cannot convert the provided claims to JSON (encoding).
+* `SigningException` when cannot sign the token using the provided signer or key (encoding).
+* `ValidationException` when one of the validation rules fails (decoding).
+* `NoKidException` by `VerifierFactory` when there is no `kid` in the token header.
+* `VerifierNotFoundException` by `VerifierFactory` when no key/verifier matches the `kid` in the token header.
 
 ## License
 PHP-JWT is initially created by [Milad Rahimi](http://miladrahimi.com)
