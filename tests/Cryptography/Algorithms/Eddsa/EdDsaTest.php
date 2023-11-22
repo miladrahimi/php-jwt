@@ -21,10 +21,12 @@ class EdDsaTest extends TestCase
         parent::setUp();
 
         $this->privateKey = new EdDsaPrivateKey(
-            base64_decode(file_get_contents(__DIR__ . '/../../../../assets/keys/ed25519.sec'))
+            base64_decode(file_get_contents(__DIR__ . '/../../../../assets/keys/ed25519.sec')),
+            'id-1'
         );
         $this->publicKey = new EdDsaPublicKey(
-            base64_decode(file_get_contents(__DIR__ . '/../../../../assets/keys/ed25519.pub'))
+            base64_decode(file_get_contents(__DIR__ . '/../../../../assets/keys/ed25519.pub')),
+            'id-1'
         );
     }
 
@@ -74,11 +76,9 @@ class EdDsaTest extends TestCase
      */
     public function test_set_and_get_private_key()
     {
-        $key = $this->privateKey;
-
         $signer = new EdDsaSigner($this->privateKey);
 
-        $this->assertSame($key, $signer->getPrivateKey());
+        $this->assertSame($this->privateKey, $signer->getPrivateKey());
         $this->assertSame('EdDSA', $signer->name());
     }
 
@@ -87,10 +87,25 @@ class EdDsaTest extends TestCase
      */
     public function test_set_and_get_public_key()
     {
-        $key = $this->publicKey;
-
         $verifier = new EdDsaVerifier($this->publicKey);
+        $this->assertSame($this->publicKey, $verifier->getPublicKey());
+    }
 
-        $this->assertSame($key, $verifier->getPublicKey());
+    /**
+     * @throws Throwable
+     */
+    public function test_name()
+    {
+        $verifier = new EdDsaVerifier($this->publicKey);
+        $this->assertSame('EdDSA', $verifier->name());
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function test_kid()
+    {
+        $verifier = new EdDsaVerifier($this->publicKey);
+        $this->assertSame($this->publicKey->getId(), $verifier->kid());
     }
 }

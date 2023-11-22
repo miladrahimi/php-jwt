@@ -117,6 +117,34 @@ class ParserTest extends TestCase
         $parser->parse($invalidJwt);
     }
 
+    /**
+     * @throws Throwable
+     */
+    public function test_parse_with_a_jwt_without_typ_it_should_fail()
+    {
+        $noTypJwt = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NjYifQ.cIDA-W5EVXB8Y3JQAgPRpIB19fDsaTHPgDg1XoTImA8";
+
+        $parser = new Parser($this->verifier);
+
+        $this->expectException(InvalidTokenException::class);
+        $this->expectExceptionMessage('JWT header does not have `typ` field.');
+        $parser->parse($noTypJwt);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function test_parse_with_a_jwt_with_non_jwt_typ()
+    {
+        $noTypJwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IngifQ.eyJzdWIiOiI2NjYifQ.Ut195bqywLi3TtWjo4461lVxo7RudOJGPdD1zBA_Z2gU";
+
+        $parser = new Parser($this->verifier);
+
+        $this->expectException(InvalidTokenException::class);
+        $this->expectExceptionMessage('JWT of type x is not supported.');
+        $parser->parse($noTypJwt);
+    }
+
     public function test_set_and_get_verifier()
     {
         $parser = new Parser($this->verifier);

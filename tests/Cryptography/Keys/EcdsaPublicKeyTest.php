@@ -2,6 +2,7 @@
 
 namespace Cryptography\Keys;
 
+use MiladRahimi\Jwt\Cryptography\Keys\EcdsaPrivateKey;
 use MiladRahimi\Jwt\Cryptography\Keys\EcdsaPublicKey;
 use MiladRahimi\Jwt\Cryptography\Keys\RsaPublicKey;
 use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
@@ -17,6 +18,15 @@ class EcdsaPublicKeyTest extends TestCase
     {
         $key = new EcdsaPublicKey(__DIR__ . '/../../../assets/keys/ecdsa256-public.pem');
         $this->assertNotNull($key->getResource());
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function test_id()
+    {
+        $key = new EcdsaPublicKey(__DIR__ . '/../../../assets/keys/ecdsa256-public.pem', 'id-1');
+        $this->assertEquals('id-1', $key->getId());
     }
 
     /**
