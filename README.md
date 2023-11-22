@@ -282,12 +282,12 @@ $publicKey2 = new EcdsaPublicKey('/path/to/ecdsa384-public.pem', 'key-2');
 $signer1 = new RS256Signer($privateKey1);
 $generator1 = new Generator($signer1);
 $jwt1 = $generator1->generate(['id' => 13, 'is-admin' => true]);
-// JWT header: {"alg": "RS256", "typ": "JWT", "kid": "key-1"}
+// $jwt1 header: {"alg": "RS256", "typ": "JWT", "kid": "key-1"}
 
 $signer2 = new ES384Signer($privateKey2);
 $generator2 = new Generator($signer2);
 $jwt2 = $generator2->generate(['id' => 13, 'is-admin' => true]);
-// JWT header: {"alg": "ES384", "typ": "JWT", "kid": "key-2"}
+// $jwt2 header: {"alg": "ES384", "typ": "JWT", "kid": "key-2"}
 
 // Parse tokens
 
@@ -298,7 +298,7 @@ $verifierFactory = new VerifierFactory([
 
 $verifier1 = $verifierFactory->getVerifier($jwt1); // instance of RS256Verifier
 $parser1 = new Parser($verifier1);
-$claims = $parser1->parse($jwt1); // ['id' => 13, 'is-admin' => true]
+$claims = $parser1->parse($jwt1);
 print_r($claims); // ['id' => 13, 'is-admin' => true]
 
 $verifier2 = $verifierFactory->getVerifier($jwt2); // instance of ES384Verifier
