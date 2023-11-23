@@ -7,8 +7,8 @@
 
 # PHP-JWT
 
-PHP-JWT is a PHP programming language package designed for encoding (generation), decoding (parsing), verification, and validation of JSON Web Tokens (JWTs).
-Featuring a fluent, user-friendly, and object-oriented interface.
+PHP-JWT is a PHP package built for encoding (generating), decoding (parsing), verifying, and validating JSON Web Tokens (JWTs).
+Its design emphasizes a fluent, user-friendly, and object-oriented interface, crafted with performance in mind.
 
 Confirmed by [JWT.io](https://jwt.io).
 
