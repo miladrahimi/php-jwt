@@ -36,7 +36,8 @@ use MiladRahimi\Jwt\Parser;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
 
 // Use HS256 to generate and parse JWTs
-$signer = new HS256('12345678901234567890123456789012');
+$key = new HmacKey('12345678901234567890123456789012');
+$signer = new HS256($key);
 
 // Generate a JWT
 $generator = new Generator($signer);
@@ -168,7 +169,7 @@ use MiladRahimi\Jwt\Validator\Rules\EqualsTo;
 
 $jwt = '...'; // Get the JWT from the user
 
-$signer = new HS256('12345678901234567890123456789012');
+$signer = new HS256(new HmacKey('12345678901234567890123456789012'));
 
 // Extend the DefaultValidator
 $validator = new DefaultValidator();
