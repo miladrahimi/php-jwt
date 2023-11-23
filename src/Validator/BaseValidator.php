@@ -19,10 +19,28 @@ class BaseValidator implements Validator
 
     /**
      * Add a new rule
+     *
+     * @deprecated Use addRequiredRule() or addOptionalRule() methods instead.
      */
     public function addRule(string $claimName, Rule $rule, bool $required = true)
     {
         $this->rules[$claimName][] = [$rule, $required];
+    }
+
+    /**
+     * Add a new required rule
+     */
+    public function addRequiredRule(string $claimName, Rule $rule)
+    {
+        $this->rules[$claimName][] = [$rule, true];
+    }
+
+    /**
+     * Add a new required rule
+     */
+    public function addOptionalRule(string $claimName, Rule $rule)
+    {
+        $this->rules[$claimName][] = [$rule, false];
     }
 
     /**

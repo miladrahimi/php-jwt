@@ -14,20 +14,8 @@ class DefaultValidator extends BaseValidator
 {
     public function __construct()
     {
-        $this->addRule(
-            PublicClaimNames::EXPIRATION_TIME,
-            new NewerThan(time()),
-            false
-        );
-        $this->addRule(
-            PublicClaimNames::NOT_BEFORE,
-            new OlderThanOrSame(time()),
-            false
-        );
-        $this->addRule(
-            PublicClaimNames::ISSUED_AT,
-            new OlderThanOrSame(time()),
-            false
-        );
+        $this->addOptionalRule(PublicClaimNames::EXPIRATION_TIME, new NewerThan(time()));
+        $this->addOptionalRule(PublicClaimNames::NOT_BEFORE, new OlderThanOrSame(time()));
+        $this->addOptionalRule(PublicClaimNames::ISSUED_AT, new OlderThanOrSame(time()));
     }
 }
