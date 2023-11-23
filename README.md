@@ -11,10 +11,10 @@ PHP-JWT is a PHP package built for encoding (generating), decoding (parsing), ve
 Its design emphasizes a fluent, user-friendly, and object-oriented interface, crafted with performance in mind.
 
 Supported algorithms:
-* HMAC algorithms: `HS256`, `HS384`, and `HS512`
-* RSA algorithms: `RS256`, `RS384`, and `RS512`
-* ECDSA algorithms: `ES256`, `ES256K`, and `RS384`
-* EdDSA algorithm
+* HMAC: `HS256`, `HS384`, and `HS512`
+* RSA: `RS256`, `RS384`, and `RS512`
+* ECDSA: `ES256`, `ES256K`, and `RS384`
+* `EdDSA`
 
 Supported features:
 * Built-in and custom validations
