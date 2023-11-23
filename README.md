@@ -10,6 +10,16 @@
 PHP-JWT is a PHP package built for encoding (generating), decoding (parsing), verifying, and validating JSON Web Tokens (JWTs).
 Its design emphasizes a fluent, user-friendly, and object-oriented interface, crafted with performance in mind.
 
+Supported algorithms:
+* HMAC algorithms: `HS256`, `HS384`, and `HS512`
+* RSA algorithms: `RS256`, `RS384`, and `RS512`
+* ECDSA algorithms: `ES256`, `ES256K`, and `RS384`
+* EdDSA algorithm
+
+Supported features:
+* Built-in and custom validations
+* Multiple key and `kid` header handler
+
 Confirmed by [JWT.io](https://jwt.io).
 
 ## Documentation
@@ -54,7 +64,7 @@ print_r($claims); // ['id' => 13, 'is-admin' => true]
 
 ### HMAC Algorithms
 
-HMAC algorithms indeed rely on symmetric keys, allowing a single key to both encode (sign) and decode (verify) JWTs.
+HMAC algorithms rely on symmetric keys, allowing a single key to encode (sign) and decode (verify) JWTs.
 The PHP-JWT package supports `HS256`, `HS384`, and `HS512` HMAC algorithms.
 The example above showcases the utilization of an HMAC algorithm to both sign and verify a JWT.
 
