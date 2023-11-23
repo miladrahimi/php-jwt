@@ -90,8 +90,7 @@ $claims = $parser->parse($jwt);
 print_r($claims); // ['id' => 13, 'is-admin' => true]
 ```
 
-You can refer to [this instruction](https://en.wikibooks.org/wiki/Cryptography/Generate_a_keypair_using_OpenSSL) to learn how to generate a pair of RSA keys,
-one for public use and the other for private use, using OpenSSL.
+You can refer to [this instruction](https://en.wikibooks.org/wiki/Cryptography/Generate_a_keypair_using_OpenSSL) to learn how to generate a pair of RSA keys using OpenSSL.
 
 ### ECDSA Algorithms
 
