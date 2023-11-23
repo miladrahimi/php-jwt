@@ -14,7 +14,7 @@ Supported algorithms:
 * HMAC: `HS256`, `HS384`, and `HS512`
 * RSA: `RS256`, `RS384`, and `RS512`
 * ECDSA: `ES256`, `ES256K`, and `RS384`
-* `EdDSA`
+* EdDSA: `EdDSA`
 
 Supported features:
 * Built-in and custom validations
