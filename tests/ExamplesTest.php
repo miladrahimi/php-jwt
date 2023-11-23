@@ -175,8 +175,8 @@ class ExamplesTest extends TestCase
 
         // Add Validation
         $validator = new DefaultValidator();
-        $validator->addRule('is-admin', new EqualsTo(true));
-        $validator->addRule('id', new GreaterThan(600));
+        $validator->addRequiredRule('is-admin', new EqualsTo(true));
+        $validator->addRequiredRule('id', new GreaterThan(600));
 
         // Parse the token
         $parser = new Parser($signer, $validator);

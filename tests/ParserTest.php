@@ -65,7 +65,7 @@ class ParserTest extends TestCase
     public function test_parse_with_validator_it_should_pass_when_rules_are_ok()
     {
         $validator = new BaseValidator();
-        $validator->addRule(PublicClaimNames::SUBJECT, new EqualsTo(666));
+        $validator->addRequiredRule(PublicClaimNames::SUBJECT, new EqualsTo(666));
 
         $parser = new Parser($this->verifier, $validator);
         $extractClaims = $parser->parse($this->sampleJwt);
@@ -79,7 +79,7 @@ class ParserTest extends TestCase
     public function test_parse_with_validator_it_should_fail_when_rules_are_not_ok()
     {
         $validator = new BaseValidator();
-        $validator->addRule('sub', new EqualsTo(13));
+        $validator->addRequiredRule('sub', new EqualsTo(13));
 
         $parser = new Parser($this->verifier, $validator);
 
@@ -94,7 +94,7 @@ class ParserTest extends TestCase
     public function test_validate_with_validator_it_should_fail_when_rules_are_not_ok()
     {
         $validator = new BaseValidator();
-        $validator->addRule('sub', new EqualsTo(13));
+        $validator->addRequiredRule('sub', new EqualsTo(13));
 
         $parser = new Parser($this->verifier, $validator);
 

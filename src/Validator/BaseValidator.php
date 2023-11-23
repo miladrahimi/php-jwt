@@ -18,16 +18,6 @@ class BaseValidator implements Validator
     protected array $rules = [];
 
     /**
-     * Add a new rule
-     *
-     * @deprecated Use addRequiredRule() or addOptionalRule() methods instead.
-     */
-    public function addRule(string $claimName, Rule $rule, bool $required = true)
-    {
-        $this->rules[$claimName][] = [$rule, $required];
-    }
-
-    /**
      * Add a new required rule
      */
     public function addRequiredRule(string $claimName, Rule $rule)
@@ -46,7 +36,7 @@ class BaseValidator implements Validator
     /**
      * @inheritdoc
      */
-    public function validate(array $claims = [])
+    public function validate(array $claims)
     {
         foreach ($this->rules as $claimName => $rules) {
             $exists = isset($claims[$claimName]);

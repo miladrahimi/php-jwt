@@ -15,5 +15,5 @@ interface Validator
      * @param string[] $claims
      * @throws ValidationException
      */
-    public function validate(array $claims = []);
+    public function validate(array $claims);
 }
