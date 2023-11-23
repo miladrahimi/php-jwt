@@ -136,7 +136,7 @@ use MiladRahimi\Jwt\Generator;
 use MiladRahimi\Jwt\Parser;
 
 // Generate a token
-$privateKey = base64_decode(file_get_contents('/path/to/ed25519.sec'));
+$privateKey = new EdDsaPrivateKey(base64_decode(file_get_contents('/path/to/ed25519.sec')));
 $signer = new EdDsaSigner($privateKey);
 $generator = new Generator($signer);
 $jwt = $generator->generate(['id' => 13, 'is-admin' => true]);
@@ -144,7 +144,7 @@ $jwt = $generator->generate(['id' => 13, 'is-admin' => true]);
 print_r($jwt); // "abc.123.xyz"
 
 // Parse the token
-$publicKey = base64_decode(file_get_contents('/path/to/ed25519.pub'));
+$publicKey = new EdDsaPublicKey(base64_decode(file_get_contents('/path/to/ed25519.pub')));
 $verifier = new EdDsaVerifier($publicKey);
 $parser = new Parser($verifier);
 $claims = $parser->parse($jwt);
