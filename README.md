@@ -173,11 +173,10 @@ $signer = new HS256('12345678901234567890123456789012');
 // Extend the DefaultValidator
 $validator = new DefaultValidator();
 
-// The presence of the 'is-admin' claim is mandatory for successful validation. If absent, the validation will fail.
-// Additionally, if the rule does not match the corresponding value, the validation will also fail.
+// The 'is-admin' claim is required, without it or a mismatched rule, validation fails.
 $validator->addRequiredRule('is-admin', new EqualsTo(true));
 
-// The 'exp' claim is optional, and the rule will be applicable only if it is present.
+// The 'exp' claim is optional, and the rule will be applicable if it is present.
 $validator->addOptionalRule('exp', new NewerThan(time()), false);
 
 // Parse the token
