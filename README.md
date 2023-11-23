@@ -172,7 +172,13 @@ $signer = new HS256('12345678901234567890123456789012');
 
 // Extend the DefaultValidator
 $validator = new DefaultValidator();
-$validator->addRule('is-admin', new EqualsTo(true));
+
+// The presence of the 'is-admin' claim is mandatory for successful validation. If absent, the validation will fail.
+// Additionally, if the rule does not match the corresponding value, the validation will also fail.
+$validator->addRequiredRule('is-admin', new EqualsTo(true));
+
+// The 'exp' claim is optional, and the rule will be applicable only if it is present.
+$validator->addOptionalRule('exp', new NewerThan(time()), false);
 
 // Parse the token
 $parser = new Parser($signer, $validator);
@@ -210,26 +216,6 @@ You can access the built-in Rules within the `MiladRahimi\Jwt\Validator\Rules` n
 * [OlderThanOrSame](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/OlderThanOrSame.php)
 
 Descriptions for each Rule can be found within their respective class doc blocks.
-
-#### Required and Optional Rules
-
-You can assign a rule as required or optional within a validator.
-When a Rule is marked as required, the validation will fail if the associated claim is missing from the JWT claims.
-
-Here's an example illustrating how to designate rules as required or optional:
-
-```php
-$validator = new DefaultValidator();
-
-// Add a rule as required
-$validator->addRule('exp', new NewerThan(time()));
-
-// Add a rule as required again!
-$validator->addRule('exp', new NewerThan(time()), true);
-
-// Add a rule as optional
-$validator->addRule('exp', new NewerThan(time()), false);
-```
 
 #### Custom Rules
 
