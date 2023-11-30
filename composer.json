@@ -17,7 +17,8 @@
   "authors": [
     {
       "name": "Milad Rahimi",
-      "email": "info@miladrahimi.com"
+      "email": "i@miladrahimi.com",
+      "homepage": "https://miladrahimi.com"
     }
   ],
   "require": {
@@ -29,7 +30,7 @@
     "phpunit/phpunit": "^7|^8|^9"
   },
   "suggest": {
-    "ext-sodium": "Optional description of what this extension provides."
+    "ext-sodium": "Sodium extension is required for EdDSA algortihms"
   },
   "autoload": {
     "psr-4": {
