@@ -2,9 +2,7 @@
 
 namespace MiladRahimi\Jwt\Exceptions;
 
-use Exception;
-
-class JsonEncodingException extends Exception
+class JsonEncodingException extends JwtException
 {
     //
 }

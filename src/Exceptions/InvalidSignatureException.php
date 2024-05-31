@@ -2,9 +2,7 @@
 
 namespace MiladRahimi\Jwt\Exceptions;
 
-use Exception;
-
-class InvalidSignatureException extends Exception
+class InvalidSignatureException extends JwtException
 {
     //
 }

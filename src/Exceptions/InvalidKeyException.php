@@ -2,9 +2,7 @@
 
 namespace MiladRahimi\Jwt\Exceptions;
 
-use Exception;
-
-class InvalidKeyException extends Exception
+class InvalidKeyException extends JwtException
 {
     //
 }
