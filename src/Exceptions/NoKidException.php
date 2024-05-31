@@ -2,9 +2,7 @@
 
 namespace MiladRahimi\Jwt\Exceptions;
 
-use Exception;
-
-class NoKidException extends Exception
+class NoKidException extends JwtException
 {
     //
 }
