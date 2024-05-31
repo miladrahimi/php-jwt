@@ -1,6 +1,6 @@
 <?php
 
-namespace Cryptography\Keys;
+namespace MiladRahimi\Jwt\Tests\Cryptography\Keys;
 
 use MiladRahimi\Jwt\Cryptography\Keys\EcdsaPrivateKey;
 use MiladRahimi\Jwt\Cryptography\Keys\RsaPrivateKey;
@@ -13,9 +13,18 @@ class EcdsaPrivateKeyTest extends TestCase
     /**
      * @throws Throwable
      */
-    public function test_with_valid_key_it_should_pass()
+    public function test_with_valid_key_file_it_should_pass()
     {
         $key = new EcdsaPrivateKey(__DIR__ . '/../../../assets/keys/ecdsa256-private.pem');
+        $this->assertNotNull($key->getResource());
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function test_with_valid_key_string_it_should_pass()
+    {
+        $key = new EcdsaPrivateKey(file_get_contents(__DIR__ . '/../../../assets/keys/ecdsa256-private.pem'));
         $this->assertNotNull($key->getResource());
     }
 

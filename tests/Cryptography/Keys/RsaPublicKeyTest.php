@@ -12,9 +12,18 @@ class RsaPublicKeyTest extends TestCase
     /**
      * @throws Throwable
      */
-    public function test_with_valid_key_it_should_pass()
+    public function test_with_valid_key_file_it_should_pass()
     {
         $key = new RsaPublicKey(__DIR__ . '/../../../assets/keys/rsa-public.pem');
+        $this->assertNotNull($key->getResource());
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function test_with_valid_key_path_it_should_pass()
+    {
+        $key = new RsaPublicKey(file_get_contents(__DIR__ . '/../../../assets/keys/rsa-public.pem'));
         $this->assertNotNull($key->getResource());
     }
 

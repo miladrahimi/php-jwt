@@ -4,13 +4,17 @@ namespace MiladRahimi\Jwt\Cryptography\Keys;
 
 class EdDsaPrivateKey
 {
-    private string $content;
+    protected string $content;
 
     protected ?string $id;
 
-    public function __construct(string $value, ?string $id = null)
+    /**
+     * @param string $key Key in string format
+     * @param string|null $id Key identifier
+     */
+    public function __construct(string $key, ?string $id = null)
     {
-        $this->content = $value;
+        $this->content = $key;
         $this->id = $id;
     }
 

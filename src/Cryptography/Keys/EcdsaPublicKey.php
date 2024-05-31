@@ -10,17 +10,21 @@ class EcdsaPublicKey
     /**
      * @var mixed Key file resource handler
      */
-    private $resource;
+    protected $resource;
 
     protected ?string $id;
 
     /**
+     * @param string $key Key file path or string content
+     * @param string|null $id Key identifier
+     *
      * @throws InvalidKeyException
      */
-    public function __construct(string $filePath, ?string $id = null)
+    public function __construct(string $key, ?string $id = null)
     {
         try {
-            $this->resource = openssl_pkey_get_public(file_get_contents(realpath($filePath)));
+            $content = file_exists($key) ? file_get_contents($key) : $key;
+            $this->resource = openssl_pkey_get_public($content);
         } catch (Throwable $e) {
             throw new InvalidKeyException('Failed to read the key.', 0, $e);
         }
