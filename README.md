@@ -305,6 +305,7 @@ print_r($claims2); // ['id' => 13, 'is-admin' => true]
 ### Error Handling
 
 Here are the exceptions that the package might throw:
+
 * Encoding:
   * [InvalidKeyException](src/Exceptions/InvalidKeyException.php) when the provided key is not valid.
   * [JsonEncodingException](src/Exceptions/JsonEncodingException.php) when cannot convert the provided claims to JSON.
@@ -317,6 +318,9 @@ Here are the exceptions that the package might throw:
 * Finding Verifier:
   * [NoKidException](src/Exceptions/NoKidException.php) when there is no `kid` in the token header.
   * [VerifierNotFoundException](src/Exceptions/VerifierNotFoundException.php) when no key/verifier matches the `kid` in the token header.
+
+All of the exceptions mentioned are subclasses of the `JwtException` exception.
+By catching `JwtException`, you can handle all these cases collectively instead of catching each one individually.
 
 ## License
 PHP-JWT is initially created by [Milad Rahimi](http://miladrahimi.com)
