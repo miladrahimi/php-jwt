@@ -1,10 +1,8 @@
 <?php
 
-namespace Cryptography\Keys;
+namespace MiladRahimi\Jwt\Tests\Cryptography\Keys;
 
 use MiladRahimi\Jwt\Cryptography\Keys\HmacKey;
-use MiladRahimi\Jwt\Cryptography\Keys\RsaPublicKey;
-use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
 use MiladRahimi\Jwt\Tests\TestCase;
 use Throwable;
 

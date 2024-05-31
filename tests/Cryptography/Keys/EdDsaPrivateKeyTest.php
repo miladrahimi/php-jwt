@@ -1,6 +1,6 @@
 <?php
 
-namespace Cryptography\Keys;
+namespace MiladRahimi\Jwt\Tests\Cryptography\Keys;
 
 use MiladRahimi\Jwt\Cryptography\Keys\EdDsaPrivateKey;
 use MiladRahimi\Jwt\Tests\TestCase;

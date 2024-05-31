@@ -1,6 +1,7 @@
-/vendor
-/composer.lock
 /.idea
+/.phpunit.cache
 /build
+/vendor
 .DS_Store
 .phpunit.result.cache
+composer.lock

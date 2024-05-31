@@ -6,6 +6,7 @@ use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS256Signer;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS256Verifier;
 use MiladRahimi\Jwt\Cryptography\Keys\RsaPrivateKey;
 use MiladRahimi\Jwt\Cryptography\Keys\RsaPublicKey;
+use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 use MiladRahimi\Jwt\Tests\TestCase;
 use Throwable;
@@ -16,6 +17,10 @@ class RS256Test extends TestCase
 
     protected RsaPublicKey $rsaPublicKey;
 
+    /**
+     * @throws Throwable
+     * @throws InvalidKeyException
+     */
     public function setUp(): void
     {
         parent::setUp();
