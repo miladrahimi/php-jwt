@@ -9,7 +9,7 @@ use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
 class RsaPublicKey
 {
     /**
-     * @var resource Key resource handler
+     * @var mixed Key resource handler
      */
     protected $resource;
 
@@ -23,7 +23,7 @@ class RsaPublicKey
      */
     public function __construct(string $key, ?string $id = null)
     {
-        $content = file_exists($key) ? file_get_contents(realpath($key)) : $key;
+        $content = realpath($key) ? file_get_contents(realpath($key)) : $key;
 
         $this->resource = openssl_pkey_get_public($content);
         if ($this->resource === false) {
@@ -34,7 +34,7 @@ class RsaPublicKey
     }
 
     /**
-     * @return resource
+     * @return mixed
      */
     public function getResource()
     {
