@@ -117,12 +117,16 @@ class ExamplesTest extends TestCase
     public function test_multiple_keys()
     {
         $privateKey1 = new RsaPrivateKey(
-            __DIR__ . '/../assets/keys/rsa-private.pem', '', 'key-1'
+            __DIR__ . '/../assets/keys/rsa-private.pem',
+            '',
+            'key-1'
         );
         $publicKey1 = new RsaPublicKey(__DIR__ . '/../assets/keys/rsa-public.pem', 'key-1');
 
         $privateKey2 = new EcdsaPrivateKey(
-            __DIR__ . '/../assets/keys/ecdsa384-private.pem', '', 'key-2'
+            __DIR__ . '/../assets/keys/ecdsa384-private.pem',
+            '',
+            'key-2'
         );
         $publicKey2 = new EcdsaPublicKey(__DIR__ . '/../assets/keys/ecdsa384-public.pem', 'key-2');
 
