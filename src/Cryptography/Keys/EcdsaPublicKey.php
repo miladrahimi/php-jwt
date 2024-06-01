@@ -9,7 +9,7 @@ use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
 class EcdsaPublicKey
 {
     /**
-     * @var resource Key resource handler
+     * @var mixed Key resource handler
      */
     protected $resource;
 
@@ -34,7 +34,7 @@ class EcdsaPublicKey
     }
 
     /**
-     * @return resource
+     * @return mixed
      */
     public function getResource()
     {
