@@ -25,7 +25,9 @@ class VerifierFactoryTest extends TestCase
     public function test_getVerifier_it_should_return_the_right_verifier()
     {
         $privateKey = new RsaPrivateKey(
-            __DIR__ . '/../assets/keys/rsa-private.pem', '', 'key-1'
+            __DIR__ . '/../assets/keys/rsa-private.pem',
+            '',
+            'key-1'
         );
         $publicKey = new RsaPublicKey(__DIR__ . '/../assets/keys/rsa-public.pem', 'key-1');
 
