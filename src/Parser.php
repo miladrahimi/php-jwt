@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace MiladRahimi\Jwt;
 
@@ -34,8 +36,7 @@ class Parser
         ?Validator    $validator = null,
         ?JsonParser   $jsonParser = null,
         ?Base64Parser $base64Parser = null
-    )
-    {
+    ) {
         $this->verifier = $verifier;
         $this->validator = $validator ?: new DefaultValidator();
         $this->jsonParser = $jsonParser ?: new StrictJsonParser();

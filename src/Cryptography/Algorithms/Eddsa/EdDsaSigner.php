@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace MiladRahimi\Jwt\Cryptography\Algorithms\Eddsa;
 
@@ -7,6 +9,7 @@ use MiladRahimi\Jwt\Cryptography\Signer;
 use MiladRahimi\Jwt\Exceptions\SigningException;
 use RuntimeException;
 use SodiumException;
+
 use function function_exists;
 
 class EdDsaSigner implements Signer

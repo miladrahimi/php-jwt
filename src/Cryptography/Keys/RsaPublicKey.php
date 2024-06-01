@@ -1,14 +1,15 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace MiladRahimi\Jwt\Cryptography\Keys;
 
 use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
-use Throwable;
 
 class RsaPublicKey
 {
     /**
-     * @var mixed Key file resource handler
+     * @var resource Key resource handler
      */
     protected $resource;
 
@@ -22,7 +23,7 @@ class RsaPublicKey
      */
     public function __construct(string $key, ?string $id = null)
     {
-        $content = file_exists($key) ? file_get_contents($key) : $key;
+        $content = file_exists($key) ? file_get_contents(realpath($key)) : $key;
 
         $this->resource = openssl_pkey_get_public($content);
         if ($this->resource === false) {
@@ -33,7 +34,7 @@ class RsaPublicKey
     }
 
     /**
-     * @return mixed
+     * @return resource
      */
     public function getResource()
     {

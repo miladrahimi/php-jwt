@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace MiladRahimi\Jwt\Enums;
 
@@ -9,11 +11,11 @@ namespace MiladRahimi\Jwt\Enums;
  */
 class PublicClaimNames
 {
-    const ISSUER = 'iss';
-    const SUBJECT = 'sub';
-    const AUDIENCE = 'aud';
-    const EXPIRATION_TIME = 'exp';
-    const NOT_BEFORE = 'nbf';
-    const ISSUED_AT = 'iat';
-    const JTI = 'jti';
+    public const ISSUER = 'iss';
+    public const SUBJECT = 'sub';
+    public const AUDIENCE = 'aud';
+    public const EXPIRATION_TIME = 'exp';
+    public const NOT_BEFORE = 'nbf';
+    public const ISSUED_AT = 'iat';
+    public const JTI = 'jti';
 }

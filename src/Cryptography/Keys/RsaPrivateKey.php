@@ -1,14 +1,15 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace MiladRahimi\Jwt\Cryptography\Keys;
 
 use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
-use Throwable;
 
 class RsaPrivateKey
 {
     /**
-     * @var mixed Key file resource handler
+     * @var resource Key resource handler
      */
     protected $resource;
 
@@ -23,7 +24,7 @@ class RsaPrivateKey
      */
     public function __construct(string $key, string $passphrase = '', ?string $id = null)
     {
-        $content = file_exists($key) ? file_get_contents($key) : $key;
+        $content = file_exists($key) ? file_get_contents(realpath($key)) : $key;
 
         $this->resource = openssl_pkey_get_private($content, $passphrase);
         if ($this->resource === false) {
@@ -34,7 +35,7 @@ class RsaPrivateKey
     }
 
     /**
-     * @return mixed
+     * @return resource
      */
     public function getResource()
     {

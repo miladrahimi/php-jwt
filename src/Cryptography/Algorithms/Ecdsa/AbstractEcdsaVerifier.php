@@ -1,10 +1,13 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace MiladRahimi\Jwt\Cryptography\Algorithms\Ecdsa;
 
 use MiladRahimi\Jwt\Cryptography\Keys\EcdsaPublicKey;
 use MiladRahimi\Jwt\Cryptography\Verifier;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
+
 use function chr;
 use function ltrim;
 use function ord;
