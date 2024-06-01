@@ -33,7 +33,7 @@ class EcdsaPrivateKey
     }
 
     /**
-     * @return mixed
+     * @return resource
      */
     public function getResource()
     {

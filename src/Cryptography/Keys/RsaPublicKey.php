@@ -32,7 +32,7 @@ class RsaPublicKey
     }
 
     /**
-     * @return mixed
+     * @return resource
      */
     public function getResource()
     {
