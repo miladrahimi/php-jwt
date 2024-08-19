@@ -43,6 +43,7 @@ Here's an example demonstrating how to generate a JWT and parse it using the `HS
 ```php
 use MiladRahimi\Jwt\Generator;
 use MiladRahimi\Jwt\Parser;
+use MiladRahimi\Jwt\Cryptography\Keys\HmacKey;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
 
 // Use HS256 to generate and parse JWTs
