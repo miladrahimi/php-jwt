@@ -22,7 +22,7 @@ class Generator
 
     private Base64Parser $base64Parser;
 
-    public function __construct(?Signer $signer, ?JsonParser $jsonParser = null, ?Base64Parser $base64Parser = null)
+    public function __construct(Signer $signer, ?JsonParser $jsonParser = null, ?Base64Parser $base64Parser = null)
     {
         $this->signer = $signer;
         $this->jsonParser = $jsonParser ?: new StrictJsonParser();
