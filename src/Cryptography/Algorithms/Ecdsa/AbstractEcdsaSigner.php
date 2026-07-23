@@ -70,6 +70,8 @@ abstract class AbstractEcdsaSigner implements Signer
      * INTEGER) the value is its raw content; for a constructed element (such
      * as a SEQUENCE) the value is empty and nextOffset points at the first
      * child, so the caller can descend into it.
+     *
+     * @return array{int, string}
      */
     protected function decodeDer(string $der, int $offset = 0): array
     {
