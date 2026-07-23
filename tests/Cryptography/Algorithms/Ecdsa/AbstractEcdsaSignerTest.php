@@ -26,7 +26,7 @@ class AbstractEcdsaSignerTest extends TestCase
      */
     private function signer(): ES256Signer
     {
-        return new class($this->privateKey) extends ES256Signer {
+        return new class ($this->privateKey) extends ES256Signer {
             public function decodeDerPublicly(string $der, int $offset = 0): array
             {
                 return $this->decodeDer($der, $offset);
@@ -41,7 +41,7 @@ class AbstractEcdsaSignerTest extends TestCase
      */
     public function test_sign_with_an_unsupported_algorithm_it_should_fail()
     {
-        $signer = new class($this->privateKey) extends ES256Signer {
+        $signer = new class ($this->privateKey) extends ES256Signer {
             protected function algorithm(): int
             {
                 return PHP_INT_MAX;

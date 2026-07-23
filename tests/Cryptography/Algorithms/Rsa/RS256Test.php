@@ -84,7 +84,7 @@ class RS256Test extends TestCase
      */
     public function test_sign_with_an_unsupported_algorithm_it_should_fail()
     {
-        $signer = new class($this->rsaPrivateKey) extends RS256Signer {
+        $signer = new class ($this->rsaPrivateKey) extends RS256Signer {
             protected function algorithm(): int
             {
                 return PHP_INT_MAX;
