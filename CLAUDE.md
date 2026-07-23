@@ -80,6 +80,3 @@ Documented so they aren't mistaken for bugs; confirm intent before changing.
 Detail in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md#known-quirks).
 
 - HMAC verify uses `!==`, not constant-time `hash_equals`.
-- README lists `RS384` twice under ECDSA where `ES384` is meant.
-- Minor: `AbstractRsaSigner` param misnamed `$publicKey`; some files miss `declare(strict_types=1)`;
-  `EdDsaVerifier` has a typo'd message.
