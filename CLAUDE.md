@@ -55,6 +55,8 @@ accept a file path **or** inline PEM).
 - **PHP 7.4 syntax only in `src/`:** typed properties and `?T` are fine; no enums, `match`, promotion, named
   args, or union types.
   `declare(strict_types=1);` at the top of each file.
+- **Line length is 120** for code, comments, and docblocks; never wrap a comment or docblock line before it
+  reaches 120 characters.
 - **Exceptions** all extend `Exceptions\JwtException`; throw the specific subclass, add no new base classes.
 - **Docblock summaries** are third-person indicative and end with a period ("Generates the JWT.", "Checks
   whether…"), not imperative; use `{@inheritDoc}` for inherited members; omit docblocks that only restate a
