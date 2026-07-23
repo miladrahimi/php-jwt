@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MiladRahimi\Jwt;
 
 use InvalidArgumentException;
@@ -13,9 +15,13 @@ use MiladRahimi\Jwt\Exceptions\VerifierNotFoundException;
 use MiladRahimi\Jwt\Json\JsonParser;
 use MiladRahimi\Jwt\Json\StrictJsonParser;
 
+/**
+ * VerifierFactory maps a token's `kid` to the matching Verifier for
+ * multi-key setups.
+ */
 class VerifierFactory
 {
-    private array $verifiers;
+    private array $verifiers = [];
 
     private JsonParser $jsonParser;
 
@@ -33,7 +39,7 @@ class VerifierFactory
                 $this->verifiers[$verifier->kid()] = $verifier;
             } else {
                 throw new InvalidArgumentException(
-                    'Values of $verifiers array must be instance of MiladRahimi\Jwt\Cryptography\Verifier.'
+                    'Values of the $verifiers array must be instances of MiladRahimi\Jwt\Cryptography\Verifier.'
                 );
             }
         }
@@ -43,6 +49,8 @@ class VerifierFactory
     }
 
     /**
+     * Returns the Verifier whose kid matches the given JWT's header.
+     *
      * @throws InvalidTokenException
      * @throws JsonDecodingException
      * @throws NoKidException
@@ -64,7 +72,7 @@ class VerifierFactory
     }
 
     /**
-     * Extract header component of given JWT
+     * Extracts the header component of the given JWT.
      *
      * @throws Exceptions\InvalidTokenException
      */
@@ -73,7 +81,7 @@ class VerifierFactory
         $sections = explode('.', $jwt);
 
         if (count($sections) !== 3) {
-            throw new Exceptions\InvalidTokenException('JWT format is not valid,');
+            throw new Exceptions\InvalidTokenException('The JWT format is not valid.');
         }
 
         return $sections[0];
