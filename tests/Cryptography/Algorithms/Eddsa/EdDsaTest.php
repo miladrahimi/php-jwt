@@ -76,6 +76,18 @@ class EdDsaTest extends TestCase
     /**
      * @throws Throwable
      */
+    public function test_verifier_it_should_fail_with_invalid_key()
+    {
+        $verifier = new EdDsaVerifier(new EdDsaPublicKey('Invalid Key!'));
+
+        $this->expectException(InvalidSignatureException::class);
+        $this->expectExceptionMessage('Sodium cannot verify the signature.');
+        $verifier->verify('Header Payload', str_repeat('x', 64));
+    }
+
+    /**
+     * @throws Throwable
+     */
     public function test_set_and_get_private_key()
     {
         $signer = new EdDsaSigner($this->privateKey);
