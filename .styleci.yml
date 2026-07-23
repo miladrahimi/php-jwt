@@ -1,10 +1,7 @@
 risky: false
 preset: psr12
-disabled:
-  - concat_without_spaces
 enabled:
   - alpha_ordered_imports
-  - concat_with_spaces
   - single_quote
   - short_array_syntax
   - trailing_comma_in_multiline_array
