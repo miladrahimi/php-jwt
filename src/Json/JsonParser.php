@@ -12,6 +12,7 @@ interface JsonParser
     /**
      * Encodes the array data to a JSON string.
      *
+     * @param array<int|string, mixed> $data
      * @throws JsonEncodingException
      */
     public function encode(array $data): string;
@@ -19,6 +20,7 @@ interface JsonParser
     /**
      * Decodes the JSON string to array data.
      *
+     * @return array<int|string, mixed>
      * @throws JsonDecodingException
      */
     public function decode(string $json): array;

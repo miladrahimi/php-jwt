@@ -9,7 +9,7 @@ use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
 class RsaPublicKey
 {
     /**
-     * @var mixed Key resource handler
+     * @var resource The OpenSSL key handle (an OpenSSLAsymmetricKey object on PHP 8+).
      */
     protected $resource;
 
@@ -25,16 +25,18 @@ class RsaPublicKey
     {
         $content = is_file($key) ? (string)file_get_contents($key) : $key;
 
-        $this->resource = openssl_pkey_get_public($content);
-        if ($this->resource === false) {
+        $resource = openssl_pkey_get_public($content);
+        if ($resource === false) {
             throw new InvalidKeyException(openssl_error_string() ?: 'The key is not valid.');
         }
+
+        $this->resource = $resource;
 
         $this->id = $id;
     }
 
     /**
-     * @return mixed
+     * @return resource The OpenSSL key handle (an OpenSSLAsymmetricKey object on PHP 8+).
      */
     public function getResource()
     {

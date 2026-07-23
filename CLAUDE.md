@@ -21,7 +21,7 @@ composer install
 
 No `composer test` script. Code style is enforced by StyleCI (`.styleci.yml`): PSR-12 plus spaced
 concatenation, alpha-ordered imports, single quotes, short arrays, and no unused imports.
-Static analysis: PHPStan level 5 (`phpstan.neon`) runs in CI; it is not a Composer dependency — run it locally
+Static analysis: PHPStan level 10 (`phpstan.neon`) runs in CI; it is not a Composer dependency — run it locally
 via a downloaded phar (`phpstan analyse`).
 CI runs the suite on PHP 7.4–8.5; keep new code green on 7.4.
 

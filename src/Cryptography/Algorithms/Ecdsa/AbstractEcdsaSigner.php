@@ -32,7 +32,8 @@ abstract class AbstractEcdsaSigner implements Signer
      */
     public function sign(string $message): string
     {
-        if (openssl_sign($message, $signature, $this->privateKey->getResource(), $this->algorithm()) === true) {
+        if (openssl_sign($message, $signature, $this->privateKey->getResource(), $this->algorithm()) === true
+            && is_string($signature)) {
             return $this->derToSignature($signature, $this->keySize());
         }
 
@@ -70,6 +71,8 @@ abstract class AbstractEcdsaSigner implements Signer
      * INTEGER) the value is its raw content; for a constructed element (such
      * as a SEQUENCE) the value is empty and nextOffset points at the first
      * child, so the caller can descend into it.
+     *
+     * @return array{int, string}
      */
     protected function decodeDer(string $der, int $offset = 0): array
     {

@@ -26,6 +26,10 @@ class EdDsaVerifier implements Verifier
      */
     public function verify(string $plain, string $signature): void
     {
+        if ($signature === '') {
+            throw new InvalidSignatureException('The signature is not valid.');
+        }
+
         if (function_exists('sodium_crypto_sign_verify_detached')) {
             try {
                 if (!sodium_crypto_sign_verify_detached($signature, $plain, $this->publicKey->getContent())) {
