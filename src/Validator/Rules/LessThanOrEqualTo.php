@@ -8,7 +8,7 @@ use MiladRahimi\Jwt\Exceptions\ValidationException;
 use MiladRahimi\Jwt\Validator\Rule;
 
 /**
- * It checks if the claim is less than or equal to the given number
+ * Checks whether the claim is less than or equal to the given number.
  */
 class LessThanOrEqualTo implements Rule
 {
@@ -20,7 +20,7 @@ class LessThanOrEqualTo implements Rule
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function validate(string $name, $value)
     {
@@ -30,7 +30,7 @@ class LessThanOrEqualTo implements Rule
     }
 
     /**
-     * Generate error message
+     * Builds the validation error message.
      */
     protected function message(string $name): string
     {
