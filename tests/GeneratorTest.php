@@ -44,7 +44,8 @@ class GeneratorTest extends TestCase
     public function test_generate_with_unicode_claims_it_should_round_trip()
     {
         $claims = [
-            'name' => 'میلاد رحیمی',
+            'name' => 'Pink Floyd',
+            'localized' => 'پینک فلوید',
             'emoji' => '🔐✓',
             'chars' => '~~~???>>>',
         ];
