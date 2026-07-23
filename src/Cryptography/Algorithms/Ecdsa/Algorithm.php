@@ -24,7 +24,7 @@ trait Algorithm
         return [
             'ES256' => OPENSSL_ALGO_SHA256,
             'ES256K' => OPENSSL_ALGO_SHA256,
-            'ES384' => OPENSSL_ALGO_SHA512,
+            'ES384' => OPENSSL_ALGO_SHA384,
         ][$this->name()];
     }
 

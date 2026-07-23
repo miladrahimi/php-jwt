@@ -73,8 +73,6 @@ accept a file path **or** inline PEM).
 Documented so they aren't mistaken for bugs; confirm intent before changing.
 Detail in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md#known-quirks).
 
-- **`ES384` hashes with SHA-512**, not SHA-384 (RFC 7518).
-  Changing it breaks existing ES384 tokens.
 - HMAC verify uses `!==`, not constant-time `hash_equals`.
 - README lists `RS384` twice under ECDSA where `ES384` is meant.
 - Minor: `AbstractRsaSigner` param misnamed `$publicKey`; some files miss `declare(strict_types=1)`;
