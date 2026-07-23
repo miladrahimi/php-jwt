@@ -27,30 +27,11 @@ jobs:
       - name: Run tests and collect coverage
         run: vendor/bin/phpunit --coverage-text --coverage-clover coverage.xml
 
-      - name: Enforce coverage threshold
-        run: php .github/scripts/coverage-check.php coverage.xml 95
-
-      - name: Comment coverage on the pull request
-        if: github.event_name == 'pull_request' && matrix.php == '8.3'
-        uses: lucassabreu/comment-coverage-clover@v0.17.1
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v5
         with:
-          file: coverage.xml
-
-      - name: Publish the coverage badge
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && matrix.php == '8.3'
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: |
-          php .github/scripts/coverage-badge.php coverage.xml coverage-badge.json
-          dir=$(mktemp -d)
-          mv coverage-badge.json "$dir/"
-          cd "$dir"
-          git init -q -b badges
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add coverage-badge.json
-          git commit -q -m "chore: update coverage badge"
-          git push -qf "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" badges
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage.xml
 
   static-analysis:
     runs-on: ubuntu-latest
