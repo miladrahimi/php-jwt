@@ -173,7 +173,8 @@ class Parser
             }
             // The verifier's algorithm is always the one used; this only rejects tokens whose `alg` contradicts it
             // (defense in depth). `name()` is not part of the Verifier interface, hence the guard.
-            if (method_exists($this->verifier, 'name') && $fields['alg'] !== $this->verifier->name()) {
+            if (method_exists($this->verifier, 'name')
+                && $fields['alg'] !== $this->verifier->/** @scrutinizer ignore-call */ name()) {
                 throw new InvalidTokenException("The token `alg` does not match the verifier's algorithm.");
             }
         }
