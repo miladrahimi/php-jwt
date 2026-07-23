@@ -126,8 +126,7 @@ class Parser
     }
 
     /**
-     * Validates the JWT (validates the header, verifies the signature, and
-     * validates the claims).
+     * Validates the JWT (validates the header, verifies the signature, and validates the claims).
      *
      * @throws ValidationException
      * @throws InvalidSignatureException
@@ -172,9 +171,8 @@ class Parser
             if (!is_string($fields['alg'])) {
                 throw new InvalidTokenException('The JWT header `alg` field must be a string.');
             }
-            // The verifier's algorithm is always the one used; this only rejects
-            // tokens whose declared `alg` contradicts it (defense in depth).
-            // `name()` is not part of the Verifier interface, hence the guard.
+            // The verifier's algorithm is always the one used; this only rejects tokens whose `alg` contradicts it
+            // (defense in depth). `name()` is not part of the Verifier interface, hence the guard.
             if (method_exists($this->verifier, 'name') && $fields['alg'] !== $this->verifier->name()) {
                 throw new InvalidTokenException("The token `alg` does not match the verifier's algorithm.");
             }

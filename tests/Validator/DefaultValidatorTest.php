@@ -50,8 +50,8 @@ class DefaultValidatorTest extends TestCase
     }
 
     /**
-     * The validator must compare `exp` against the time of validation, not
-     * the time of its own construction (long-lived instances).
+     * The validator must compare `exp` against the time of validation, not the time of its own construction
+     * (long-lived instances).
      *
      * @throws Throwable
      */

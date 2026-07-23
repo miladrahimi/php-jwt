@@ -103,8 +103,8 @@ class VerifierFactoryTest extends TestCase
     }
 
     /**
-     * A header whose `kid` field is not a string (e.g. an array) must be
-     * rejected cleanly instead of raising a PHP type error.
+     * A header whose `kid` field is not a string (e.g. an array) must be rejected cleanly instead of raising a PHP
+     * type error.
      *
      * @throws Throwable
      */

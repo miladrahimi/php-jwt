@@ -26,8 +26,7 @@ class SafeBase64ParserTest extends TestCase
     }
 
     /**
-     * Input outside the base64 alphabet must be rejected, not silently
-     * stripped (strict decoding).
+     * Input outside the base64 alphabet must be rejected, not silently stripped (strict decoding).
      *
      * @throws Throwable
      */
