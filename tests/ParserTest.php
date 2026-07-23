@@ -204,6 +204,36 @@ class ParserTest extends TestCase
     }
 
     /**
+     * The header `alg` check applies only to NamedVerifier implementations; a custom verifier without a name
+     * accepts any declared algorithm (the verifier's own algorithm is still the only one used).
+     *
+     * @throws Throwable
+     */
+    public function test_parse_with_a_nameless_verifier_it_should_skip_the_alg_check()
+    {
+        $namelessVerifier = new class implements Verifier {
+            public function verify(string $plain, string $signature): void
+            {
+                // Accept everything; only header handling is under test here.
+            }
+
+            public function kid(): ?string
+            {
+                return null;
+            }
+        };
+
+        $base64Parser = new SafeBase64Parser();
+        $header = $base64Parser->encode('{"typ":"JWT","alg":"RS256"}');
+        $payload = $base64Parser->encode('{"sub":666}');
+
+        $parser = new Parser($namelessVerifier, new BaseValidator());
+        $claims = $parser->parse("$header.$payload.sig0");
+
+        $this->assertSame(666, $claims['sub']);
+    }
+
+    /**
      * All entry points (`parse`, `verify`, `validate`) run the same header validation.
      *
      * @throws Throwable
