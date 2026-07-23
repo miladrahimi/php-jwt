@@ -60,7 +60,7 @@ The signature is verified **before** the payload is decoded — keep that order.
 - **HMAC** (`Algorithms/Hmac/`) — `AbstractHmac` is both `Signer` and `Verifier`; `HS256/384/512` set only
   `$name`.
   Enforces key length `[32, 6144]`, uses `hash_hmac(..., raw=true)`.
-  `verify()` compares with `!==` (not constant-time — see quirks).
+  `verify()` compares with constant-time `hash_equals()`.
 - **RSA** (`Algorithms/Rsa/`) — split `AbstractRsaSigner`/`AbstractRsaVerifier` (both `use Algorithm` trait
   mapping name → `OPENSSL_ALGO_SHA*`).
   Uses `openssl_sign`/`openssl_verify`; output is already JWS form.
@@ -137,12 +137,12 @@ Catch `JwtException` for all, or a subclass for specifics.
 
 Documented so they aren't mistaken for bugs — confirm intent before changing.
 
-1. **HMAC verify is not constant-time** — `!==` instead of `hash_equals()`.
-
-Good candidates for the next cycle — all low-risk.
+None at the moment.
 
 ### Resolved
 
+- **HMAC verify is now constant-time** (`Hmac/AbstractHmac.php`) — `hash_equals()` instead of `!==`,
+  removing the signature-comparison timing side channel. No behavior change for valid or invalid tokens.
 - **`ES384` now hashes with SHA-384** (`Ecdsa/Algorithm.php`), matching RFC 7518 §3.1/§3.4
   ("ECDSA using P-384 and SHA-384"). It previously used SHA-512, which was self-consistent but did not
   interoperate with compliant JWT implementations. **This was a breaking change**: ES384 tokens issued by
