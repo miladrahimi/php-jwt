@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MiladRahimi\Jwt\Tests\Validator;
 
 use MiladRahimi\Jwt\Exceptions\ValidationException;
@@ -68,7 +70,7 @@ class DefaultValidatorTest extends TestCase
         $validator = new DefaultValidator();
 
         $this->expectException(ValidationException::class);
-        $this->expectExceptionMessageMatches('/^The `nbf` must be older than or same `.+`.$/');
+        $this->expectExceptionMessageMatches('/^The `nbf` must be older than or the same as `.+`.$/');
         $validator->validate([
             'nbf' => time() + 60 * 60 * 24,
         ]);
@@ -95,7 +97,7 @@ class DefaultValidatorTest extends TestCase
         $validator = new DefaultValidator();
 
         $this->expectException(ValidationException::class);
-        $this->expectExceptionMessageMatches('/^The `iat` must be older than or same `.+`.$/');
+        $this->expectExceptionMessageMatches('/^The `iat` must be older than or the same as `.+`.$/');
         $validator->validate([
             'iat' => time() + 60 * 60 * 24,
         ]);
