@@ -71,15 +71,27 @@ class AbstractEcdsaVerifierTest extends TestCase
     }
 
     /**
-     * A top byte above 0x7f gets a 0x00 sign byte so the INTEGER is not misread as negative.
+     * A top byte above 0x7f gets a 0x00 sign byte, in both halves, so the INTEGERs are not misread as negative.
      *
      * @throws Throwable
      */
     public function test_signature_to_der_pads_integers_with_a_high_top_byte()
     {
-        $der = $this->verifier()->signatureToDerPublicly("\x80\x01");
+        $der = $this->verifier()->signatureToDerPublicly("\x80\x81");
 
-        $this->assertSame("\x30\x07\x02\x02\x00\x80\x02\x01\x01", $der);
+        $this->assertSame("\x30\x08\x02\x02\x00\x80\x02\x02\x00\x81", $der);
+    }
+
+    /**
+     * A zero integer still occupies one 0x00 byte in DER, in both halves.
+     *
+     * @throws Throwable
+     */
+    public function test_signature_to_der_keeps_one_byte_for_zero_integers()
+    {
+        $der = $this->verifier()->signatureToDerPublicly("\x00\x00");
+
+        $this->assertSame("\x30\x06\x02\x01\x00\x02\x01\x00", $der);
     }
 
     /**
