@@ -86,4 +86,59 @@ class AbstractEcdsaSignerTest extends TestCase
         $this->assertSame(5, $offset);
         $this->assertSame("\xAB\xCD", $value);
     }
+
+    /**
+     * A BIT STRING value excludes both the "unused bits" byte and any trailing data.
+     *
+     * @throws Throwable
+     */
+    public function test_decode_der_with_a_bit_string_it_should_not_read_past_its_length()
+    {
+        [$offset, $value] = $this->signer()->decodeDerPublicly("\x03\x03\x00\xAB\xCD\xEE");
+
+        $this->assertSame(5, $offset);
+        $this->assertSame("\xAB\xCD", $value);
+    }
+
+    /**
+     * A multi-byte long-form length (0x82 prefix) is accumulated across all of its length bytes.
+     *
+     * @throws Throwable
+     */
+    public function test_decode_der_with_a_two_byte_long_form_length_it_should_read_the_value()
+    {
+        $value = str_repeat("\xAA", 256);
+
+        [$offset, $decoded] = $this->signer()->decodeDerPublicly("\x02\x82\x01\x00" . $value);
+
+        $this->assertSame(260, $offset);
+        $this->assertSame($value, $decoded);
+    }
+
+    /**
+     * A truncated long-form length stops at the end of the input instead of reading past it.
+     *
+     * @throws Throwable
+     */
+    public function test_decode_der_with_a_truncated_long_form_length_it_should_stop_at_the_end()
+    {
+        [$offset, $value] = $this->signer()->decodeDerPublicly("\x02\x81");
+
+        $this->assertSame(2, $offset);
+        $this->assertSame('', $value);
+    }
+
+    /**
+     * A constructed element (bit 5 of the tag byte, here a constructed OCTET STRING) yields no value; the offset
+     * lands on its first child so the caller can descend into it.
+     *
+     * @throws Throwable
+     */
+    public function test_decode_der_with_a_constructed_element_it_should_descend_into_it()
+    {
+        [$offset, $value] = $this->signer()->decodeDerPublicly("\x24\x02\xAB\xCD");
+
+        $this->assertSame(2, $offset);
+        $this->assertSame('', $value);
+    }
 }
