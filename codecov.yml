@@ -7,3 +7,31 @@ coverage:
     patch:
       default:
         informational: true
+
+component_management:
+  individual_components:
+    - component_id: cryptography
+      name: Cryptography
+      paths:
+        - src/Cryptography/**
+      statuses:
+        # Currently 95%; the gap is error paths CI cannot reach
+        # (sodium-missing branches, OpenSSL failures, DER edge cases).
+        - type: project
+          target: 94%
+    - component_id: validation
+      name: Validation
+      paths:
+        - src/Validator/**
+      statuses:
+        - type: project
+          target: 100%
+    - component_id: core
+      name: Core and encoding
+      paths:
+        - src/*.php
+        - src/Json/**
+        - src/Base64/**
+      statuses:
+        - type: project
+          target: 100%
