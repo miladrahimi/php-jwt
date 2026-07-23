@@ -9,7 +9,7 @@ use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
 class EdDsaPublicKey
 {
     /**
-     * @var non-empty-string
+     * @phpstan-var non-empty-string
      */
     protected string $content;
 
@@ -32,7 +32,7 @@ class EdDsaPublicKey
     }
 
     /**
-     * @return non-empty-string
+     * @phpstan-return non-empty-string
      */
     public function getContent(): string
     {
