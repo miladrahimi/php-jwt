@@ -25,8 +25,8 @@ interface Verifier
 `sign()` returns raw bytes (the `Generator` base64url-encodes them).
 `verify()` receives raw bytes and throws `InvalidSignatureException` — it never returns a bool.
 Symmetric algorithms use one class for both interfaces; asymmetric ones split into `*Signer` / `*Verifier`.
-Give the verifier a `name()` method too (all built-ins have one): the `Parser` rejects tokens whose header `alg`
-contradicts it.
+Implement `NamedVerifier` rather than the bare `Verifier` (all built-ins do): the `Parser` rejects tokens whose
+header `alg` contradicts `name()`.
 
 ## Steps
 

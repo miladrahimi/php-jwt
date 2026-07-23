@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace MiladRahimi\Jwt\Cryptography\Algorithms\Ecdsa;
 
 use MiladRahimi\Jwt\Cryptography\Keys\EcdsaPublicKey;
-use MiladRahimi\Jwt\Cryptography\Verifier;
+use MiladRahimi\Jwt\Cryptography\NamedVerifier;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 
 use function chr;
@@ -14,7 +14,7 @@ use function ord;
 use function str_split;
 use function strlen;
 
-abstract class AbstractEcdsaVerifier implements Verifier
+abstract class AbstractEcdsaVerifier implements NamedVerifier
 {
     use Algorithm;
 
