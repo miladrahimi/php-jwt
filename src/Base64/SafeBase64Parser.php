@@ -7,7 +7,7 @@ namespace MiladRahimi\Jwt\Base64;
 class SafeBase64Parser implements Base64Parser
 {
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function encode(string $data): string
     {
@@ -15,7 +15,7 @@ class SafeBase64Parser implements Base64Parser
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function decode(string $data): string
     {
