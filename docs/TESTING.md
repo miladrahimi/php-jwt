@@ -30,6 +30,7 @@ Override `setUp()` only by calling `parent::setUp()` first.
 
 ## Conventions
 
+- Each test file starts with `declare(strict_types=1);` (same as `src/`).
 - Method names: snake_case, `test_<action>_it_should_<expectation>`; getters use `test_set_and_get_<thing>`.
 - Methods that throw carry `@throws Throwable`.
 - "No exception" success paths end with `$this->assertTrue(true)`.
