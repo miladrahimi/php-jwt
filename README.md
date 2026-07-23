@@ -63,6 +63,10 @@ $claims = $parser->parse($jwt);
 print_r($claims); // ['id' => 13, 'is-admin' => true]
 ```
 
+> **Runnable examples:** the [`examples/`](examples) directory has a self-contained script per algorithm
+> using the sample keys in `assets/keys/`.
+> Run one with e.g. `php examples/rs256.php`, and swap in your own key where marked.
+
 ### HMAC Algorithms
 
 HMAC algorithms rely on symmetric keys, allowing a single key to encode (sign) and decode (verify) JWTs.
