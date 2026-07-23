@@ -30,7 +30,7 @@ class Generator
     }
 
     /**
-     * Generate JWT for the given claims
+     * Generates a JWT for the given claims.
      *
      * @throws Exceptions\JsonEncodingException
      * @throws Exceptions\SigningException
@@ -45,7 +45,7 @@ class Generator
     }
 
     /**
-     * Generate the JWT header
+     * Builds the JWT header.
      */
     private function header(): array
     {
