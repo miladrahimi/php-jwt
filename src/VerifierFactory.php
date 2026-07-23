@@ -26,7 +26,7 @@ class VerifierFactory
      * @param JsonParser|null $jsonParser
      * @param Base64Parser|null $base64Parser
      */
-    public function __construct(array $verifiers, JsonParser $jsonParser = null, Base64Parser $base64Parser = null)
+    public function __construct(array $verifiers, ?JsonParser $jsonParser = null, ?Base64Parser $base64Parser = null)
     {
         foreach ($verifiers as $verifier) {
             if ($verifier instanceof Verifier) {
