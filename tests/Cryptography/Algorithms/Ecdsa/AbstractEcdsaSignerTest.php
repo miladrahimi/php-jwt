@@ -31,6 +31,11 @@ class AbstractEcdsaSignerTest extends TestCase
             {
                 return $this->decodeDer($der, $offset);
             }
+
+            public function derToSignaturePublicly(string $der, int $keySize): string
+            {
+                return $this->derToSignature($der, $keySize);
+            }
         };
     }
 
@@ -48,6 +53,12 @@ class AbstractEcdsaSignerTest extends TestCase
             }
         };
 
+        // The digest check fails inside PHP before OpenSSL is reached, so the error queue stays empty and the
+        // fallback message is used. Drain stale entries so the queue state is deterministic.
+        while (openssl_error_string() !== false) {
+            continue;
+        }
+
         // Swallow the PHP warning OpenSSL raises alongside returning false.
         set_error_handler(function (): bool {
             return true;
@@ -55,10 +66,43 @@ class AbstractEcdsaSignerTest extends TestCase
 
         try {
             $this->expectException(SigningException::class);
+            $this->expectExceptionMessage('OpenSSL cannot sign the token.');
             $signer->sign('Text');
         } finally {
             restore_error_handler();
         }
+    }
+
+    /**
+     * The ASN.1 sign padding is stripped and each coordinate is left-padded to the fixed coordinate size,
+     * regardless of the (random) integer values OpenSSL produces.
+     *
+     * @throws Throwable
+     */
+    public function test_der_to_signature_pads_each_coordinate_to_the_fixed_size()
+    {
+        $der = "\x30\x08\x02\x02\x00\x80\x02\x02\x00\x81";
+
+        $signature = $this->signer()->derToSignaturePublicly($der, 256);
+
+        $this->assertSame(str_repeat("\x00", 31) . "\x80" . str_repeat("\x00", 31) . "\x81", $signature);
+    }
+
+    /**
+     * A full-size coordinate with a sign byte (33-byte INTEGER) is trimmed back to the coordinate size instead
+     * of producing an oversized signature.
+     *
+     * @throws Throwable
+     */
+    public function test_der_to_signature_strips_the_sign_byte_of_full_size_coordinates()
+    {
+        $r = "\x00\x80" . str_repeat("\x01", 31);
+        $s = "\x00\x81" . str_repeat("\x02", 31);
+        $der = "\x30\x46\x02\x21" . $r . "\x02\x21" . $s;
+
+        $signature = $this->signer()->derToSignaturePublicly($der, 256);
+
+        $this->assertSame("\x80" . str_repeat("\x01", 31) . "\x81" . str_repeat("\x02", 31), $signature);
     }
 
     /**
