@@ -79,4 +79,4 @@ accept a file path **or** inline PEM).
 Documented so they aren't mistaken for bugs; confirm intent before changing.
 Detail in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md#known-quirks).
 
-- HMAC verify uses `!==`, not constant-time `hash_equals`.
+- None at the moment.
