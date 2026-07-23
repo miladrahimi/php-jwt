@@ -36,6 +36,22 @@ jobs:
         with:
           file: coverage.xml
 
+      - name: Publish the coverage badge
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && matrix.php == '8.3'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          php .github/scripts/coverage-badge.php coverage.xml coverage-badge.json
+          dir=$(mktemp -d)
+          mv coverage-badge.json "$dir/"
+          cd "$dir"
+          git init -q -b badges
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add coverage-badge.json
+          git commit -q -m "chore: update coverage badge"
+          git push -qf "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" badges
+
   static-analysis:
     runs-on: ubuntu-latest
     steps:
