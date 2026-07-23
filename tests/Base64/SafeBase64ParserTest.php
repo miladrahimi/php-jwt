@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MiladRahimi\Jwt\Tests\Base64;
 
 use MiladRahimi\Jwt\Base64\SafeBase64Parser;
@@ -13,7 +15,7 @@ class SafeBase64ParserTest extends TestCase
      */
     public function test_encode_and_decode()
     {
-        $plain = md5(random_int(1, 100));
+        $plain = md5((string) random_int(1, 100));
 
         $safeBase64Parser = new SafeBase64Parser();
         $encoded = $safeBase64Parser->encode($plain);
