@@ -5,14 +5,15 @@ declare(strict_types=1);
 namespace MiladRahimi\Jwt\Cryptography\Algorithms\Rsa;
 
 /**
- * Automatic algorithm-based value generator
+ * Resolves algorithm-specific values (name, OpenSSL algorithm) from the
+ * JWA name.
  */
 trait Algorithm
 {
     protected static string $name;
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function name(): string
     {
