@@ -16,7 +16,7 @@ base64url(header) . base64url(payload) . base64url(signature)
 The header `alg` never picks an algorithm — **the configured verifier's algorithm is always the one used**.
 This blocks the "alg confusion" downgrade attack (`RS256`→`HS256`/`none`).
 As defense in depth, a present `alg` that contradicts the verifier's `name()` is rejected
-(`InvalidTokenException`).
+(`InvalidTokenException`); this applies to `NamedVerifier` implementations (all built-ins are).
 
 ## Design principles
 
@@ -57,7 +57,8 @@ all three entry points run the same header validation.
 
 ## Cryptography (`src/Cryptography/`)
 
-`Signer` = `name()` + `kid()` + `sign()`; `Verifier` = `verify()` + `kid()`.
+`Signer` = `name()` + `kid()` + `sign()`; `Verifier` = `verify()` + `kid()`; `NamedVerifier` extends `Verifier`
+with `name()` (all built-in verifiers implement it).
 `kid()` delegates to the key's `getId()`.
 
 - **HMAC** (`Algorithms/Hmac/`) — `AbstractHmac` is both `Signer` and `Verifier`; `HS256/384/512` set only
