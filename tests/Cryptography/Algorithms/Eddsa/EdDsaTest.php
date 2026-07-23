@@ -11,6 +11,7 @@ use MiladRahimi\Jwt\Cryptography\Keys\EdDsaPublicKey;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 use MiladRahimi\Jwt\Exceptions\SigningException;
 use MiladRahimi\Jwt\Tests\TestCase;
+use SodiumException;
 use Throwable;
 
 class EdDsaTest extends TestCase
@@ -67,10 +68,35 @@ class EdDsaTest extends TestCase
      */
     public function test_signer_it_should_fail_with_invalid_key()
     {
-        $this->expectException(SigningException::class);
-
         $signer = new EdDsaSigner(new EdDsaPrivateKey('Invalid Key!'));
-        $signer->sign('Header Payload');
+
+        try {
+            $signer->sign('Header Payload');
+            $this->fail('A SigningException was expected.');
+        } catch (SigningException $e) {
+            $this->assertSame('Cannot sign the message using the Sodium extension.', $e->getMessage());
+            $this->assertSame(0, $e->getCode());
+            $this->assertInstanceOf(SodiumException::class, $e->getPrevious());
+        }
+    }
+
+    /**
+     * A Sodium failure (here: a signature of the wrong size) is wrapped in an InvalidSignatureException.
+     *
+     * @throws Throwable
+     */
+    public function test_verify_with_a_malformed_signature_it_should_fail()
+    {
+        $verifier = new EdDsaVerifier($this->publicKey);
+
+        try {
+            $verifier->verify('Header Payload', 'wrong-size-signature');
+            $this->fail('An InvalidSignatureException was expected.');
+        } catch (InvalidSignatureException $e) {
+            $this->assertSame('Sodium cannot verify the signature.', $e->getMessage());
+            $this->assertSame(0, $e->getCode());
+            $this->assertInstanceOf(SodiumException::class, $e->getPrevious());
+        }
     }
 
     /**
