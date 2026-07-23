@@ -21,6 +21,9 @@ use MiladRahimi\Jwt\Json\StrictJsonParser;
  */
 class VerifierFactory
 {
+    /**
+     * @var array<string, Verifier>
+     */
     private array $verifiers = [];
 
     private JsonParser $jsonParser;

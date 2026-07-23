@@ -15,12 +15,14 @@ use MiladRahimi\Jwt\Exceptions\ValidationException;
 class BaseValidator implements Validator
 {
     /**
-     * @var array<string,array>
+     * @var array<string, array<int, array{Rule, bool}>>
      */
     protected array $rules = [];
 
     /**
      * Adds a required rule for the given claim.
+     *
+     * @return void
      */
     public function addRequiredRule(string $claimName, Rule $rule)
     {
@@ -29,6 +31,8 @@ class BaseValidator implements Validator
 
     /**
      * Adds an optional rule for the given claim.
+     *
+     * @return void
      */
     public function addOptionalRule(string $claimName, Rule $rule)
     {

@@ -6,6 +6,7 @@ namespace MiladRahimi\Jwt\Tests\Cryptography\Keys;
 
 use MiladRahimi\Jwt\Cryptography\Keys\EdDsaPrivateKey;
 use MiladRahimi\Jwt\Cryptography\Keys\EdDsaPublicKey;
+use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
 use MiladRahimi\Jwt\Tests\TestCase;
 use Throwable;
 
@@ -28,5 +29,15 @@ class EdDsaPublicKeyTest extends TestCase
     {
         $key = new EdDsaPrivateKey(base64_decode(file_get_contents(self::PATH)), 'id-1');
         $this->assertEquals('id-1', $key->getId());
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function test_with_empty_key_it_should_fail()
+    {
+        $this->expectException(InvalidKeyException::class);
+        $this->expectExceptionMessage('The key must not be empty.');
+        new EdDsaPublicKey('');
     }
 }
