@@ -13,20 +13,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: "${{ matrix.php }}"
+          coverage: pcov
 
       - name: Install dependencies
-        run: composer self-update && composer install && composer dump-autoload
+        uses: ramsey/composer-install@v4
 
       - name: Run tests and collect coverage
-        run: vendor/bin/phpunit --bootstrap vendor/autoload.php --coverage-clover coverage.xml .
+        run: vendor/bin/phpunit --coverage-text --coverage-clover coverage.xml
 
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      - name: Enforce coverage threshold
+        run: php .github/scripts/coverage-check.php coverage.xml 95
+
+      - name: Comment coverage on the pull request
+        if: github.event_name == 'pull_request' && matrix.php == '8.3'
+        uses: lucassabreu/comment-coverage-clover@v0.17.1
+        with:
+          file: coverage.xml
