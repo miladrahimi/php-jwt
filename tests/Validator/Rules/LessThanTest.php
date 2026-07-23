@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MiladRahimi\Jwt\Tests\Validator\Rules;
 
 use MiladRahimi\Jwt\Exceptions\ValidationException;
