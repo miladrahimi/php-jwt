@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace MiladRahimi\Jwt\Tests\Cryptography\Keys;
 
 use MiladRahimi\Jwt\Cryptography\Keys\EcdsaPrivateKey;
-use MiladRahimi\Jwt\Cryptography\Keys\RsaPrivateKey;
 use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
 use MiladRahimi\Jwt\Tests\TestCase;
 use Throwable;
