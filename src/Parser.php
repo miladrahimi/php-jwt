@@ -44,7 +44,7 @@ class Parser
     }
 
     /**
-     * Parse (verify, decode, and validate) the JWT and extract claims
+     * Parses the JWT (verifies, decodes, and validates it) and returns the claims.
      *
      * @throws Exceptions\SigningException
      * @throws Exceptions\InvalidSignatureException
@@ -68,7 +68,7 @@ class Parser
     }
 
     /**
-     * Split (explode) JWT to its components
+     * Splits the JWT into its three components.
      *
      * @throws Exceptions\InvalidTokenException
      */
@@ -77,14 +77,14 @@ class Parser
         $sections = explode('.', $jwt);
 
         if (count($sections) !== 3) {
-            throw new Exceptions\InvalidTokenException('JWT format is not valid.');
+            throw new Exceptions\InvalidTokenException('The JWT format is not valid.');
         }
 
         return $sections;
     }
 
     /**
-     * Verify the JWT (verify the signature)
+     * Verifies the JWT signature.
      *
      * @throws Exceptions\SigningException
      * @throws Exceptions\InvalidSignatureException
@@ -98,7 +98,7 @@ class Parser
     }
 
     /**
-     * Verify the JWT signature
+     * Verifies the signature of the given JWT components.
      *
      * @throws Exceptions\SigningException
      * @throws Exceptions\InvalidSignatureException
@@ -111,7 +111,7 @@ class Parser
     }
 
     /**
-     * Decode JWT and extract claims
+     * Decodes the JWT payload and returns the claims.
      *
      * @throws Exceptions\JsonDecodingException
      */
@@ -121,7 +121,7 @@ class Parser
     }
 
     /**
-     * Validate JWT (verify signature and validate claims)
+     * Validates the JWT (verifies the signature and validates the claims).
      *
      * @throws ValidationException
      * @throws InvalidSignatureException
@@ -141,6 +141,8 @@ class Parser
     }
 
     /**
+     * Validates the JWT header.
+     *
      * @throws JsonDecodingException
      * @throws InvalidTokenException
      */
@@ -149,15 +151,15 @@ class Parser
         $fields = $this->jsonParser->decode($this->base64Parser->decode($header));
 
         if (!isset($fields['typ'])) {
-            throw new InvalidTokenException('JWT header does not have `typ` field.');
+            throw new InvalidTokenException('The JWT header does not have a `typ` field.');
         }
         if ($fields['typ'] !== 'JWT') {
-            throw new InvalidTokenException("JWT of type `{$fields['typ']}` is not supported.");
+            throw new InvalidTokenException("The JWT type `{$fields['typ']}` is not supported.");
         }
 
         if (isset($fields['kid'])) {
             if ($fields['kid'] !== $this->verifier->kid()) {
-                throw new InvalidTokenException("The kid is not compatible with key ID.");
+                throw new InvalidTokenException("The token `kid` does not match the verifier's key ID.");
             }
         }
     }
