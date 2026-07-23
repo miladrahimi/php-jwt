@@ -52,6 +52,24 @@ class ExamplesTest extends TestCase
     /**
      * @throws Throwable
      */
+    public function test_verifying_without_parsing()
+    {
+        $key = new HmacKey('12345678901234567890123456789012');
+        $signer = new HS256($key);
+
+        $generator = new Generator($signer);
+        $jwt = $generator->generate(['id' => 13, 'is-admin' => true]);
+
+        $parser = new Parser($signer);
+        $parser->verify($jwt);
+        $parser->validate($jwt);
+
+        $this->assertTrue(true);
+    }
+
+    /**
+     * @throws Throwable
+     */
     public function test_rsa_algorithms()
     {
         // Generate a token

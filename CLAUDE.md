@@ -19,8 +19,11 @@ composer install
 ./vendor/bin/phpunit --filter test_simple_example  # one test
 ```
 
-No `composer test` script and no linter config.
-CI runs the suite on PHP 7.4–8.4; keep new code green on 7.4.
+No `composer test` script. Code style is enforced by StyleCI (`.styleci.yml`): PSR-12 plus spaced
+concatenation, alpha-ordered imports, single quotes, short arrays, and no unused imports.
+Static analysis: PHPStan level 5 (`phpstan.neon`) runs in CI; it is not a Composer dependency — run it locally
+via a downloaded phar (`phpstan analyse`).
+CI runs the suite on PHP 7.4–8.5; keep new code green on 7.4.
 
 ## Architecture
 
@@ -30,7 +33,7 @@ Two facades wire small, single-responsibility pieces by constructor injection:
 - **`Generator`** (`src/Generator.php`) — takes a `Signer`, builds the JWT from a claims array.
 - **`Parser`** (`src/Parser.php`) — takes a `Verifier` (+ optional `Validator`); splits, checks the header,
   verifies the signature, decodes, then validates claims.
-  Also has `verify()` and `validate()`.
+  Also has `verify()` (header + signature) and `validate()` (header + signature + claims).
 
 Each concern is an interface with one default: `Cryptography/Signer` & `Cryptography/Verifier` (per-algorithm),
 `Validator/Validator` (`DefaultValidator`), `Json/JsonParser` (`StrictJsonParser`), `Base64/Base64Parser`
@@ -55,6 +58,8 @@ accept a file path **or** inline PEM).
 - **PHP 7.4 syntax only in `src/`:** typed properties and `?T` are fine; no enums, `match`, promotion, named
   args, or union types.
   `declare(strict_types=1);` at the top of each file.
+- **Line length is 120** for code, comments, and docblocks; never wrap a comment or docblock line before it
+  reaches 120 characters.
 - **Exceptions** all extend `Exceptions\JwtException`; throw the specific subclass, add no new base classes.
 - **Docblock summaries** are third-person indicative and end with a period ("Generates the JWT.", "Checks
   whether…"), not imperative; use `{@inheritDoc}` for inherited members; omit docblocks that only restate a
@@ -71,7 +76,7 @@ accept a file path **or** inline PEM).
 - Never weaken cryptography (verification, DER conversion, key-length checks) to pass a test.
 - Keep `src/` dependency-free and PHP 7.4-compatible.
 - `assets/keys/` are **test-only** keys — never treat as production keys.
-- Don't commit or push unless asked; branch first if on `master`.
+- Don't commit or push unless asked; branch first if on `main`.
 - Public-API examples are verified by `tests/ExamplesTest.php` — change README and tests together.
 
 ## Known quirks

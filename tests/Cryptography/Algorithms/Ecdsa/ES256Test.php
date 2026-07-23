@@ -58,6 +58,62 @@ class ES256Test extends TestCase
     /**
      * @throws Throwable
      */
+    public function test_verify_with_a_different_key_it_should_fail()
+    {
+        $signature = (new ES256Signer($this->privateKey))->sign('Text');
+
+        $otherPublicKey = new EcdsaPublicKey(__DIR__ . '/../../../../assets/keys/ecdsa256k-public.pem');
+        $verifier = new ES256Verifier($otherPublicKey);
+
+        $this->expectException(InvalidSignatureException::class);
+        $verifier->verify('Text', $signature);
+    }
+
+    /**
+     * A raw signature whose length does not match the curve must be rejected before any DER conversion is attempted.
+     *
+     * @throws Throwable
+     */
+    public function test_verify_with_empty_signature_it_should_fail()
+    {
+        $verifier = new ES256Verifier($this->publicKey);
+
+        $this->expectException(InvalidSignatureException::class);
+        $this->expectExceptionMessage('The signature length is not valid.');
+        $verifier->verify('Text', '');
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function test_verify_with_truncated_signature_it_should_fail()
+    {
+        $signer = new ES256Signer($this->privateKey);
+        $signature = $signer->sign('Text');
+
+        $verifier = new ES256Verifier($this->publicKey);
+
+        $this->expectException(InvalidSignatureException::class);
+        $this->expectExceptionMessage('The signature length is not valid.');
+        $verifier->verify('Text', substr($signature, 0, -1));
+    }
+
+    /**
+     * A well-sized but all-zero signature must be rejected by verification, not crash the raw-to-DER conversion.
+     *
+     * @throws Throwable
+     */
+    public function test_verify_with_all_zero_signature_it_should_fail()
+    {
+        $verifier = new ES256Verifier($this->publicKey);
+
+        $this->expectException(InvalidSignatureException::class);
+        $verifier->verify('Text', str_repeat("\x00", 64));
+    }
+
+    /**
+     * @throws Throwable
+     */
     public function test_set_and_get_private_key()
     {
         $key = $this->privateKey;

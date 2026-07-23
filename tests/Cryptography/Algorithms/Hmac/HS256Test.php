@@ -59,6 +59,39 @@ class HS256Test extends TestCase
     }
 
     /**
+     * The documented key-length bounds `[32, 6144]` are inclusive.
+     *
+     * @throws Throwable
+     */
+    public function test_sign_with_boundary_key_lengths_it_should_pass()
+    {
+        $this->assertNotEmpty((new HS256(new HmacKey(str_repeat('k', 32))))->sign('Text'));
+        $this->assertNotEmpty((new HS256(new HmacKey(str_repeat('k', 6144))))->sign('Text'));
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function test_sign_with_a_key_over_the_maximum_length_it_should_fail()
+    {
+        $this->expectException(SigningException::class);
+        (new HS256(new HmacKey(str_repeat('k', 6145))))->sign('Text');
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function test_verify_with_a_different_key_it_should_fail()
+    {
+        $signature = (new HS256(new HmacKey(str_repeat('a', 32))))->sign('Text');
+
+        $verifier = new HS256(new HmacKey(str_repeat('b', 32)));
+
+        $this->expectException(InvalidSignatureException::class);
+        $verifier->verify('Text', $signature);
+    }
+
+    /**
      * @throws Throwable
      */
     public function test_set_and_get_key()

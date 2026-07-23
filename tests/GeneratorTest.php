@@ -8,8 +8,9 @@ use MiladRahimi\Jwt\Base64\SafeBase64Parser;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
 use MiladRahimi\Jwt\Cryptography\Keys\HmacKey;
 use MiladRahimi\Jwt\Cryptography\Signer;
-use MiladRahimi\Jwt\Json\StrictJsonParser;
 use MiladRahimi\Jwt\Generator;
+use MiladRahimi\Jwt\Json\StrictJsonParser;
+use MiladRahimi\Jwt\Parser;
 use Throwable;
 
 class GeneratorTest extends TestCase
@@ -32,6 +33,28 @@ class GeneratorTest extends TestCase
         $jwt = $generator->generate($this->sampleClaims);
 
         $this->assertEquals($this->sampleJwt, $jwt);
+    }
+
+    /**
+     * Claims survive the JSON/base64url round trip unchanged, including multibyte text and characters whose
+     * base64 encoding exercises the URL-safe `-`/`_` alphabet.
+     *
+     * @throws Throwable
+     */
+    public function test_generate_with_unicode_claims_it_should_round_trip()
+    {
+        $claims = [
+            'name' => 'Pink Floyd',
+            'localized' => 'پینک فلوید',
+            'emoji' => '🔐✓',
+            'chars' => '~~~???>>>',
+        ];
+
+        $generator = new Generator($this->signer);
+        $jwt = $generator->generate($claims);
+
+        $parser = new Parser($this->signer);
+        $this->assertSame($claims, $parser->parse($jwt));
     }
 
     public function test_set_and_get_signer()

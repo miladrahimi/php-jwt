@@ -35,7 +35,9 @@ class EdDsaVerifier implements Verifier
                 throw new InvalidSignatureException('Sodium cannot verify the signature.', 0, $e);
             }
         } else {
+            // @codeCoverageIgnoreStart
             throw new RuntimeException('The sodium_crypto_sign_verify_detached function is not available.');
+            // @codeCoverageIgnoreEnd
         }
     }
 

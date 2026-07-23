@@ -55,4 +55,15 @@ class RsaPrivateKeyTest extends TestCase
         $this->expectException(InvalidKeyException::class);
         new RsaPrivateKey(__DIR__ . '/../../../assets/file.empty');
     }
+
+    /**
+     * A directory path is not a readable key file and must be rejected cleanly instead of raising a PHP error.
+     *
+     * @throws Throwable
+     */
+    public function test_with_directory_path_it_should_fail()
+    {
+        $this->expectException(InvalidKeyException::class);
+        new RsaPrivateKey(__DIR__);
+    }
 }

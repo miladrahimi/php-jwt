@@ -8,7 +8,7 @@ use MiladRahimi\Jwt\Cryptography\Keys\RsaPrivateKey;
 use MiladRahimi\Jwt\Cryptography\Signer;
 use MiladRahimi\Jwt\Exceptions\SigningException;
 
-class AbstractRsaSigner implements Signer
+abstract class AbstractRsaSigner implements Signer
 {
     use Algorithm;
 
@@ -30,7 +30,7 @@ class AbstractRsaSigner implements Signer
             return $signature;
         }
 
-        throw new SigningException(openssl_error_string() ?: "OpenSSL cannot sign the token.");
+        throw new SigningException(openssl_error_string() ?: 'OpenSSL cannot sign the token.');
     }
 
     /**

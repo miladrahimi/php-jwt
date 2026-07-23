@@ -35,13 +35,14 @@ class VerifierFactory
     public function __construct(array $verifiers, ?JsonParser $jsonParser = null, ?Base64Parser $base64Parser = null)
     {
         foreach ($verifiers as $verifier) {
-            if ($verifier instanceof Verifier) {
-                $this->verifiers[$verifier->kid()] = $verifier;
-            } else {
+            if (!$verifier instanceof Verifier) {
                 throw new InvalidArgumentException(
                     'Values of the $verifiers array must be instances of MiladRahimi\Jwt\Cryptography\Verifier.'
                 );
             }
+
+            // A null kid registers under "" (kept for backward compatibility; PHP deprecates null array offsets).
+            $this->verifiers[(string)$verifier->kid()] = $verifier;
         }
 
         $this->jsonParser = $jsonParser ?: new StrictJsonParser();
@@ -61,6 +62,10 @@ class VerifierFactory
         $header = $this->jsonParser->decode($this->base64Parser->decode($this->extractHeader($jwt)));
 
         if (isset($header['kid'])) {
+            if (!is_string($header['kid'])) {
+                throw new InvalidTokenException('The JWT header `kid` field must be a string.');
+            }
+
             if (isset($this->verifiers[$header['kid']])) {
                 return $this->verifiers[$header['kid']];
             }

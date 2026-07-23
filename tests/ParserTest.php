@@ -112,7 +112,7 @@ class ParserTest extends TestCase
      */
     public function test_parse_with_invalid_jwt_it_should_fail()
     {
-        $invalidJwt = "abc.xyz";
+        $invalidJwt = 'abc.xyz';
 
         $parser = new Parser($this->verifier);
 
@@ -126,7 +126,7 @@ class ParserTest extends TestCase
      */
     public function test_parse_with_a_jwt_without_typ_it_should_fail()
     {
-        $noTypJwt = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NjYifQ.cIDA-W5EVXB8Y3JQAgPRpIB19fDsaTHPgDg1XoTImA8";
+        $noTypJwt = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NjYifQ.cIDA-W5EVXB8Y3JQAgPRpIB19fDsaTHPgDg1XoTImA8';
 
         $parser = new Parser($this->verifier);
 
@@ -140,13 +140,97 @@ class ParserTest extends TestCase
      */
     public function test_parse_with_a_jwt_with_non_jwt_typ()
     {
-        $noTypJwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IngifQ.eyJzdWIiOiI2NjYifQ.Ut195bqywLi3TtWjo4461lVxo7RudOJGPdD1zBA_Z2gU";
+        $noTypJwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IngifQ.eyJzdWIiOiI2NjYifQ.Ut195bqywLi3TtWjo4461lVxo7RudOJGPdD1zBA_Z2gU';
 
         $parser = new Parser($this->verifier);
 
         $this->expectException(InvalidTokenException::class);
         $this->expectExceptionMessage('The JWT type `x` is not supported.');
         $parser->parse($noTypJwt);
+    }
+
+    /**
+     * A header whose `typ` field is not a string (e.g. an array) must be rejected cleanly instead of raising a PHP
+     * type error.
+     *
+     * @throws Throwable
+     */
+    public function test_parse_with_a_jwt_with_non_string_typ_it_should_fail()
+    {
+        $base64Parser = new SafeBase64Parser();
+        $header = $base64Parser->encode('{"typ":["JWT"],"alg":"HS256"}');
+        $payload = $base64Parser->encode('{"sub":666}');
+
+        $parser = new Parser($this->verifier);
+
+        $this->expectException(InvalidTokenException::class);
+        $this->expectExceptionMessage('The JWT header `typ` field must be a string.');
+        $parser->parse("$header.$payload.signature");
+    }
+
+    /**
+     * A header whose `alg` contradicts the configured verifier's algorithm must be rejected (defense in depth
+     * against alg confusion).
+     *
+     * @throws Throwable
+     */
+    public function test_parse_with_a_jwt_with_mismatched_alg_it_should_fail()
+    {
+        $base64Parser = new SafeBase64Parser();
+        $header = $base64Parser->encode('{"typ":"JWT","alg":"RS256"}');
+        $payload = $base64Parser->encode('{"sub":666}');
+
+        $parser = new Parser($this->verifier);
+
+        $this->expectException(InvalidTokenException::class);
+        $this->expectExceptionMessage("The token `alg` does not match the verifier's algorithm.");
+        $parser->parse("$header.$payload.signature");
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function test_parse_with_a_jwt_with_non_string_alg_it_should_fail()
+    {
+        $base64Parser = new SafeBase64Parser();
+        $header = $base64Parser->encode('{"typ":"JWT","alg":123}');
+        $payload = $base64Parser->encode('{"sub":666}');
+
+        $parser = new Parser($this->verifier);
+
+        $this->expectException(InvalidTokenException::class);
+        $this->expectExceptionMessage('The JWT header `alg` field must be a string.');
+        $parser->parse("$header.$payload.signature");
+    }
+
+    /**
+     * All entry points (`parse`, `verify`, `validate`) run the same header validation.
+     *
+     * @throws Throwable
+     */
+    public function test_verify_with_a_jwt_without_typ_it_should_fail()
+    {
+        $noTypJwt = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NjYifQ.cIDA-W5EVXB8Y3JQAgPRpIB19fDsaTHPgDg1XoTImA8';
+
+        $parser = new Parser($this->verifier);
+
+        $this->expectException(InvalidTokenException::class);
+        $this->expectExceptionMessage('The JWT header does not have a `typ` field.');
+        $parser->verify($noTypJwt);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function test_validate_with_a_jwt_without_typ_it_should_fail()
+    {
+        $noTypJwt = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NjYifQ.cIDA-W5EVXB8Y3JQAgPRpIB19fDsaTHPgDg1XoTImA8';
+
+        $parser = new Parser($this->verifier);
+
+        $this->expectException(InvalidTokenException::class);
+        $this->expectExceptionMessage('The JWT header does not have a `typ` field.');
+        $parser->validate($noTypJwt);
     }
 
     /**
@@ -203,6 +287,45 @@ class ParserTest extends TestCase
         $this->expectException(InvalidTokenException::class);
         $this->expectExceptionMessage("The token `kid` does not match the verifier's key ID.");
         $parser->parse($jwt);
+    }
+
+    /**
+     * PHP's json_decode keeps the last occurrence of a duplicated claim; the signature covers the raw payload,
+     * so this documents decoding behavior for consumers comparing with other JWT implementations.
+     *
+     * @throws Throwable
+     */
+    public function test_parse_with_duplicate_claims_it_should_keep_the_last_value()
+    {
+        $base64Parser = new SafeBase64Parser();
+        $header = $base64Parser->encode('{"typ":"JWT","alg":"HS256"}');
+        $payload = $base64Parser->encode('{"sub":1,"sub":2}');
+        $signature = $base64Parser->encode($this->verifier->sign("$header.$payload"));
+
+        $parser = new Parser($this->verifier, new BaseValidator());
+        $claims = $parser->parse("$header.$payload.$signature");
+
+        $this->assertSame(2, $claims['sub']);
+    }
+
+    /**
+     * The header `kid` check applies only when the token carries one: a keyed verifier accepts kid-less tokens.
+     *
+     * @throws Throwable
+     */
+    public function test_parse_passes_when_token_has_no_kid_but_verifier_does()
+    {
+        $keyedHmac = new HS256(new HmacKey('12345678901234567890123456789012', 'key-1'));
+
+        $base64Parser = new SafeBase64Parser();
+        $header = $base64Parser->encode('{"typ":"JWT","alg":"HS256"}');
+        $payload = $base64Parser->encode('{"sub":1}');
+        $signature = $base64Parser->encode($keyedHmac->sign("$header.$payload"));
+
+        $parser = new Parser($keyedHmac, new BaseValidator());
+        $claims = $parser->parse("$header.$payload.$signature");
+
+        $this->assertSame(1, $claims['sub']);
     }
 
     /**
