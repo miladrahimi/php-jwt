@@ -36,7 +36,9 @@ class EdDsaSigner implements Signer
             }
         }
 
+        // @codeCoverageIgnoreStart
         throw new RuntimeException('The sodium_crypto_sign_detached function is not available.');
+        // @codeCoverageIgnoreEnd
     }
 
     public function name(): string
