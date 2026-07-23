@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace MiladRahimi\Jwt\Tests\Validator;
 
+use MiladRahimi\Jwt\Enums\PublicClaimNames;
 use MiladRahimi\Jwt\Exceptions\ValidationException;
 use MiladRahimi\Jwt\Tests\TestCase;
 use MiladRahimi\Jwt\Validator\DefaultValidator;
+use MiladRahimi\Jwt\Validator\Rules\EqualsTo;
 use Throwable;
 
 class DefaultValidatorTest extends TestCase
@@ -145,5 +147,20 @@ class DefaultValidatorTest extends TestCase
         $validator->validate([
             'iat' => time() + 60 * 60 * 24,
         ]);
+    }
+
+    /**
+     * Custom rules added by the user run in addition to the built-in time-based rules.
+     *
+     * @throws Throwable
+     */
+    public function test_with_a_custom_required_rule_it_should_fail_when_the_claim_is_missing()
+    {
+        $validator = new DefaultValidator();
+        $validator->addRequiredRule(PublicClaimNames::SUBJECT, new EqualsTo(666));
+
+        $this->expectException(ValidationException::class);
+        $this->expectExceptionMessage('The `sub` is required.');
+        $validator->validate([]);
     }
 }

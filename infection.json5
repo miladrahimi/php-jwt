@@ -1,0 +1,58 @@
+{
+    "$schema": "https://raw.githubusercontent.com/infection/infection/master/resources/schema.json",
+    "source": {
+        "directories": [
+            "src"
+        ]
+    },
+    "timeout": 30,
+    "logs": {
+        "text": "infection.log"
+    },
+    // Strict: with the equivalent mutants documented below excluded, every generated mutant must be killed.
+    "minMsi": 100,
+    "minCoveredMsi": 100,
+    "mutators": {
+        "@default": true,
+        // `protected` → `private` on members only used within their own class or trait is invisible to tests,
+        // but the protected visibility is part of the extension API (tests themselves subclass these members).
+        "ProtectedVisibility": false,
+        "LogicalAnd": {
+            "ignore": [
+                // `openssl_sign(...) === true && is_string($signature)`: when openssl_sign() fails, $signature
+                // stays null, so `&&` and `||` behave identically; the is_string() guard is for static analysis.
+                "MiladRahimi\\Jwt\\Cryptography\\Algorithms\\Ecdsa\\AbstractEcdsaSigner::sign"
+            ]
+        },
+        "DecrementInteger": {
+            "ignore": [
+                // `max(1, strlen($signature) / 2)` → `max(0, ...)`: both blow up identically for the sub-2-byte
+                // inputs the guard covers, and verify() length-checks every signature before calling this.
+                "MiladRahimi\\Jwt\\Cryptography\\Algorithms\\Ecdsa\\AbstractEcdsaVerifier::signatureToDer"
+            ]
+        },
+        "Assignment": {
+            "ignore": [
+                // `$tagHeader |= 0x20` → `=`: $tagHeader is always 0 at that point, so both are identical.
+                "MiladRahimi\\Jwt\\Cryptography\\Algorithms\\Ecdsa\\AbstractEcdsaVerifier::encodeDer"
+            ]
+        },
+        "CastString": {
+            "ignore": [
+                // `(string)file_get_contents(...)`: the cast exists for static analysis (false on unreadable
+                // files); the call is guarded by is_file(), so the cast is unobservable.
+                "MiladRahimi\\Jwt\\Cryptography\\Keys\\EcdsaPrivateKey::__construct",
+                "MiladRahimi\\Jwt\\Cryptography\\Keys\\EcdsaPublicKey::__construct",
+                "MiladRahimi\\Jwt\\Cryptography\\Keys\\RsaPrivateKey::__construct",
+                "MiladRahimi\\Jwt\\Cryptography\\Keys\\RsaPublicKey::__construct",
+                // `(string)$this->value` under an is_scalar() guard: string interpolation performs the exact
+                // same conversion, so the cast is unobservable.
+                "MiladRahimi\\Jwt\\Validator\\Rules\\EqualsTo::validate",
+                "MiladRahimi\\Jwt\\Validator\\Rules\\IdenticalTo::validate",
+                // `(string)$verifier->kid()`: a null kid registers under "" with or without the cast; the cast
+                // only avoids a PHP 8.1+ deprecation notice.
+                "MiladRahimi\\Jwt\\VerifierFactory::__construct"
+            ]
+        }
+    }
+}

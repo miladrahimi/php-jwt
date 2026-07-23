@@ -91,6 +91,12 @@ class RS256Test extends TestCase
             }
         };
 
+        // The digest check fails inside PHP before OpenSSL is reached, so the error queue stays empty and the
+        // fallback message is used. Drain stale entries so the queue state is deterministic.
+        while (openssl_error_string() !== false) {
+            continue;
+        }
+
         // Swallow the PHP warning OpenSSL raises alongside returning false.
         set_error_handler(function (): bool {
             return true;
@@ -98,9 +104,37 @@ class RS256Test extends TestCase
 
         try {
             $this->expectException(SigningException::class);
+            $this->expectExceptionMessage('OpenSSL cannot sign the token.');
             $signer->sign('Text');
         } finally {
             restore_error_handler();
+        }
+    }
+
+    /**
+     * The exception carries the OpenSSL error explaining the failed verification. OpenSSL 3 reports the failure
+     * through its error queue; OpenSSL 1.1 does not reliably queue one here, so the test needs OpenSSL 3+.
+     *
+     * @throws Throwable
+     */
+    public function test_verify_with_a_wrong_signature_it_should_carry_the_openssl_error()
+    {
+        if (OPENSSL_VERSION_NUMBER < 0x30000000) {
+            $this->markTestSkipped('This test requires OpenSSL 3.');
+        }
+
+        // Drain stale entries so the error queue state is deterministic.
+        while (openssl_error_string() !== false) {
+            continue;
+        }
+
+        $verifier = new RS256Verifier($this->rsaPublicKey);
+
+        try {
+            $verifier->verify('Plain', str_repeat("\x01", 256));
+            $this->fail('An InvalidSignatureException was expected.');
+        } catch (InvalidSignatureException $e) {
+            $this->assertStringStartsWith('error:', $e->getMessage());
         }
     }
 
