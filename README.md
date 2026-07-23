@@ -178,7 +178,9 @@ Check out this example:
 use MiladRahimi\Jwt\Parser;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
 use MiladRahimi\Jwt\Exceptions\ValidationException;
+use MiladRahimi\Jwt\Validator\DefaultValidator;
 use MiladRahimi\Jwt\Validator\Rules\EqualsTo;
+use MiladRahimi\Jwt\Validator\Rules\NewerThan;
 
 $jwt = '...'; // Get the JWT from the user
 
@@ -191,7 +193,7 @@ $validator = new DefaultValidator();
 $validator->addRequiredRule('is-admin', new EqualsTo(true));
 
 // The 'exp' claim is optional, and the rule will be applicable if it is present.
-$validator->addOptionalRule('exp', new NewerThan(time()), false);
+$validator->addOptionalRule('exp', new NewerThan(time()));
 
 // Parse the token
 $parser = new Parser($signer, $validator);

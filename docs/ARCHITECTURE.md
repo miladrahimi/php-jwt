@@ -13,8 +13,10 @@ base64url(header) . base64url(payload) . base64url(signature)
       └─ {"typ":"JWT","alg":"<algorithm>"[,"kid":"<key id>"]}
 ```
 
-The header `alg` is metadata only — **the parser never uses it to pick an algorithm automatically**.
+The header `alg` never picks an algorithm — **the configured verifier's algorithm is always the one used**.
 This blocks the "alg confusion" downgrade attack (`RS256`→`HS256`/`none`).
+As defense in depth, a present `alg` that contradicts the verifier's `name()` is rejected
+(`InvalidTokenException`).
 
 ## Design principles
 
@@ -47,10 +49,11 @@ base64url(json) each of header and claims → sign `header.payload` → join wit
 Throws `JsonEncodingException` / `SigningException`.
 
 **Parse** (`Parser::parse`): split into 3 (`InvalidTokenException`) → validate header (`typ` must be `"JWT"`;
-`kid`, if present, must match the verifier) → verify signature (`InvalidSignatureException`) → decode payload
-→ validate claims (`ValidationException`) → return claims.
+`alg` and `kid`, if present, must match the verifier) → verify signature (`InvalidSignatureException`) →
+decode payload → validate claims (`ValidationException`) → return claims.
 The signature is verified **before** the payload is decoded — keep that order.
-`Parser` also exposes `verify()` (signature only) and `validate()` (signature + claims).
+`Parser` also exposes `verify()` (header + signature) and `validate()` (header + signature + claims);
+all three entry points run the same header validation.
 
 ## Cryptography (`src/Cryptography/`)
 
@@ -79,7 +82,7 @@ The signature is verified **before** the payload is decoded — keep that order.
 - **String-content** — `HmacKey`, `EdDsaPrivateKey`, `EdDsaPublicKey`: `__construct(string $key, ?string $id)`,
   `getContent()`, no file I/O.
 - **OpenSSL** — `Rsa*`, `Ecdsa*`: `getResource()` (`OpenSSLAsymmetricKey`/resource, typed `mixed`).
-  All four load identically — `realpath($key) ? file_get_contents(...) : $key` — so a **file path or inline
+  All four load identically — `is_file($key) ? file_get_contents(...) : $key` — so a **file path or inline
   PEM** both work.
   Private keys add a passphrase (`(string $key, string $passphrase = '', ?string $id)`,
   `openssl_pkey_get_private`); public keys `(string $key, ?string $id)`, `openssl_pkey_get_public`.
@@ -101,9 +104,9 @@ Non-`Verifier` elements throw `InvalidArgumentException`.
   When a claim is present, every rule runs; when absent, a **required** rule throws and an **optional** one is
   skipped.
   "Required" governs presence only.
-- **`DefaultValidator`** pre-registers optional, time-based rules (using `time()` at construction):
+- **`DefaultValidator`** applies optional, time-based rules on every `validate()` call (using the current
+  `time()`, so long-lived instances stay correct):
   `exp → NewerThan`, `nbf → OlderThanOrSame`, `iat → OlderThanOrSame`.
-  Build a fresh instance per request.
 
 Built-in rules (`Validator/Rules/`):
 
@@ -122,7 +125,7 @@ Custom rules implement `Rule` and throw `ValidationException`.
 ## Encoding helpers
 
 - **`SafeBase64Parser`** — URL-safe base64 (`+/`↔`-_`, strips/re-pads `=`).
-  Never throws.
+  Decoding is strict: input outside the base64 alphabet throws `InvalidTokenException`.
 - **`StrictJsonParser`** — wraps `json_encode`/`json_decode` (associative), checks `json_last_error()`, throws
   `JsonEncodingException` / `JsonDecodingException`; also rejects non-array JSON.
 
@@ -135,15 +138,6 @@ Catch `JwtException` for all, or a subclass for specifics.
 
 ## Known quirks
 
-Documented so they aren't mistaken for bugs — confirm intent before changing.
+Intentional oddities, documented so they aren't mistaken for bugs — confirm intent before changing.
 
 None at the moment.
-
-### Resolved
-
-- **HMAC verify is now constant-time** (`Hmac/AbstractHmac.php`) — `hash_equals()` instead of `!==`,
-  removing the signature-comparison timing side channel. No behavior change for valid or invalid tokens.
-- **`ES384` now hashes with SHA-384** (`Ecdsa/Algorithm.php`), matching RFC 7518 §3.1/§3.4
-  ("ECDSA using P-384 and SHA-384"). It previously used SHA-512, which was self-consistent but did not
-  interoperate with compliant JWT implementations. **This was a breaking change**: ES384 tokens issued by
-  older versions no longer verify, and vice-versa.
