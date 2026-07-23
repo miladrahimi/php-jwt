@@ -12,7 +12,7 @@ use MiladRahimi\Jwt\Exceptions\ValidationException;
 interface Rule
 {
     /**
-     * Validate the given value
+     * Validates the given value.
      *
      * @throws ValidationException
      */
