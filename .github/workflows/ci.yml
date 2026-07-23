@@ -25,13 +25,20 @@ jobs:
         uses: ramsey/composer-install@v4
 
       - name: Run tests and collect coverage
-        run: vendor/bin/phpunit --coverage-text --coverage-clover coverage.xml
+        run: vendor/bin/phpunit --coverage-text --coverage-clover coverage.xml --log-junit junit.xml
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: coverage.xml
+
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: junit.xml
 
   static-analysis:
     runs-on: ubuntu-latest
