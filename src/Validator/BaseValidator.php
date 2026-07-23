@@ -15,7 +15,7 @@ use MiladRahimi\Jwt\Exceptions\ValidationException;
 class BaseValidator implements Validator
 {
     /**
-     * @var array<string, array<int, array{Rule, bool}>>
+     * @var array<string, array<int, array{0: Rule, 1: bool}>>
      */
     protected array $rules = [];
 
