@@ -39,7 +39,8 @@ Public-API examples in the README are verified by `tests/ExamplesTest.php` — u
 
 1. Branch off `main`, one concern per PR.
 2. Ensure `./vendor/bin/phpunit` is green (ideally on PHP 7.4).
-3. Update the README and `docs/` when behavior or the public API changes.
+3. Ensure `phpstan analyse` (level 5, `phpstan.neon`) reports no errors — CI runs it too.
+4. Update the README and `docs/` when behavior or the public API changes.
 
 ## Read more
 

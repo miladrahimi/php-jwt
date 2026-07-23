@@ -70,7 +70,8 @@ all three entry points run the same header validation.
 - **ECDSA** (`Algorithms/Ecdsa/`) — the subtle part.
   OpenSSL speaks **DER** (`SEQUENCE(INTEGER r, INTEGER s)`) but JWS needs raw `R || S`.
   `sign()` converts DER→raw (`derToSignature`, left-pad each half to `keySize/8`: 32 bytes for ES256/ES256K,
-  48 for ES384); `verify()` converts raw→DER (`signatureToDer`) before `openssl_verify`.
+  48 for ES384); `verify()` rejects raw signatures whose length doesn't match the curve, then converts raw→DER
+  (`signatureToDer`) before `openssl_verify`.
   `algorithm()` maps ES256/ES256K → SHA-256, ES384 → SHA-384 (per RFC 7518 §3.1).
   The DER codec handles only ECDSA signatures — don't generalize it.
 - **EdDSA** (`Algorithms/Eddsa/`) — standalone signer/verifier via `sodium_crypto_sign_detached` /
@@ -93,7 +94,7 @@ all three entry points run the same header validation.
 
 Indexes verifiers by `kid()`.
 `getVerifier($jwt)` reads the token's `kid` and returns the match, else `NoKidException` /
-`VerifierNotFoundException`.
+`VerifierNotFoundException`; a non-string `kid` throws `InvalidTokenException`.
 Non-`Verifier` elements throw `InvalidArgumentException`.
 
 ## Validation (`src/Validator/`)
