@@ -32,7 +32,8 @@ abstract class AbstractEcdsaSigner implements Signer
      */
     public function sign(string $message): string
     {
-        if (openssl_sign($message, $signature, $this->privateKey->getResource(), $this->algorithm()) === true) {
+        if (openssl_sign($message, $signature, $this->privateKey->getResource(), $this->algorithm()) === true
+            && is_string($signature)) {
             return $this->derToSignature($signature, $this->keySize());
         }
 

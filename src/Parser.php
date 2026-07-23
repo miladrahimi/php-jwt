@@ -46,7 +46,7 @@ class Parser
     /**
      * Parses the JWT (verifies, decodes, and validates it) and returns the claims.
      *
-     * @return array<string, mixed>
+     * @return array<int|string, mixed>
      * @throws Exceptions\SigningException
      * @throws Exceptions\InvalidSignatureException
      * @throws Exceptions\InvalidTokenException
@@ -119,7 +119,7 @@ class Parser
     /**
      * Decodes the JWT payload and returns the claims.
      *
-     * @return array<string, mixed>
+     * @return array<int|string, mixed>
      * @throws InvalidTokenException
      * @throws JsonDecodingException
      */
