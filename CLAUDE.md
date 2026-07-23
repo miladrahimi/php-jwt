@@ -20,7 +20,7 @@ composer install
 ```
 
 No `composer test` script and no linter config.
-CI runs the suite on PHP 7.4–8.3; keep new code green on 7.4.
+CI runs the suite on PHP 7.4–8.4; keep new code green on 7.4.
 
 ## Architecture
 
@@ -56,8 +56,14 @@ accept a file path **or** inline PEM).
   args, or union types.
   `declare(strict_types=1);` at the top of each file.
 - **Exceptions** all extend `Exceptions\JwtException`; throw the specific subclass, add no new base classes.
+- **Docblock summaries** are third-person indicative and end with a period ("Generates the JWT.", "Checks
+  whether…"), not imperative; use `{@inheritDoc}` for inherited members; omit docblocks that only restate a
+  typed signature.
+- **Exception messages** are complete sentences: capitalized, ending with a period, identifiers in backticks
+  (`` `typ` ``). Public-facing message strings are asserted in tests — change message and test together.
 - `Enums\PublicClaimNames` is a constants class (not a real enum) — use it instead of literal claim strings.
-- **Tests** mirror `src/`, extend `Tests\TestCase`, snake_case names.
+- **Tests** mirror `src/`, extend `Tests\TestCase`, snake_case names, and also start with
+  `declare(strict_types=1);`.
   See [`docs/TESTING.md`](docs/TESTING.md).
 
 ## Guardrails
@@ -74,6 +80,3 @@ Documented so they aren't mistaken for bugs; confirm intent before changing.
 Detail in [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md#known-quirks).
 
 - HMAC verify uses `!==`, not constant-time `hash_equals`.
-- README lists `RS384` twice under ECDSA where `ES384` is meant.
-- Minor: `AbstractRsaSigner` param misnamed `$publicKey`; some files miss `declare(strict_types=1)`;
-  `EdDsaVerifier` has a typo'd message.

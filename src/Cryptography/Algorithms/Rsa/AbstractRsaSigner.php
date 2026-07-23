@@ -14,13 +14,13 @@ class AbstractRsaSigner implements Signer
 
     protected RsaPrivateKey $privateKey;
 
-    public function __construct(RsaPrivateKey $publicKey)
+    public function __construct(RsaPrivateKey $privateKey)
     {
-        $this->privateKey = $publicKey;
+        $this->privateKey = $privateKey;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function sign(string $message): string
     {
@@ -34,7 +34,7 @@ class AbstractRsaSigner implements Signer
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function kid(): ?string
     {

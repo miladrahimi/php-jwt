@@ -10,7 +10,7 @@ use MiladRahimi\Jwt\Exceptions\JsonEncodingException;
 class StrictJsonParser implements JsonParser
 {
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function encode(array $data): string
     {
@@ -24,7 +24,7 @@ class StrictJsonParser implements JsonParser
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function decode(string $json): array
     {

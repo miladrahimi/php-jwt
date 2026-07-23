@@ -7,25 +7,25 @@ namespace MiladRahimi\Jwt\Cryptography;
 use MiladRahimi\Jwt\Exceptions\SigningException;
 
 /**
- * It employs cryptographic algorithms to sign messages, serving as
- * the mechanism for generating the signature in JSON Web Tokens (JWTs).
+ * Employs cryptographic algorithms to sign messages, producing the
+ * signature of JSON Web Tokens (JWTs).
  */
 interface Signer
 {
     /**
-     * Retrieve the signer name
+     * Returns the signer (algorithm) name.
      */
     public function name(): string;
 
     /**
-     * Retrieve the kid (Key ID)
+     * Returns the key ID (kid).
      *
-     * @return string|null It returns null if no kid is specified and a string if a key is specified.
+     * @return string|null The key ID, or null when none is specified.
      */
     public function kid(): ?string;
 
     /**
-     * Sign the message
+     * Signs the message.
      *
      * @throws SigningException
      */

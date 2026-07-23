@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MiladRahimi\Jwt\Tests;
 
 use MiladRahimi\Jwt\Enums\PublicClaimNames;

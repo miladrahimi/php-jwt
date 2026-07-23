@@ -8,12 +8,12 @@ use MiladRahimi\Jwt\Exceptions\ValidationException;
 use MiladRahimi\Jwt\Validator\Rule;
 
 /**
- * It checks if the claim is not empty
+ * Checks whether the claim is not empty.
  */
 class NotEmpty implements Rule
 {
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function validate(string $name, $value)
     {

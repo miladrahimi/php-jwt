@@ -8,13 +8,13 @@ use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 use MiladRahimi\Jwt\Exceptions\SigningException;
 
 /**
- * It employs cryptographic algorithms to verify messages, serving as
- * the mechanism for verifying the signature in JSON Web Tokens (JWTs).
+ * Employs cryptographic algorithms to verify messages, checking the
+ * signature of JSON Web Tokens (JWTs).
  */
 interface Verifier
 {
     /**
-     * Verify JWT signature
+     * Verifies the JWT signature.
      *
      * @throws InvalidSignatureException
      * @throws SigningException
@@ -22,9 +22,9 @@ interface Verifier
     public function verify(string $plain, string $signature): void;
 
     /**
-     * Retrieve the kid (Key ID)
+     * Returns the key ID (kid).
      *
-     * @return string|null It returns null if no kid is specified and a string if a key is specified.
+     * @return string|null The key ID, or null when none is specified.
      */
     public function kid(): ?string;
 }

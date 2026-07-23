@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MiladRahimi\Jwt\Tests\Cryptography\Algorithms\Hmac;
 
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS384;

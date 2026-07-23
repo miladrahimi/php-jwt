@@ -10,14 +10,14 @@ use MiladRahimi\Jwt\Exceptions\JsonEncodingException;
 interface JsonParser
 {
     /**
-     * Encode array data to JSON string
+     * Encodes the array data to a JSON string.
      *
      * @throws JsonEncodingException
      */
     public function encode(array $data): string;
 
     /**
-     * Decode JSON string to array data
+     * Decodes the JSON string to array data.
      *
      * @throws JsonDecodingException
      */

@@ -5,14 +5,15 @@ declare(strict_types=1);
 namespace MiladRahimi\Jwt\Cryptography\Algorithms\Ecdsa;
 
 /**
- * Automatic algorithm-based value generator
+ * Resolves algorithm-specific values (name, OpenSSL algorithm, key size)
+ * from the JWA name.
  */
 trait Algorithm
 {
     protected static string $name;
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function name(): string
     {

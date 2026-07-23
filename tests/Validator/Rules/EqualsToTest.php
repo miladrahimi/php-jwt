@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MiladRahimi\Jwt\Tests\Validator\Rules;
 
 use MiladRahimi\Jwt\Exceptions\ValidationException;
@@ -50,7 +52,7 @@ class EqualsToTest extends TestCase
         $rule = new EqualsTo('text');
 
         $this->expectException(ValidationException::class);
-        $this->expectExceptionMessage('The `claim` must equal to `text`.');
+        $this->expectExceptionMessage('The `claim` must be equal to `text`.');
         $rule->validate('claim', 'another-text');
     }
 }

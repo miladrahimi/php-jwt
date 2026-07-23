@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace MiladRahimi\Jwt\Tests\Validator\Rules;
 
 use MiladRahimi\Jwt\Exceptions\ValidationException;
@@ -39,7 +41,7 @@ class NewerThanOrSameTest extends TestCase
         $rule = new NewerThanOrSame(666);
 
         $this->expectException(ValidationException::class);
-        $this->expectExceptionMessage('The `claim` must be newer than or same `666`.');
+        $this->expectExceptionMessage('The `claim` must be newer than or the same as `666`.');
         $rule->validate('claim', 13);
     }
 }

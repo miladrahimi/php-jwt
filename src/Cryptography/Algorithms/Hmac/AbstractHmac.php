@@ -24,7 +24,7 @@ abstract class AbstractHmac implements Signer, Verifier
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function sign(string $message): string
     {
@@ -34,12 +34,12 @@ abstract class AbstractHmac implements Signer, Verifier
             }
             return hash_hmac($this->algorithm(), $message, $this->key->getContent(), true);
         } catch (ValueError | InvalidKeyException $e) {
-            throw new SigningException('Cannot sign the signature.', 0, $e);
+            throw new SigningException('Cannot sign the message.', 0, $e);
         }
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function verify(string $plain, string $signature): void
     {
@@ -49,7 +49,7 @@ abstract class AbstractHmac implements Signer, Verifier
     }
 
     /**
-     * Generate algorithm name based on the key name
+     * Derives the hashing algorithm name from the JWA name.
      */
     protected function algorithm(): string
     {
@@ -57,7 +57,7 @@ abstract class AbstractHmac implements Signer, Verifier
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function name(): string
     {
@@ -65,7 +65,7 @@ abstract class AbstractHmac implements Signer, Verifier
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function kid(): ?string
     {

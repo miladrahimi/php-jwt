@@ -20,7 +20,7 @@ class BaseValidator implements Validator
     protected array $rules = [];
 
     /**
-     * Add a new required rule
+     * Adds a required rule for the given claim.
      */
     public function addRequiredRule(string $claimName, Rule $rule)
     {
@@ -28,7 +28,7 @@ class BaseValidator implements Validator
     }
 
     /**
-     * Add a new required rule
+     * Adds an optional rule for the given claim.
      */
     public function addOptionalRule(string $claimName, Rule $rule)
     {
@@ -36,7 +36,7 @@ class BaseValidator implements Validator
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function validate(array $claims)
     {
@@ -55,7 +55,7 @@ class BaseValidator implements Validator
                     $rule->validate($claimName, $value);
                 } elseif ($required) {
                     $message = "The `$claimName` is required.";
-                    throw  new ValidationException($message);
+                    throw new ValidationException($message);
                 }
             }
         }

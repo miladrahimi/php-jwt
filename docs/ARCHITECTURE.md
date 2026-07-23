@@ -138,10 +138,6 @@ Catch `JwtException` for all, or a subclass for specifics.
 Documented so they aren't mistaken for bugs — confirm intent before changing.
 
 1. **HMAC verify is not constant-time** — `!==` instead of `hash_equals()`.
-2. **README typos** — lists `RS384` under ECDSA where `ES384` is meant.
-3. **Minor:** `AbstractRsaSigner` param named `$publicKey` (holds the private key); some files miss
-   `declare(strict_types=1)`; `EdDsaVerifier` message is garbled; `BaseValidator::addOptionalRule` has a
-   copy-pasted docblock.
 
 Good candidates for the next cycle — all low-risk.
 

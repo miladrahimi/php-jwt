@@ -8,7 +8,7 @@ use MiladRahimi\Jwt\Exceptions\ValidationException;
 use MiladRahimi\Jwt\Validator\Rule;
 
 /**
- * It checks if the claim consists of the given substr
+ * Checks whether the claim contains the given substring.
  */
 class ConsistsOf implements Rule
 {
@@ -20,7 +20,7 @@ class ConsistsOf implements Rule
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function validate(string $name, $value)
     {

@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace MiladRahimi\Jwt\Enums;
 
 /**
- * Class PublicClaimNames
- *
- * @package MiladRahimi\Jwt\Enums
+ * Registered (public) JWT claim names, as defined by RFC 7519.
  */
 class PublicClaimNames
 {
