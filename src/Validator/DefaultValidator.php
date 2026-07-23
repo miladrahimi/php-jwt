@@ -20,7 +20,7 @@ class DefaultValidator extends BaseValidator
      * Checks the time-based claims (`exp`, `nbf`, `iat`) against the current time on every call, so long-lived
      * validator instances stay correct.
      */
-    public function validate(array $claims): void
+    public function validate(array $claims)
     {
         $now = time();
 
