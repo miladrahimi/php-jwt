@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace MiladRahimi\Jwt\Base64;
 
+use MiladRahimi\Jwt\Exceptions\InvalidTokenException;
+
 class SafeBase64Parser implements Base64Parser
 {
     /**
@@ -24,6 +26,11 @@ class SafeBase64Parser implements Base64Parser
             $data .= str_repeat('=', $paddingLength);
         }
 
-        return base64_decode(strtr($data, '-_', '+/'));
+        $decoded = base64_decode(strtr($data, '-_', '+/'), true);
+        if ($decoded === false) {
+            throw new InvalidTokenException('The Base64 encoding is not valid.');
+        }
+
+        return $decoded;
     }
 }

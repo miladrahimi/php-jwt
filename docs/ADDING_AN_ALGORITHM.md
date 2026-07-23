@@ -1,7 +1,7 @@
 # Adding a signing algorithm
 
 Extends the cryptography layer.
-Read [`ARCHITECTURE.md`](ARCHITECTURE.md) §5 first.
+Read the Cryptography section of [`ARCHITECTURE.md`](ARCHITECTURE.md) first.
 
 ## The contract
 
@@ -25,6 +25,8 @@ interface Verifier
 `sign()` returns raw bytes (the `Generator` base64url-encodes them).
 `verify()` receives raw bytes and throws `InvalidSignatureException` — it never returns a bool.
 Symmetric algorithms use one class for both interfaces; asymmetric ones split into `*Signer` / `*Verifier`.
+Give the verifier a `name()` method too (all built-ins have one): the `Parser` rejects tokens whose header `alg`
+contradicts it.
 
 ## Steps
 
@@ -44,6 +46,5 @@ Symmetric algorithms use one class for both interfaces; asymmetric ones split in
 ## Constraints
 
 - PHP 7.4-compatible, `declare(strict_types=1);`, no new runtime dependencies.
-- Match the RFC 7518 `alg` id and its specified hash — note the ES384/SHA-512 divergence in
-  [`ARCHITECTURE.md`](ARCHITECTURE.md#known-quirks).
+- Match the RFC 7518 `alg` id and its specified hash exactly; interoperability depends on it.
 - Prefer `hash_equals` for symmetric MAC verification.

@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace MiladRahimi\Jwt\Cryptography\Algorithms\Hmac;
 
+use Error;
 use MiladRahimi\Jwt\Cryptography\Keys\HmacKey;
 use MiladRahimi\Jwt\Cryptography\Signer;
 use MiladRahimi\Jwt\Cryptography\Verifier;
 use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 use MiladRahimi\Jwt\Exceptions\SigningException;
-use ValueError;
 
 abstract class AbstractHmac implements Signer, Verifier
 {
@@ -33,7 +33,7 @@ abstract class AbstractHmac implements Signer, Verifier
                 throw new InvalidKeyException('Key length must be between 32 and 6144.');
             }
             return hash_hmac($this->algorithm(), $message, $this->key->getContent(), true);
-        } catch (ValueError | InvalidKeyException $e) {
+        } catch (Error | InvalidKeyException $e) {
             throw new SigningException('Cannot sign the message.', 0, $e);
         }
     }

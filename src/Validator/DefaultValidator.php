@@ -14,10 +14,22 @@ use MiladRahimi\Jwt\Validator\Rules\OlderThanOrSame;
  */
 class DefaultValidator extends BaseValidator
 {
-    public function __construct()
+    /**
+     * {@inheritDoc}
+     *
+     * Checks the time-based claims (`exp`, `nbf`, `iat`) against the current time on every call, so long-lived
+     * validator instances stay correct.
+     */
+    public function validate(array $claims)
     {
-        $this->addOptionalRule(PublicClaimNames::EXPIRATION_TIME, new NewerThan(time()));
-        $this->addOptionalRule(PublicClaimNames::NOT_BEFORE, new OlderThanOrSame(time()));
-        $this->addOptionalRule(PublicClaimNames::ISSUED_AT, new OlderThanOrSame(time()));
+        $now = time();
+
+        $timeValidator = new BaseValidator();
+        $timeValidator->addOptionalRule(PublicClaimNames::EXPIRATION_TIME, new NewerThan($now));
+        $timeValidator->addOptionalRule(PublicClaimNames::NOT_BEFORE, new OlderThanOrSame($now));
+        $timeValidator->addOptionalRule(PublicClaimNames::ISSUED_AT, new OlderThanOrSame($now));
+        $timeValidator->validate($claims);
+
+        parent::validate($claims);
     }
 }

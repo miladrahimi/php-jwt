@@ -16,12 +16,22 @@ Requirements: PHP `>=7.4`, `ext-openssl`, `ext-json`, and `ext-sodium` (for EdDS
 
 ## Ground rules
 
-- **PHP 7.4 is the floor** (CI runs 7.4–8.3).
+- **PHP 7.4 is the floor** (CI runs 7.4–8.5).
   No enums, `match`, promotion, named args, or union types in `src/`.
 - **No runtime dependencies.**
 - `declare(strict_types=1);` at the top of every source file.
 - **Don't weaken security-critical code** (signing, verification, format conversion, key handling) to pass tests.
+- **KISS** — prefer the simplest thing that works; no extra tooling, configuration, or speculative abstractions
+  beyond what the task needs.
 - Use `Enums\PublicClaimNames` constants instead of raw claim strings.
+
+## Code style
+
+- Lines are at most 120 characters — code, comments, and docblocks alike.
+- Don't wrap a comment or docblock line before it reaches the 120-character limit; let sentences run the full
+  width first.
+- [StyleCI](https://styleci.io) enforces the rest (see `.styleci.yml`): PSR-12 plus spaced concatenation,
+  alphabetically ordered imports, single quotes, short arrays, and no unused imports.
 
 ## Tests
 
@@ -31,9 +41,10 @@ Public-API examples in the README are verified by `tests/ExamplesTest.php` — u
 
 ## Pull requests
 
-1. Branch off `master`, one concern per PR.
+1. Branch off `main`, one concern per PR.
 2. Ensure `./vendor/bin/phpunit` is green (ideally on PHP 7.4).
-3. Update the README and `docs/` when behavior or the public API changes.
+3. Ensure `phpstan analyse` (level 5, `phpstan.neon`) reports no errors — CI runs it too.
+4. Update the README and `docs/` when behavior or the public API changes.
 
 ## Read more
 

@@ -24,7 +24,7 @@ class ConsistsOf implements Rule
      */
     public function validate(string $name, $value)
     {
-        if (strpos($value, $this->substr) === false) {
+        if (!is_string($value) || strpos($value, $this->substr) === false) {
             $message = "The `$name` must consist of `$this->substr`.";
             throw new ValidationException($message);
         }

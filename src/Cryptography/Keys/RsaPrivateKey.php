@@ -24,11 +24,11 @@ class RsaPrivateKey
      */
     public function __construct(string $key, string $passphrase = '', ?string $id = null)
     {
-        $content = realpath($key) ? file_get_contents(realpath($key)) : $key;
+        $content = is_file($key) ? (string)file_get_contents($key) : $key;
 
         $this->resource = openssl_pkey_get_private($content, $passphrase);
         if ($this->resource === false) {
-            throw new InvalidKeyException(openssl_error_string());
+            throw new InvalidKeyException(openssl_error_string() ?: 'The key is not valid.');
         }
 
         $this->id = $id;

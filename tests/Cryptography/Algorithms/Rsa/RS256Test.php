@@ -10,6 +10,7 @@ use MiladRahimi\Jwt\Cryptography\Keys\RsaPrivateKey;
 use MiladRahimi\Jwt\Cryptography\Keys\RsaPublicKey;
 use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
+use MiladRahimi\Jwt\Exceptions\SigningException;
 use MiladRahimi\Jwt\Tests\TestCase;
 use Throwable;
 
@@ -59,6 +60,48 @@ class RS256Test extends TestCase
 
         $this->expectException(InvalidSignatureException::class);
         $verifier->verify('Different!', $signature);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function test_verify_with_a_different_key_it_should_fail()
+    {
+        $signer = new RS256Signer($this->rsaPrivateKey);
+        $signature = $signer->sign('Text');
+
+        $resource = openssl_pkey_new(['private_key_bits' => 2048, 'private_key_type' => OPENSSL_KEYTYPE_RSA]);
+        $otherPublicKey = new RsaPublicKey(openssl_pkey_get_details($resource)['key']);
+
+        $verifier = new RS256Verifier($otherPublicKey);
+
+        $this->expectException(InvalidSignatureException::class);
+        $verifier->verify('Text', $signature);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function test_sign_with_an_unsupported_algorithm_it_should_fail()
+    {
+        $signer = new class ($this->rsaPrivateKey) extends RS256Signer {
+            protected function algorithm(): int
+            {
+                return PHP_INT_MAX;
+            }
+        };
+
+        // Swallow the PHP warning OpenSSL raises alongside returning false.
+        set_error_handler(function (): bool {
+            return true;
+        }, E_WARNING);
+
+        try {
+            $this->expectException(SigningException::class);
+            $signer->sign('Text');
+        } finally {
+            restore_error_handler();
+        }
     }
 
     /**
