@@ -21,6 +21,8 @@ Requirements: PHP `>=7.4`, `ext-openssl`, `ext-json`, and `ext-sodium` (for EdDS
 - **No runtime dependencies.**
 - `declare(strict_types=1);` at the top of every source file.
 - **Don't weaken security-critical code** (signing, verification, format conversion, key handling) to pass tests.
+- **KISS** — prefer the simplest thing that works; no extra tooling, configuration, or speculative abstractions
+  beyond what the task needs.
 - Use `Enums\PublicClaimNames` constants instead of raw claim strings.
 
 ## Code style
@@ -28,6 +30,8 @@ Requirements: PHP `>=7.4`, `ext-openssl`, `ext-json`, and `ext-sodium` (for EdDS
 - Lines are at most 120 characters — code, comments, and docblocks alike.
 - Don't wrap a comment or docblock line before it reaches the 120-character limit; let sentences run the full
   width first.
+- [StyleCI](https://styleci.io) enforces the rest (see `.styleci.yml`): PSR-12 plus spaced concatenation,
+  alphabetically ordered imports, single quotes, short arrays, and no unused imports.
 
 ## Tests
 

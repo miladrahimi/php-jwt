@@ -36,7 +36,7 @@ abstract class AbstractEcdsaSigner implements Signer
             return $this->derToSignature($signature, $this->keySize());
         }
 
-        throw new SigningException(openssl_error_string() ?: "OpenSSL cannot sign the token.");
+        throw new SigningException(openssl_error_string() ?: 'OpenSSL cannot sign the token.');
     }
 
     /**

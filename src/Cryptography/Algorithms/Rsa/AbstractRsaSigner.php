@@ -30,7 +30,7 @@ abstract class AbstractRsaSigner implements Signer
             return $signature;
         }
 
-        throw new SigningException(openssl_error_string() ?: "OpenSSL cannot sign the token.");
+        throw new SigningException(openssl_error_string() ?: 'OpenSSL cannot sign the token.');
     }
 
     /**
