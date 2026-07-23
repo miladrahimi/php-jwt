@@ -1,11 +1,12 @@
-php:
-  preset: psr12
-  enabled:
-    - alpha_ordered_imports
-    - concat_with_spaces
-    - single_quote
-    - short_array_syntax
-    - trailing_comma_in_multiline_array
-    - no_useless_else
-    - no_useless_return
-    - no_unused_imports
+risky: false
+version: 7.4
+preset: psr12
+enabled:
+  - alpha_ordered_imports
+  - concat_with_spaces
+  - single_quote
+  - short_array_syntax
+  - trailing_comma_in_multiline_array
+  - no_useless_else
+  - no_useless_return
+  - no_unused_imports
