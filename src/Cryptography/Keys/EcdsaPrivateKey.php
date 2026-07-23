@@ -9,7 +9,8 @@ use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
 class EcdsaPrivateKey
 {
     /**
-     * @var resource The OpenSSL key handle (an OpenSSLAsymmetricKey object on PHP 8+).
+     * @var resource|\OpenSSLAsymmetricKey The OpenSSL key handle.
+     * @phpstan-var resource
      */
     protected $resource;
 
@@ -37,7 +38,8 @@ class EcdsaPrivateKey
     }
 
     /**
-     * @return resource The OpenSSL key handle (an OpenSSLAsymmetricKey object on PHP 8+).
+     * @return resource|\OpenSSLAsymmetricKey The OpenSSL key handle.
+     * @phpstan-return resource
      */
     public function getResource()
     {
