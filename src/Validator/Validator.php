@@ -7,12 +7,12 @@ namespace MiladRahimi\Jwt\Validator;
 use MiladRahimi\Jwt\Exceptions\ValidationException;
 
 /**
- * Validation is responsible for validating extracted claims from JWTs.
+ * Validator is responsible for validating the claims extracted from JWTs.
  */
 interface Validator
 {
     /**
-     * Validate the given claims
+     * Validates the given claims.
      *
      * @param string[] $claims
      * @throws ValidationException
