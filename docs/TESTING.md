@@ -10,6 +10,7 @@
 
 `phpunit.xml` defines one testsuite `main` → `./tests`, coverage over `./src`.
 There is no `composer test` script — call the binary directly.
+Local coverage without pcov/xdebug: `phpdbg -qrr vendor/bin/phpunit --coverage-text`.
 EdDSA tests need `ext-sodium`.
 CI runs on PHP 7.4–8.5; new tests must pass on 7.4.
 

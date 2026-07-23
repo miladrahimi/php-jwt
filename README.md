@@ -17,7 +17,7 @@ Supported algorithms:
 
 Supported features:
 * Built-in and custom validations
-* Multiple key and `kid` header handler
+* Multiple keys and `kid` header handling
 
 Confirmed by [JWT.io](https://jwt.io).
 
@@ -137,7 +137,7 @@ $claims = $parser->parse($jwt);
 print_r($claims); // ['id' => 13, 'is-admin' => true]
 ```
 
-## EdDSA Algorithm
+### EdDSA Algorithm
 
 EdDSA, similar to RSA and ECDSA, is an asymmetric cryptography algorithm and is widely recommended.
 In order to utilize it, ensure that the `sodium` PHP extension is installed in your environment.
@@ -146,6 +146,8 @@ The following example demonstrates how to use it.
 ```php
 use MiladRahimi\Jwt\Cryptography\Algorithms\Eddsa\EdDsaSigner;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Eddsa\EdDsaVerifier;
+use MiladRahimi\Jwt\Cryptography\Keys\EdDsaPrivateKey;
+use MiladRahimi\Jwt\Cryptography\Keys\EdDsaPublicKey;
 use MiladRahimi\Jwt\Generator;
 use MiladRahimi\Jwt\Parser;
 
@@ -216,19 +218,19 @@ While you can utilize `BaseValidator` for your validations, opting for this mean
 Validators rely on Rules to validate claims, with each Rule specifying acceptable values for a claim.
 You can access the built-in Rules within the `MiladRahimi\Jwt\Validator\Rules` namespace.
 
-* [ConsistsOf](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/ConsistsOf.php)
-* [EqualsTo](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/EqualsTo.php)
-* [GreaterThan](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/GreaterThan.php)
-* [GreaterThanOrEqualTo](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/GreaterThanOrEqualTo.php)
-* [IdenticalTo](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/IdenticalTo.php)
-* [LessThan](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/LessThan.php)
-* [LessThanOrEqualTo](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/LessThanOrEqualTo.php)
-* [NewerThan](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/NewerThan.php)
-* [NewerThanOrSame](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/NewerThanOrSame.php)
-* [NotEmpty](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/NotEmpty.php)
-* [NotNull](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/NotNull.php)
-* [OlderThan](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/OlderThan.php)
-* [OlderThanOrSame](https://github.com/miladrahimi/php-jwt/blob/master/src/Validator/Rules/OlderThanOrSame.php)
+* [ConsistsOf](src/Validator/Rules/ConsistsOf.php)
+* [EqualsTo](src/Validator/Rules/EqualsTo.php)
+* [GreaterThan](src/Validator/Rules/GreaterThan.php)
+* [GreaterThanOrEqualTo](src/Validator/Rules/GreaterThanOrEqualTo.php)
+* [IdenticalTo](src/Validator/Rules/IdenticalTo.php)
+* [LessThan](src/Validator/Rules/LessThan.php)
+* [LessThanOrEqualTo](src/Validator/Rules/LessThanOrEqualTo.php)
+* [NewerThan](src/Validator/Rules/NewerThan.php)
+* [NewerThanOrSame](src/Validator/Rules/NewerThanOrSame.php)
+* [NotEmpty](src/Validator/Rules/NotEmpty.php)
+* [NotNull](src/Validator/Rules/NotNull.php)
+* [OlderThan](src/Validator/Rules/OlderThan.php)
+* [OlderThanOrSame](src/Validator/Rules/OlderThanOrSame.php)
 
 Descriptions for each Rule can be found within their respective class doc blocks.
 
@@ -253,6 +255,25 @@ class Even implements Rule
 }
 ```
 
+### Verifying Without Parsing
+
+When you only need to check a token, the `Parser` offers lighter entry points than `parse()`:
+
+```php
+use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
+use MiladRahimi\Jwt\Cryptography\Keys\HmacKey;
+use MiladRahimi\Jwt\Parser;
+
+$signer = new HS256(new HmacKey('12345678901234567890123456789012'));
+$parser = new Parser($signer);
+
+$parser->verify($jwt);   // Validates the header and verifies the signature
+$parser->validate($jwt); // Additionally validates the claims (like parse(), without returning them)
+```
+
+All entry points validate the header (`typ` must be `JWT`; `alg` and `kid`, when present, must match the verifier)
+and verify the signature before anything else; they throw a `JwtException` subclass on any failure.
+
 ### Multiple Keys
 
 The `kid` parameter within the JWT header plays a crucial role in managing multiple keys efficiently.
@@ -271,6 +292,7 @@ use MiladRahimi\Jwt\Cryptography\Keys\RsaPrivateKey;
 use MiladRahimi\Jwt\Cryptography\Keys\RsaPublicKey;
 use MiladRahimi\Jwt\Generator;
 use MiladRahimi\Jwt\Parser;
+use MiladRahimi\Jwt\VerifierFactory;
 
 $privateKey1 = new RsaPrivateKey('/path/to/rsa-private.pem', '', 'key-1');
 $publicKey1 = new RsaPublicKey('/path/to/rsa-public.pem', 'key-1');
