@@ -72,7 +72,7 @@ abstract class AbstractEcdsaSigner implements Signer
      * as a SEQUENCE) the value is empty and nextOffset points at the first
      * child, so the caller can descend into it.
      *
-     * @return array{int, string}
+     * @return array{0: int, 1: string}
      */
     protected function decodeDer(string $der, int $offset = 0): array
     {
