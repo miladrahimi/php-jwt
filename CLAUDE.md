@@ -20,7 +20,7 @@ composer install
 ```
 
 No `composer test` script and no linter config.
-CI runs the suite on PHP 7.4–8.3; keep new code green on 7.4.
+CI runs the suite on PHP 7.4–8.4; keep new code green on 7.4.
 
 ## Architecture
 
