@@ -8,7 +8,7 @@ use MiladRahimi\Jwt\Exceptions\ValidationException;
 use MiladRahimi\Jwt\Validator\Rule;
 
 /**
- * It checks if the claim is identical to the given value (and its type)
+ * Checks whether the claim is identical to the given value (including its type).
  */
 class IdenticalTo implements Rule
 {
@@ -26,7 +26,7 @@ class IdenticalTo implements Rule
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function validate(string $name, $value)
     {
