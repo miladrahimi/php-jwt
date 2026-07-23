@@ -11,7 +11,7 @@
 `phpunit.xml` defines one testsuite `main` → `./tests`, coverage over `./src`.
 There is no `composer test` script — call the binary directly.
 EdDSA tests need `ext-sodium`.
-CI runs on PHP 7.4–8.3; new tests must pass on 7.4.
+CI runs on PHP 7.4–8.4; new tests must pass on 7.4.
 
 ## Layout
 
