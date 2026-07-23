@@ -32,9 +32,9 @@ class Parser
     private Base64Parser $base64Parser;
 
     public function __construct(
-        Verifier      $verifier,
-        ?Validator    $validator = null,
-        ?JsonParser   $jsonParser = null,
+        Verifier $verifier,
+        ?Validator $validator = null,
+        ?JsonParser $jsonParser = null,
         ?Base64Parser $base64Parser = null
     ) {
         $this->verifier = $verifier;
