@@ -20,7 +20,7 @@ class AbstractRsaVerifier implements Verifier
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function verify(string $plain, string $signature): void
     {
@@ -30,7 +30,7 @@ class AbstractRsaVerifier implements Verifier
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function kid(): ?string
     {
