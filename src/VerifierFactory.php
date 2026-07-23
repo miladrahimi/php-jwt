@@ -61,6 +61,10 @@ class VerifierFactory
         $header = $this->jsonParser->decode($this->base64Parser->decode($this->extractHeader($jwt)));
 
         if (isset($header['kid'])) {
+            if (!is_string($header['kid'])) {
+                throw new InvalidTokenException('The JWT header `kid` field must be a string.');
+            }
+
             if (isset($this->verifiers[$header['kid']])) {
                 return $this->verifiers[$header['kid']];
             }

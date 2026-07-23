@@ -33,6 +33,10 @@ abstract class AbstractEcdsaVerifier implements Verifier
      */
     public function verify(string $plain, string $signature): void
     {
+        if (strlen($signature) !== intdiv($this->keySize(), 8) * 2) {
+            throw new InvalidSignatureException('The signature length is not valid.');
+        }
+
         $signature = $this->signatureToDer($signature);
         if (openssl_verify($plain, $signature, $this->publicKey->getResource(), $this->algorithm()) !== 1) {
             throw new InvalidSignatureException(openssl_error_string() ?: "The signature is invalid.");
@@ -50,6 +54,14 @@ abstract class AbstractEcdsaVerifier implements Verifier
 
         $r = ltrim($r, "\x00");
         $s = ltrim($s, "\x00");
+
+        // A zero integer still occupies one byte in DER.
+        if ($r === '') {
+            $r = "\x00";
+        }
+        if ($s === '') {
+            $s = "\x00";
+        }
 
         // ASN.1 INTEGERs are signed: prepend 0x00 when the top bit is set so
         // the value is not misread as negative.

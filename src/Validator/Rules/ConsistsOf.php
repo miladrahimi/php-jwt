@@ -22,9 +22,9 @@ class ConsistsOf implements Rule
     /**
      * {@inheritDoc}
      */
-    public function validate(string $name, $value)
+    public function validate(string $name, $value): void
     {
-        if (strpos($value, $this->substr) === false) {
+        if (!is_string($value) || !str_contains($value, $this->substr)) {
             $message = "The `$name` must consist of `$this->substr`.";
             throw new ValidationException($message);
         }

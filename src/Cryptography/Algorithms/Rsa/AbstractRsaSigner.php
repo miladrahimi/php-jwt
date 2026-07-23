@@ -8,7 +8,7 @@ use MiladRahimi\Jwt\Cryptography\Keys\RsaPrivateKey;
 use MiladRahimi\Jwt\Cryptography\Signer;
 use MiladRahimi\Jwt\Exceptions\SigningException;
 
-class AbstractRsaSigner implements Signer
+abstract class AbstractRsaSigner implements Signer
 {
     use Algorithm;
 
