@@ -56,6 +56,20 @@ class ES256Test extends TestCase
     }
 
     /**
+     * @throws Throwable
+     */
+    public function test_verify_with_a_different_key_it_should_fail()
+    {
+        $signature = (new ES256Signer($this->privateKey))->sign('Text');
+
+        $otherPublicKey = new EcdsaPublicKey(__DIR__ . '/../../../../assets/keys/ecdsa256k-public.pem');
+        $verifier = new ES256Verifier($otherPublicKey);
+
+        $this->expectException(InvalidSignatureException::class);
+        $verifier->verify('Text', $signature);
+    }
+
+    /**
      * A raw signature whose length does not match the curve must be rejected before any DER conversion is attempted.
      *
      * @throws Throwable

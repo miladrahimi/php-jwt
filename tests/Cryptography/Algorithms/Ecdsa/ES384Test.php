@@ -145,6 +145,22 @@ class ES384Test extends TestCase
     }
 
     /**
+     * ES384 signatures are 96 raw bytes; anything else is rejected before DER conversion.
+     *
+     * @throws Throwable
+     */
+    public function test_verify_with_truncated_signature_it_should_fail()
+    {
+        $signature = (new ES384Signer($this->privateKey))->sign('Text');
+
+        $verifier = new ES384Verifier($this->publicKey);
+
+        $this->expectException(InvalidSignatureException::class);
+        $this->expectExceptionMessage('The signature length is not valid.');
+        $verifier->verify('Text', substr($signature, 0, -1));
+    }
+
+    /**
      * @throws Throwable
      */
     public function test_signer_and_verifier_they_should_fail_with_different_plains()

@@ -290,6 +290,45 @@ class ParserTest extends TestCase
     }
 
     /**
+     * PHP's json_decode keeps the last occurrence of a duplicated claim; the signature covers the raw payload,
+     * so this documents decoding behavior for consumers comparing with other JWT implementations.
+     *
+     * @throws Throwable
+     */
+    public function test_parse_with_duplicate_claims_it_should_keep_the_last_value()
+    {
+        $base64Parser = new SafeBase64Parser();
+        $header = $base64Parser->encode('{"typ":"JWT","alg":"HS256"}');
+        $payload = $base64Parser->encode('{"sub":1,"sub":2}');
+        $signature = $base64Parser->encode($this->verifier->sign("$header.$payload"));
+
+        $parser = new Parser($this->verifier, new BaseValidator());
+        $claims = $parser->parse("$header.$payload.$signature");
+
+        $this->assertSame(2, $claims['sub']);
+    }
+
+    /**
+     * The header `kid` check applies only when the token carries one: a keyed verifier accepts kid-less tokens.
+     *
+     * @throws Throwable
+     */
+    public function test_parse_passes_when_token_has_no_kid_but_verifier_does()
+    {
+        $keyedHmac = new HS256(new HmacKey('12345678901234567890123456789012', 'key-1'));
+
+        $base64Parser = new SafeBase64Parser();
+        $header = $base64Parser->encode('{"typ":"JWT","alg":"HS256"}');
+        $payload = $base64Parser->encode('{"sub":1}');
+        $signature = $base64Parser->encode($keyedHmac->sign("$header.$payload"));
+
+        $parser = new Parser($keyedHmac, new BaseValidator());
+        $claims = $parser->parse("$header.$payload.$signature");
+
+        $this->assertSame(1, $claims['sub']);
+    }
+
+    /**
      * A token whose header `kid` matches the verifier's key id parses successfully.
      *
      * @throws Throwable

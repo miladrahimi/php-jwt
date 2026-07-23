@@ -120,6 +120,22 @@ class VerifierFactoryTest extends TestCase
     }
 
     /**
+     * A verifier without a kid registers under the empty string (kept for backward compatibility): it is matched
+     * only by a token whose header carries `"kid": ""`, and produces no PHP deprecation on 8.5+.
+     *
+     * @throws Throwable
+     */
+    public function test_getVerifier_with_a_kid_less_verifier_it_should_match_an_empty_kid()
+    {
+        $verifier = new RS256Verifier(new RsaPublicKey(__DIR__ . '/../assets/keys/rsa-public.pem'));
+        $verifierFactory = new VerifierFactory([$verifier]);
+
+        $header = rtrim(strtr(base64_encode('{"typ":"JWT","kid":"","alg":"RS256"}'), '+/', '-_'), '=');
+
+        $this->assertSame($verifier, $verifierFactory->getVerifier("$header.payload.signature"));
+    }
+
+    /**
      * @throws Throwable
      */
     public function test_getVerifier_for_an_invalid_jwt()
