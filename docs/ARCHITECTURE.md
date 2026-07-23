@@ -96,6 +96,8 @@ Indexes verifiers by `kid()`.
 `getVerifier($jwt)` reads the token's `kid` and returns the match, else `NoKidException` /
 `VerifierNotFoundException`; a non-string `kid` throws `InvalidTokenException`.
 Non-`Verifier` elements throw `InvalidArgumentException`.
+A verifier without a `kid` registers under `""` and is matched only by a token whose header has `"kid": ""`
+(kept for backward compatibility).
 
 ## Validation (`src/Validator/`)
 

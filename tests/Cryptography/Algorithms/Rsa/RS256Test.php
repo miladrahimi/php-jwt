@@ -65,6 +65,23 @@ class RS256Test extends TestCase
     /**
      * @throws Throwable
      */
+    public function test_verify_with_a_different_key_it_should_fail()
+    {
+        $signer = new RS256Signer($this->rsaPrivateKey);
+        $signature = $signer->sign('Text');
+
+        $resource = openssl_pkey_new(['private_key_bits' => 2048, 'private_key_type' => OPENSSL_KEYTYPE_RSA]);
+        $otherPublicKey = new RsaPublicKey(openssl_pkey_get_details($resource)['key']);
+
+        $verifier = new RS256Verifier($otherPublicKey);
+
+        $this->expectException(InvalidSignatureException::class);
+        $verifier->verify('Text', $signature);
+    }
+
+    /**
+     * @throws Throwable
+     */
     public function test_sign_with_an_unsupported_algorithm_it_should_fail()
     {
         $signer = new class($this->rsaPrivateKey) extends RS256Signer {
