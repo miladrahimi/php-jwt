@@ -20,9 +20,9 @@ Infection (`infection.json5`) runs in CI (`mutation.yml`, PHP 8.5) with `minMsi`
 mutant it generates must be killed by the suite. It is not a Composer dependency — run it locally via the phar
 (`XDEBUG_MODE=coverage php infection.phar --threads=max`, or with pcov). When a mutant survives, write a test
 that kills it; extend the config's per-mutator `ignore` lists only for provably equivalent mutants, and document
-the proof in a comment next to the entry. Tests asserting OpenSSL error-queue messages must drain the queue
-first (`while (openssl_error_string() !== false)`) and, where OpenSSL 1.1 does not queue an error, skip below
-`OPENSSL_VERSION_NUMBER < 0x30000000`.
+the proof in a comment next to the entry. Tests asserting OpenSSL error-queue messages must make the queue state
+deterministic first: drain it (`while (openssl_error_string() !== false)`) and, where the operation under test
+does not queue an error on every platform, seed a known one (e.g. `openssl_pkey_get_private('not-a-valid-key')`).
 
 ## Layout
 
