@@ -29,7 +29,7 @@ abstract class AbstractEcdsaVerifier implements Verifier
     }
 
     /**
-     * @inheritdoc
+     * {@inheritDoc}
      */
     public function verify(string $plain, string $signature): void
     {
@@ -39,14 +39,20 @@ abstract class AbstractEcdsaVerifier implements Verifier
         }
     }
 
+    /**
+     * Converts a raw `R || S` JWS signature (RFC 7518) into the DER-encoded
+     * form that OpenSSL expects: an ASN.1 SEQUENCE of two INTEGERs (r, s).
+     */
     protected function signatureToDer(string $signature): string
     {
         $length = max(1, (int)(strlen($signature) / 2));
-        [$r, $s] = str_split($signature, $length);
+        [$r, $s] = str_split($signature, $length);      // split the raw signature into its two halves
 
         $r = ltrim($r, "\x00");
         $s = ltrim($s, "\x00");
 
+        // ASN.1 INTEGERs are signed: prepend 0x00 when the top bit is set so
+        // the value is not misread as negative.
         if (ord($r[0]) > 0x7f) {
             $r = "\x00" . $r;
         }
@@ -60,11 +66,17 @@ abstract class AbstractEcdsaVerifier implements Verifier
         );
     }
 
+    /**
+     * Wraps a value in a DER type-length-value envelope.
+     *
+     * Only the short-form length is emitted, which is sufficient here because
+     * ECDSA signature integers never exceed 127 bytes.
+     */
     protected function encodeDer(int $type, string $value): string
     {
         $tagHeader = 0;
         if ($type === self::ASN1_SEQUENCE) {
-            $tagHeader |= 0x20;
+            $tagHeader |= 0x20;                          // mark the tag as constructed
         }
 
         $der = chr($tagHeader | $type);
@@ -74,7 +86,7 @@ abstract class AbstractEcdsaVerifier implements Verifier
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function kid(): ?string
     {
