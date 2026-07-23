@@ -25,7 +25,9 @@ Requirements: PHP `>=7.4`, `ext-openssl`, `ext-json`, and `ext-sodium` (for EdDS
 
 ## Code style
 
-- Lines should be 120 characters or less for codes and comments.
+- Lines are at most 120 characters — code, comments, and docblocks alike.
+- Don't wrap a comment or docblock line before it reaches the 120-character limit; let sentences run the full
+  width first.
 
 ## Tests
 
@@ -35,7 +37,7 @@ Public-API examples in the README are verified by `tests/ExamplesTest.php` — u
 
 ## Pull requests
 
-1. Branch off `master`, one concern per PR.
+1. Branch off `main`, one concern per PR.
 2. Ensure `./vendor/bin/phpunit` is green (ideally on PHP 7.4).
 3. Update the README and `docs/` when behavior or the public API changes.
 
