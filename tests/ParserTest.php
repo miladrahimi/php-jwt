@@ -112,7 +112,7 @@ class ParserTest extends TestCase
      */
     public function test_parse_with_invalid_jwt_it_should_fail()
     {
-        $invalidJwt = "abc.xyz";
+        $invalidJwt = 'abc.xyz';
 
         $parser = new Parser($this->verifier);
 
@@ -126,7 +126,7 @@ class ParserTest extends TestCase
      */
     public function test_parse_with_a_jwt_without_typ_it_should_fail()
     {
-        $noTypJwt = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NjYifQ.cIDA-W5EVXB8Y3JQAgPRpIB19fDsaTHPgDg1XoTImA8";
+        $noTypJwt = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NjYifQ.cIDA-W5EVXB8Y3JQAgPRpIB19fDsaTHPgDg1XoTImA8';
 
         $parser = new Parser($this->verifier);
 
@@ -140,7 +140,7 @@ class ParserTest extends TestCase
      */
     public function test_parse_with_a_jwt_with_non_jwt_typ()
     {
-        $noTypJwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IngifQ.eyJzdWIiOiI2NjYifQ.Ut195bqywLi3TtWjo4461lVxo7RudOJGPdD1zBA_Z2gU";
+        $noTypJwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IngifQ.eyJzdWIiOiI2NjYifQ.Ut195bqywLi3TtWjo4461lVxo7RudOJGPdD1zBA_Z2gU';
 
         $parser = new Parser($this->verifier);
 
@@ -210,7 +210,7 @@ class ParserTest extends TestCase
      */
     public function test_verify_with_a_jwt_without_typ_it_should_fail()
     {
-        $noTypJwt = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NjYifQ.cIDA-W5EVXB8Y3JQAgPRpIB19fDsaTHPgDg1XoTImA8";
+        $noTypJwt = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NjYifQ.cIDA-W5EVXB8Y3JQAgPRpIB19fDsaTHPgDg1XoTImA8';
 
         $parser = new Parser($this->verifier);
 
@@ -224,7 +224,7 @@ class ParserTest extends TestCase
      */
     public function test_validate_with_a_jwt_without_typ_it_should_fail()
     {
-        $noTypJwt = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NjYifQ.cIDA-W5EVXB8Y3JQAgPRpIB19fDsaTHPgDg1XoTImA8";
+        $noTypJwt = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NjYifQ.cIDA-W5EVXB8Y3JQAgPRpIB19fDsaTHPgDg1XoTImA8';
 
         $parser = new Parser($this->verifier);
 
