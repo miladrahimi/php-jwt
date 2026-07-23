@@ -375,4 +375,36 @@ class ParserTest extends TestCase
 
         $this->assertSame($base64Parser, $parser->getBase64Parser());
     }
+
+    /**
+     * `validate()` must reject a token whose signature has been replaced, just like `parse()` and `verify()`.
+     *
+     * @throws Throwable
+     */
+    public function test_validate_fails_when_signature_is_tampered()
+    {
+        [$header, $payload] = explode('.', $this->sampleJwt);
+        // 43 base64url chars = 32 zero bytes: a well-formed but wrong HS256 signature.
+        $tamperedJwt = "$header.$payload." . str_repeat('A', 43);
+
+        $parser = new Parser($this->verifier, new BaseValidator());
+
+        $this->expectException(InvalidSignatureException::class);
+        $parser->validate($tamperedJwt);
+    }
+
+    /**
+     * `validateHeader` is part of the public API and is callable on its own.
+     *
+     * @throws Throwable
+     */
+    public function test_validate_header_with_a_valid_header_it_should_pass()
+    {
+        $header = (new SafeBase64Parser())->encode('{"typ":"JWT","alg":"HS256"}');
+
+        $parser = new Parser($this->verifier);
+        $parser->validateHeader($header);
+
+        $this->assertTrue(true);
+    }
 }

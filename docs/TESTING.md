@@ -14,6 +14,16 @@ Local coverage without pcov/xdebug: `phpdbg -qrr vendor/bin/phpunit --coverage-t
 EdDSA tests need `ext-sodium`.
 CI runs on PHP 7.4–8.5; new tests must pass on 7.4.
 
+## Mutation testing
+
+Infection (`infection.json5`) runs in CI (`mutation.yml`, PHP 8.5) with `minMsi`/`minCoveredMsi` at 100%: every
+mutant it generates must be killed by the suite. It is not a Composer dependency — run it locally via the phar
+(`XDEBUG_MODE=coverage php infection.phar --threads=max`, or with pcov). When a mutant survives, write a test
+that kills it; extend the config's per-mutator `ignore` lists only for provably equivalent mutants, and document
+the proof in a comment next to the entry. Tests asserting OpenSSL error-queue messages must make the queue state
+deterministic first: drain it (`while (openssl_error_string() !== false)`) and, where the operation under test
+does not queue an error on every platform, seed a known one (e.g. `openssl_pkey_get_private('not-a-valid-key')`).
+
 ## Layout
 
 `tests/` mirrors `src/`.

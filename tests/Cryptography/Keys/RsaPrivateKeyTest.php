@@ -66,4 +66,19 @@ class RsaPrivateKeyTest extends TestCase
         $this->expectException(InvalidKeyException::class);
         new RsaPrivateKey(__DIR__);
     }
+
+    /**
+     * The exception carries the underlying OpenSSL error explaining why the key was rejected.
+     *
+     * @throws Throwable
+     */
+    public function test_with_invalid_key_it_should_carry_the_openssl_error()
+    {
+        try {
+            new RsaPrivateKey('Invalid Key!');
+            $this->fail('An InvalidKeyException was expected.');
+        } catch (InvalidKeyException $e) {
+            $this->assertStringStartsWith('error:', $e->getMessage());
+        }
+    }
 }

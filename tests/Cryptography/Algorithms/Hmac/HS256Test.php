@@ -6,6 +6,7 @@ namespace MiladRahimi\Jwt\Tests\Cryptography\Algorithms\Hmac;
 
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
 use MiladRahimi\Jwt\Cryptography\Keys\HmacKey;
+use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 use MiladRahimi\Jwt\Exceptions\SigningException;
 use MiladRahimi\Jwt\Tests\TestCase;
@@ -53,9 +54,44 @@ class HS256Test extends TestCase
      */
     public function test_with_invalid_key_it_should_fail()
     {
-        $this->expectException(SigningException::class);
         $signer = new HS256(new HmacKey('Invalid Key'));
-        $signer->sign('Text');
+
+        try {
+            $signer->sign('Text');
+            $this->fail('A SigningException was expected.');
+        } catch (SigningException $e) {
+            $this->assertSame('Cannot sign the message.', $e->getMessage());
+            $this->assertSame(0, $e->getCode());
+            $this->assertInstanceOf(InvalidKeyException::class, $e->getPrevious());
+        }
+    }
+
+    /**
+     * An internal `Error` (here: an unknown hashing algorithm) is wrapped in a SigningException as well.
+     *
+     * @throws Throwable
+     */
+    public function test_sign_with_an_unknown_hashing_algorithm_it_should_fail()
+    {
+        $signer = new class ($this->key) extends HS256 {
+            protected function algorithm(): string
+            {
+                return 'unknown-algorithm';
+            }
+        };
+
+        // On PHP 7.4 `hash_hmac` raises a warning and returns false (a TypeError); PHP 8+ throws a ValueError.
+        set_error_handler(function (): bool {
+            return true;
+        }, E_WARNING);
+
+        try {
+            $this->expectException(SigningException::class);
+            $this->expectExceptionMessage('Cannot sign the message.');
+            $signer->sign('Text');
+        } finally {
+            restore_error_handler();
+        }
     }
 
     /**

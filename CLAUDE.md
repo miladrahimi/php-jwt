@@ -23,6 +23,9 @@ No `composer test` script. Code style is enforced by StyleCI (`.styleci.yml`): P
 concatenation, alpha-ordered imports, single quotes, short arrays, and no unused imports.
 Static analysis: PHPStan level 10 (`phpstan.neon`) runs in CI; it is not a Composer dependency — run it locally
 via a downloaded phar (`phpstan analyse`).
+Mutation testing: Infection (`infection.json5`) runs in CI at 100% MSI; also phar-only — run it locally via
+`XDEBUG_MODE=coverage php infection.phar` (or with pcov). Kill new mutants with tests; add a config ignore
+only for provably equivalent mutants, with a comment proving it.
 CI runs the suite on PHP 7.4–8.5; keep new code green on 7.4.
 
 ## Architecture

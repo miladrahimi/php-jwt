@@ -46,6 +46,8 @@ class StrictJsonParserTest extends TestCase
     }
 
     /**
+     * Malformed JSON is reported with the `json_decode` error message, not the non-array fallback.
+     *
      * @throws Throwable
      */
     public function test_decode_with_invalid_json_it_should_fail()
@@ -53,6 +55,7 @@ class StrictJsonParserTest extends TestCase
         $strictJson = new StrictJsonParser();
 
         $this->expectException(JsonDecodingException::class);
+        $this->expectExceptionMessage('Syntax error');
         $strictJson->decode('Invalid JSON');
     }
 
