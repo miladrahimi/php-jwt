@@ -56,8 +56,14 @@ accept a file path **or** inline PEM).
   args, or union types.
   `declare(strict_types=1);` at the top of each file.
 - **Exceptions** all extend `Exceptions\JwtException`; throw the specific subclass, add no new base classes.
+- **Docblock summaries** are third-person indicative and end with a period ("Generates the JWT.", "Checks
+  whether…"), not imperative; use `{@inheritDoc}` for inherited members; omit docblocks that only restate a
+  typed signature.
+- **Exception messages** are complete sentences: capitalized, ending with a period, identifiers in backticks
+  (`` `typ` ``). Public-facing message strings are asserted in tests — change message and test together.
 - `Enums\PublicClaimNames` is a constants class (not a real enum) — use it instead of literal claim strings.
-- **Tests** mirror `src/`, extend `Tests\TestCase`, snake_case names.
+- **Tests** mirror `src/`, extend `Tests\TestCase`, snake_case names, and also start with
+  `declare(strict_types=1);`.
   See [`docs/TESTING.md`](docs/TESTING.md).
 
 ## Guardrails
