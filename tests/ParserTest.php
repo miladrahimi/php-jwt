@@ -150,8 +150,8 @@ class ParserTest extends TestCase
     }
 
     /**
-     * A header whose `typ` field is not a string (e.g. an array) must be
-     * rejected cleanly instead of raising a PHP type error.
+     * A header whose `typ` field is not a string (e.g. an array) must be rejected cleanly instead of raising a PHP
+     * type error.
      *
      * @throws Throwable
      */
@@ -169,8 +169,8 @@ class ParserTest extends TestCase
     }
 
     /**
-     * A header whose `alg` contradicts the configured verifier's algorithm
-     * must be rejected (defense in depth against alg confusion).
+     * A header whose `alg` contradicts the configured verifier's algorithm must be rejected (defense in depth
+     * against alg confusion).
      *
      * @throws Throwable
      */
@@ -204,8 +204,7 @@ class ParserTest extends TestCase
     }
 
     /**
-     * All entry points (`parse`, `verify`, `validate`) run the same header
-     * validation.
+     * All entry points (`parse`, `verify`, `validate`) run the same header validation.
      *
      * @throws Throwable
      */

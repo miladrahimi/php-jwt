@@ -56,8 +56,7 @@ class ES256Test extends TestCase
     }
 
     /**
-     * A raw signature whose length does not match the curve must be rejected
-     * before any DER conversion is attempted.
+     * A raw signature whose length does not match the curve must be rejected before any DER conversion is attempted.
      *
      * @throws Throwable
      */
@@ -86,8 +85,7 @@ class ES256Test extends TestCase
     }
 
     /**
-     * A well-sized but all-zero signature must be rejected by verification,
-     * not crash the raw-to-DER conversion.
+     * A well-sized but all-zero signature must be rejected by verification, not crash the raw-to-DER conversion.
      *
      * @throws Throwable
      */
