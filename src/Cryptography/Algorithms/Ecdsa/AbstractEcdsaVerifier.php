@@ -33,7 +33,7 @@ abstract class AbstractEcdsaVerifier implements NamedVerifier
      */
     public function verify(string $plain, string $signature): void
     {
-        if (strlen($signature) !== intdiv($this->keySize(), 8) * 2) {
+        if (strlen($signature) !== $this->coordinateSize() * 2) {
             throw new InvalidSignatureException('The signature length is not valid.');
         }
 
@@ -81,8 +81,9 @@ abstract class AbstractEcdsaVerifier implements NamedVerifier
     /**
      * Wraps a value in a DER type-length-value envelope.
      *
-     * Only the short-form length is emitted, which is sufficient here because
-     * ECDSA signature integers never exceed 127 bytes.
+     * Lengths up to 127 bytes use the short form; longer ones (the ES512 SEQUENCE
+     * of two 66-byte coordinates) use the one-byte long form (`0x81` prefix), which
+     * covers every ECDSA signature this library produces (never above 255 bytes).
      */
     protected function encodeDer(int $type, string $value): string
     {
@@ -92,7 +93,12 @@ abstract class AbstractEcdsaVerifier implements NamedVerifier
         }
 
         $der = chr($tagHeader | $type);
-        $der .= chr(strlen($value));
+
+        $length = strlen($value);
+        if ($length > 0x7f) {
+            $der .= "\x81";                              // long form: one length byte follows
+        }
+        $der .= chr($length);
 
         return $der . $value;
     }

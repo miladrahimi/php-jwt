@@ -70,10 +70,12 @@ with `name()` (all built-in verifiers implement it).
   Uses `openssl_sign`/`openssl_verify`; output is already JWS form.
 - **ECDSA** (`Algorithms/Ecdsa/`) — the subtle part.
   OpenSSL speaks **DER** (`SEQUENCE(INTEGER r, INTEGER s)`) but JWS needs raw `R || S`.
-  `sign()` converts DER→raw (`derToSignature`, left-pad each half to `keySize/8`: 32 bytes for ES256/ES256K,
-  48 for ES384); `verify()` rejects raw signatures whose length doesn't match the curve, then converts raw→DER
-  (`signatureToDer`) before `openssl_verify`.
-  `algorithm()` maps ES256/ES256K → SHA-256, ES384 → SHA-384 (per RFC 7518 §3.1).
+  `sign()` converts DER→raw (`derToSignature`, left-pad each half to `coordinateSize()`: 32 bytes for
+  ES256/ES256K, 48 for ES384, and 66 for ES512 — P-521's 521 bits round up to whole bytes); `verify()` rejects
+  raw signatures whose length doesn't match the curve, then converts raw→DER (`signatureToDer`) before
+  `openssl_verify`. ES512 SEQUENCEs exceed 127 content bytes, so `encodeDer` emits the one-byte long-form
+  length (`0x81` prefix) above that.
+  `algorithm()` maps ES256/ES256K → SHA-256, ES384 → SHA-384, ES512 → SHA-512 (per RFC 7518 §3.1).
   The DER codec handles only ECDSA signatures — don't generalize it.
 - **EdDSA** (`Algorithms/Eddsa/`) — standalone signer/verifier via `sodium_crypto_sign_detached` /
   `..._verify_detached`, guarded by `function_exists()`.
