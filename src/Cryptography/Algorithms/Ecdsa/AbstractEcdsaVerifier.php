@@ -39,7 +39,7 @@ abstract class AbstractEcdsaVerifier implements Verifier
 
         $signature = $this->signatureToDer($signature);
         if (openssl_verify($plain, $signature, $this->publicKey->getResource(), $this->algorithm()) !== 1) {
-            throw new InvalidSignatureException(openssl_error_string() ?: "The signature is invalid.");
+            throw new InvalidSignatureException(openssl_error_string() ?: 'The signature is invalid.');
         }
     }
 
