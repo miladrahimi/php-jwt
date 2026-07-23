@@ -12,7 +12,7 @@ Its design emphasizes a fluent, user-friendly, and object-oriented interface, cr
 Supported algorithms:
 * HMAC: `HS256`, `HS384`, and `HS512`
 * RSA: `RS256`, `RS384`, and `RS512`
-* ECDSA: `ES256`, `ES256K`, and `RS384`
+* ECDSA: `ES256`, `ES256K`, and `ES384`
 * EdDSA: `EdDSA`
 
 Supported features:
