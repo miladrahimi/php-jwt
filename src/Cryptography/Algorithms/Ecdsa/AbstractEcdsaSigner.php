@@ -34,7 +34,7 @@ abstract class AbstractEcdsaSigner implements Signer
     {
         if (openssl_sign($message, $signature, $this->privateKey->getResource(), $this->algorithm()) === true
             && is_string($signature)) {
-            return $this->derToSignature($signature, $this->keySize());
+            return $this->derToSignature($signature, $this->coordinateSize());
         }
 
         throw new SigningException(openssl_error_string() ?: 'OpenSSL cannot sign the token.');
@@ -46,9 +46,9 @@ abstract class AbstractEcdsaSigner implements Signer
      *
      * OpenSSL emits ECDSA signatures as an ASN.1 SEQUENCE of two INTEGERs
      * (r, s); JWS expects their fixed-length concatenation, each left-padded
-     * to the curve's coordinate size ($keySize / 8 bytes).
+     * to the curve's coordinate size in bytes.
      */
-    protected function derToSignature(string $der, int $keySize): string
+    protected function derToSignature(string $der, int $coordinateSize): string
     {
         $i = $this->decodeDer($der)[0];         // descend into the SEQUENCE
         [$i, $r] = $this->decodeDer($der, $i);  // r INTEGER
@@ -58,8 +58,8 @@ abstract class AbstractEcdsaSigner implements Signer
         $r = ltrim($r, "\x00");
         $s = ltrim($s, "\x00");
 
-        $r = str_pad($r, $keySize / 8, "\x00", STR_PAD_LEFT);
-        $s = str_pad($s, $keySize / 8, "\x00", STR_PAD_LEFT);
+        $r = str_pad($r, $coordinateSize, "\x00", STR_PAD_LEFT);
+        $s = str_pad($s, $coordinateSize, "\x00", STR_PAD_LEFT);
 
         return $r . $s;
     }
