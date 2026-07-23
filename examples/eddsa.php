@@ -8,7 +8,7 @@ declare(strict_types=1);
  * Run:  php examples/eddsa.php
  */
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
 use MiladRahimi\Jwt\Cryptography\Algorithms\Eddsa\EdDsaSigner;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Eddsa\EdDsaVerifier;
@@ -19,8 +19,8 @@ use MiladRahimi\Jwt\Parser;
 
 // 1) Keys — swap these for your own (raw Ed25519 key bytes).
 //    The sample key files store the bytes base64-encoded, so they are decoded here.
-$privateKey = new EdDsaPrivateKey(base64_decode(file_get_contents(__DIR__ . '/../assets/keys/ed25519.sec')));
-$publicKey  = new EdDsaPublicKey(base64_decode(file_get_contents(__DIR__ . '/../assets/keys/ed25519.pub')));
+$privateKey = new EdDsaPrivateKey(base64_decode(file_get_contents(__DIR__.'/../assets/keys/ed25519.sec')));
+$publicKey = new EdDsaPublicKey(base64_decode(file_get_contents(__DIR__.'/../assets/keys/ed25519.pub')));
 
 // 2) Sign with the private key.
 $signer = new EdDsaSigner($privateKey);

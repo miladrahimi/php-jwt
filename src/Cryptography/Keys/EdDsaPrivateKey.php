@@ -11,8 +11,8 @@ class EdDsaPrivateKey
     protected ?string $id;
 
     /**
-     * @param string $key Key in string format
-     * @param string|null $id Key identifier
+     * @param string      $key Key in string format
+     * @param string|null $id  Key identifier
      */
     public function __construct(string $key, ?string $id = null)
     {

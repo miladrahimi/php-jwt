@@ -8,7 +8,7 @@ declare(strict_types=1);
  * Run:  php examples/rs256.php
  */
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__.'/../vendor/autoload.php';
 
 use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS256Signer;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS256Verifier;
@@ -18,8 +18,8 @@ use MiladRahimi\Jwt\Generator;
 use MiladRahimi\Jwt\Parser;
 
 // 1) Keys — swap these for your own. Each accepts a file path OR an inline PEM string.
-$privateKey = new RsaPrivateKey(__DIR__ . '/../assets/keys/rsa-private.pem');
-$publicKey  = new RsaPublicKey(__DIR__ . '/../assets/keys/rsa-public.pem');
+$privateKey = new RsaPrivateKey(__DIR__.'/../assets/keys/rsa-private.pem');
+$publicKey = new RsaPublicKey(__DIR__.'/../assets/keys/rsa-public.pem');
 
 // 2) Sign with the private key.
 $signer = new RS256Signer($privateKey);

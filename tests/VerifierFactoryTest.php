@@ -9,9 +9,7 @@ use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS256Signer;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS256Verifier;
 use MiladRahimi\Jwt\Cryptography\Keys\RsaPrivateKey;
 use MiladRahimi\Jwt\Cryptography\Keys\RsaPublicKey;
-use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
 use MiladRahimi\Jwt\Exceptions\InvalidTokenException;
-use MiladRahimi\Jwt\Exceptions\JsonDecodingException;
 use MiladRahimi\Jwt\Exceptions\NoKidException;
 use MiladRahimi\Jwt\Exceptions\VerifierNotFoundException;
 use MiladRahimi\Jwt\Generator;
@@ -27,11 +25,11 @@ class VerifierFactoryTest extends TestCase
     public function test_getVerifier_it_should_return_the_right_verifier()
     {
         $privateKey = new RsaPrivateKey(
-            __DIR__ . '/../assets/keys/rsa-private.pem',
+            __DIR__.'/../assets/keys/rsa-private.pem',
             '',
             'key-1'
         );
-        $publicKey = new RsaPublicKey(__DIR__ . '/../assets/keys/rsa-public.pem', 'key-1');
+        $publicKey = new RsaPublicKey(__DIR__.'/../assets/keys/rsa-public.pem', 'key-1');
 
         $generator = new Generator(new RS256Signer($privateKey));
         $jwt = $generator->generate(['id' => 13, 'is-admin' => true]);
@@ -80,7 +78,7 @@ class VerifierFactoryTest extends TestCase
      */
     public function test_getVerifier_for_a_jwt_with_a_different_kid()
     {
-        $publicKey = new RsaPublicKey(__DIR__ . '/../assets/keys/rsa-public.pem', 'key-1');
+        $publicKey = new RsaPublicKey(__DIR__.'/../assets/keys/rsa-public.pem', 'key-1');
 
         $verifierFactory = new VerifierFactory([
             new RS256Verifier($publicKey),

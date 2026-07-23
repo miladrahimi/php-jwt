@@ -23,11 +23,11 @@ class EdDsaTest extends TestCase
         parent::setUp();
 
         $this->privateKey = new EdDsaPrivateKey(
-            base64_decode(file_get_contents(__DIR__ . '/../../../../assets/keys/ed25519.sec')),
+            base64_decode(file_get_contents(__DIR__.'/../../../../assets/keys/ed25519.sec')),
             'id-1'
         );
         $this->publicKey = new EdDsaPublicKey(
-            base64_decode(file_get_contents(__DIR__ . '/../../../../assets/keys/ed25519.pub')),
+            base64_decode(file_get_contents(__DIR__.'/../../../../assets/keys/ed25519.pub')),
             'id-1'
         );
     }

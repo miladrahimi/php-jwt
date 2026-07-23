@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace MiladRahimi\Jwt;
 
-use MiladRahimi\Jwt\Base64\SafeBase64Parser;
 use MiladRahimi\Jwt\Base64\Base64Parser;
+use MiladRahimi\Jwt\Base64\SafeBase64Parser;
 use MiladRahimi\Jwt\Cryptography\Signer;
-use MiladRahimi\Jwt\Json\StrictJsonParser;
 use MiladRahimi\Jwt\Json\JsonParser;
+use MiladRahimi\Jwt\Json\StrictJsonParser;
 
 /**
  * Generator is responsible for crafting JSON Web Tokens (JWTs)
@@ -53,6 +53,7 @@ class Generator
         if ($this->signer->kid() !== null) {
             $header['kid'] = $this->signer->kid();
         }
+
         return $header;
     }
 

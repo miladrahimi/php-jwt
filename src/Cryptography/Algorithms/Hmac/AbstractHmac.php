@@ -32,8 +32,9 @@ abstract class AbstractHmac implements Signer, Verifier
             if (strlen($this->key->getContent()) < 32 || strlen($this->key->getContent()) > 6144) {
                 throw new InvalidKeyException('Key length must be between 32 and 6144.');
             }
+
             return hash_hmac($this->algorithm(), $message, $this->key->getContent(), true);
-        } catch (ValueError | InvalidKeyException $e) {
+        } catch (ValueError|InvalidKeyException $e) {
             throw new SigningException('Cannot sign the message.', 0, $e);
         }
     }
@@ -53,7 +54,7 @@ abstract class AbstractHmac implements Signer, Verifier
      */
     protected function algorithm(): string
     {
-        return 'sha' . substr($this->name(), 2);
+        return 'sha'.substr($this->name(), 2);
     }
 
     /**

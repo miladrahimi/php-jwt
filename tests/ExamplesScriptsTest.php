@@ -12,7 +12,7 @@ class ExamplesScriptsTest extends TestCase
 {
     public function test_every_example_script_it_should_run_successfully(): void
     {
-        $scripts = glob(__DIR__ . '/../examples/*.php');
+        $scripts = glob(__DIR__.'/../examples/*.php');
         $this->assertNotEmpty($scripts, 'No example scripts were found.');
 
         foreach ($scripts as $script) {
@@ -24,9 +24,9 @@ class ExamplesScriptsTest extends TestCase
 
             $output = [];
             $exitCode = 0;
-            exec(escapeshellarg(PHP_BINARY) . ' ' . escapeshellarg($script) . ' 2>&1', $output, $exitCode);
+            exec(escapeshellarg(PHP_BINARY).' '.escapeshellarg($script).' 2>&1', $output, $exitCode);
 
-            $this->assertSame(0, $exitCode, "Example {$name} failed:\n" . implode("\n", $output));
+            $this->assertSame(0, $exitCode, "Example {$name} failed:\n".implode("\n", $output));
             $this->assertStringContainsString('Verified claims', implode("\n", $output), "Example {$name} did not verify.");
         }
     }

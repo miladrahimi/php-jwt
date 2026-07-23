@@ -26,6 +26,7 @@ class ConsistsOf implements Rule
     {
         if (strpos($value, $this->substr) === false) {
             $message = "The `$name` must consist of `$this->substr`.";
+
             throw new ValidationException($message);
         }
     }

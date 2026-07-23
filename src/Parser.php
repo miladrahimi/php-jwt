@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace MiladRahimi\Jwt;
 
-use MiladRahimi\Jwt\Base64\SafeBase64Parser;
 use MiladRahimi\Jwt\Base64\Base64Parser;
+use MiladRahimi\Jwt\Base64\SafeBase64Parser;
 use MiladRahimi\Jwt\Cryptography\Verifier;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 use MiladRahimi\Jwt\Exceptions\InvalidTokenException;
 use MiladRahimi\Jwt\Exceptions\JsonDecodingException;
 use MiladRahimi\Jwt\Exceptions\SigningException;
 use MiladRahimi\Jwt\Exceptions\ValidationException;
-use MiladRahimi\Jwt\Json\StrictJsonParser;
 use MiladRahimi\Jwt\Json\JsonParser;
+use MiladRahimi\Jwt\Json\StrictJsonParser;
 use MiladRahimi\Jwt\Validator\DefaultValidator;
 use MiladRahimi\Jwt\Validator\Validator;
 
@@ -32,9 +32,9 @@ class Parser
     private Base64Parser $base64Parser;
 
     public function __construct(
-        Verifier      $verifier,
-        ?Validator    $validator = null,
-        ?JsonParser   $jsonParser = null,
+        Verifier $verifier,
+        ?Validator $validator = null,
+        ?JsonParser $jsonParser = null,
         ?Base64Parser $base64Parser = null
     ) {
         $this->verifier = $verifier;

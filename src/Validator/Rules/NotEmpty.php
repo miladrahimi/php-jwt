@@ -19,6 +19,7 @@ class NotEmpty implements Rule
     {
         if (empty($value)) {
             $message = "The `$name` must not be empty.";
+
             throw new ValidationException($message);
         }
     }

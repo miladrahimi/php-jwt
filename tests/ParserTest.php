@@ -112,7 +112,7 @@ class ParserTest extends TestCase
      */
     public function test_parse_with_invalid_jwt_it_should_fail()
     {
-        $invalidJwt = "abc.xyz";
+        $invalidJwt = 'abc.xyz';
 
         $parser = new Parser($this->verifier);
 
@@ -126,7 +126,7 @@ class ParserTest extends TestCase
      */
     public function test_parse_with_a_jwt_without_typ_it_should_fail()
     {
-        $noTypJwt = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NjYifQ.cIDA-W5EVXB8Y3JQAgPRpIB19fDsaTHPgDg1XoTImA8";
+        $noTypJwt = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NjYifQ.cIDA-W5EVXB8Y3JQAgPRpIB19fDsaTHPgDg1XoTImA8';
 
         $parser = new Parser($this->verifier);
 
@@ -140,7 +140,7 @@ class ParserTest extends TestCase
      */
     public function test_parse_with_a_jwt_with_non_jwt_typ()
     {
-        $noTypJwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IngifQ.eyJzdWIiOiI2NjYifQ.Ut195bqywLi3TtWjo4461lVxo7RudOJGPdD1zBA_Z2gU";
+        $noTypJwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IngifQ.eyJzdWIiOiI2NjYifQ.Ut195bqywLi3TtWjo4461lVxo7RudOJGPdD1zBA_Z2gU';
 
         $parser = new Parser($this->verifier);
 
@@ -158,7 +158,7 @@ class ParserTest extends TestCase
     {
         [$header, $payload] = explode('.', $this->sampleJwt);
         // 43 base64url chars = 32 zero bytes: a well-formed but wrong HS256 signature.
-        $tamperedJwt = "$header.$payload." . str_repeat('A', 43);
+        $tamperedJwt = "$header.$payload.".str_repeat('A', 43);
 
         $parser = new Parser($this->verifier);
 
@@ -176,7 +176,7 @@ class ParserTest extends TestCase
     {
         [$header, $payload, $signature] = explode('.', $this->sampleJwt);
         // Flip the final character of the payload; the original signature no longer matches.
-        $tamperedPayload = substr($payload, 0, -1) . ($payload[-1] === 'A' ? 'B' : 'A');
+        $tamperedPayload = substr($payload, 0, -1).($payload[-1] === 'A' ? 'B' : 'A');
         $tamperedJwt = "$header.$tamperedPayload.$signature";
 
         $parser = new Parser($this->verifier);

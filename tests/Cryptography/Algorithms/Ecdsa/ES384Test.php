@@ -21,8 +21,8 @@ class ES384Test extends TestCase
     {
         parent::setUp();
 
-        $this->privateKey = new EcdsaPrivateKey(__DIR__ . '/../../../../assets/keys/ecdsa384-private.pem');
-        $this->publicKey = new EcdsaPublicKey(__DIR__ . '/../../../../assets/keys/ecdsa384-public.pem');
+        $this->privateKey = new EcdsaPrivateKey(__DIR__.'/../../../../assets/keys/ecdsa384-private.pem');
+        $this->publicKey = new EcdsaPublicKey(__DIR__.'/../../../../assets/keys/ecdsa384-public.pem');
     }
 
     /**
@@ -100,25 +100,25 @@ class ES384Test extends TestCase
      */
     private function signatureToDer(string $signature): string
     {
-        $length = (int)(strlen($signature) / 2);
+        $length = (int) (strlen($signature) / 2);
         $r = ltrim(substr($signature, 0, $length), "\x00");
         $s = ltrim(substr($signature, $length), "\x00");
 
-        if (ord($r[0]) > 0x7f) {
-            $r = "\x00" . $r;
+        if (ord($r[0]) > 0x7F) {
+            $r = "\x00".$r;
         }
-        if (ord($s[0]) > 0x7f) {
-            $s = "\x00" . $s;
+        if (ord($s[0]) > 0x7F) {
+            $s = "\x00".$s;
         }
 
-        $seq = $this->derInteger($r) . $this->derInteger($s);
+        $seq = $this->derInteger($r).$this->derInteger($s);
 
-        return chr(0x30) . chr(strlen($seq)) . $seq;
+        return chr(0x30).chr(strlen($seq)).$seq;
     }
 
     private function derInteger(string $value): string
     {
-        return chr(0x02) . chr(strlen($value)) . $value;
+        return chr(0x02).chr(strlen($value)).$value;
     }
 
     /**
@@ -141,7 +141,7 @@ class ES384Test extends TestCase
         $r = str_pad($r, 48, "\x00", STR_PAD_LEFT);
         $s = str_pad($s, 48, "\x00", STR_PAD_LEFT);
 
-        return $r . $s;
+        return $r.$s;
     }
 
     /**

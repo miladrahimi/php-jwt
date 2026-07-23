@@ -21,11 +21,11 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         parent::setUp();
 
         $this->sampleClaims = [
-            PublicClaimNames::SUBJECT => 666,
+            PublicClaimNames::SUBJECT         => 666,
             PublicClaimNames::EXPIRATION_TIME => 1573166463 + 60 * 60 * 24,
-            PublicClaimNames::NOT_BEFORE => 1573166463,
-            PublicClaimNames::ISSUED_AT => 1573166463,
-            PublicClaimNames::ISSUER => 'Test!',
+            PublicClaimNames::NOT_BEFORE      => 1573166463,
+            PublicClaimNames::ISSUED_AT       => 1573166463,
+            PublicClaimNames::ISSUER          => 'Test!',
         ];
 
         $this->sampleJwt = join('.', [

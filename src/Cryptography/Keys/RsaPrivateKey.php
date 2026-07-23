@@ -16,9 +16,9 @@ class RsaPrivateKey
     protected ?string $id;
 
     /**
-     * @param string $key Key file path or string content
-     * @param string $passphrase Key passphrase
-     * @param string|null $id Key identifier
+     * @param string      $key        Key file path or string content
+     * @param string      $passphrase Key passphrase
+     * @param string|null $id         Key identifier
      *
      * @throws InvalidKeyException
      */

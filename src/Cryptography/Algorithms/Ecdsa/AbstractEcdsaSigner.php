@@ -36,7 +36,7 @@ abstract class AbstractEcdsaSigner implements Signer
             return $this->derToSignature($signature, $this->keySize());
         }
 
-        throw new SigningException(openssl_error_string() ?: "OpenSSL cannot sign the token.");
+        throw new SigningException(openssl_error_string() ?: 'OpenSSL cannot sign the token.');
     }
 
     /**
@@ -60,7 +60,7 @@ abstract class AbstractEcdsaSigner implements Signer
         $r = str_pad($r, $keySize / 8, "\x00", STR_PAD_LEFT);
         $s = str_pad($s, $keySize / 8, "\x00", STR_PAD_LEFT);
 
-        return $r . $s;
+        return $r.$s;
     }
 
     /**
@@ -76,11 +76,11 @@ abstract class AbstractEcdsaSigner implements Signer
         $pos = $offset;
         $size = strlen($der);
         $constructed = (ord($der[$pos]) >> 5) & 0x01;   // bit 5: constructed vs primitive
-        $type = ord($der[$pos++]) & 0x1f;               // low 5 bits: tag number
+        $type = ord($der[$pos++]) & 0x1F;               // low 5 bits: tag number
 
         $len = ord($der[$pos++]);
         if ($len & 0x80) {                              // long form: low bits give the length's byte count
-            $n = $len & 0x1f;
+            $n = $len & 0x1F;
             $len = 0;
             while ($n-- && $pos < $size) {
                 $len = ($len << 8) | ord($der[$pos++]);

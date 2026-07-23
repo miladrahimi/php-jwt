@@ -19,6 +19,7 @@ class NotNull implements Rule
     {
         if ($value === null) {
             $message = "The `$name` must not be null.";
+
             throw new ValidationException($message);
         }
     }

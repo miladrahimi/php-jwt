@@ -22,8 +22,8 @@ class RS512Test extends TestCase
     {
         parent::setUp();
 
-        $this->rsaPrivateKey = new RsaPrivateKey(__DIR__ . '/../../../../assets/keys/rsa-private.pem');
-        $this->rsaPublicKey = new RsaPublicKey(__DIR__ . '/../../../../assets/keys/rsa-public.pem');
+        $this->rsaPrivateKey = new RsaPrivateKey(__DIR__.'/../../../../assets/keys/rsa-private.pem');
+        $this->rsaPublicKey = new RsaPublicKey(__DIR__.'/../../../../assets/keys/rsa-public.pem');
     }
 
     /**

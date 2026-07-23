@@ -55,13 +55,13 @@ class ExamplesTest extends TestCase
     public function test_rsa_algorithms()
     {
         // Generate a token
-        $privateKey = new RsaPrivateKey(__DIR__ . '/../assets/keys/rsa-private.pem');
+        $privateKey = new RsaPrivateKey(__DIR__.'/../assets/keys/rsa-private.pem');
         $signer = new RS256Signer($privateKey);
         $generator = new Generator($signer);
         $jwt = $generator->generate(['id' => 13, 'is-admin' => true]);
 
         // Parse the token
-        $publicKey = new RsaPublicKey(__DIR__ . '/../assets/keys/rsa-public.pem');
+        $publicKey = new RsaPublicKey(__DIR__.'/../assets/keys/rsa-public.pem');
         $verifier = new RS256Verifier($publicKey);
         $parser = new Parser($verifier);
         $claims = $parser->parse($jwt);
@@ -75,13 +75,13 @@ class ExamplesTest extends TestCase
     public function test_ecdsa_algorithms()
     {
         // Generate a token
-        $privateKey = new EcdsaPrivateKey(__DIR__ . '/../assets/keys/ecdsa384-private.pem');
+        $privateKey = new EcdsaPrivateKey(__DIR__.'/../assets/keys/ecdsa384-private.pem');
         $signer = new ES384Signer($privateKey);
         $generator = new Generator($signer);
         $jwt = $generator->generate(['id' => 13, 'is-admin' => true]);
 
         // Parse the token
-        $publicKey = new EcdsaPublicKey(__DIR__ . '/../assets/keys/ecdsa384-public.pem');
+        $publicKey = new EcdsaPublicKey(__DIR__.'/../assets/keys/ecdsa384-public.pem');
         $verifier = new ES384Verifier($publicKey);
         $parser = new Parser($verifier);
         $claims = $parser->parse($jwt);
@@ -96,7 +96,7 @@ class ExamplesTest extends TestCase
     {
         // Generate a token
         $privateKey = new EdDsaPrivateKey(
-            base64_decode(file_get_contents(__DIR__ . '/../assets/keys/ed25519.sec'))
+            base64_decode(file_get_contents(__DIR__.'/../assets/keys/ed25519.sec'))
         );
         $signer = new EdDsaSigner($privateKey);
         $generator = new Generator($signer);
@@ -104,7 +104,7 @@ class ExamplesTest extends TestCase
 
         // Parse the token
         $publicKey = new EdDsaPublicKey(
-            base64_decode(file_get_contents(__DIR__ . '/../assets/keys/ed25519.pub'))
+            base64_decode(file_get_contents(__DIR__.'/../assets/keys/ed25519.pub'))
         );
         $verifier = new EdDsaVerifier($publicKey);
         $parser = new Parser($verifier);
@@ -119,18 +119,18 @@ class ExamplesTest extends TestCase
     public function test_multiple_keys()
     {
         $privateKey1 = new RsaPrivateKey(
-            __DIR__ . '/../assets/keys/rsa-private.pem',
+            __DIR__.'/../assets/keys/rsa-private.pem',
             '',
             'key-1'
         );
-        $publicKey1 = new RsaPublicKey(__DIR__ . '/../assets/keys/rsa-public.pem', 'key-1');
+        $publicKey1 = new RsaPublicKey(__DIR__.'/../assets/keys/rsa-public.pem', 'key-1');
 
         $privateKey2 = new EcdsaPrivateKey(
-            __DIR__ . '/../assets/keys/ecdsa384-private.pem',
+            __DIR__.'/../assets/keys/ecdsa384-private.pem',
             '',
             'key-2'
         );
-        $publicKey2 = new EcdsaPublicKey(__DIR__ . '/../assets/keys/ecdsa384-public.pem', 'key-2');
+        $publicKey2 = new EcdsaPublicKey(__DIR__.'/../assets/keys/ecdsa384-public.pem', 'key-2');
 
         // Generate tokens
 
@@ -186,6 +186,7 @@ class ExamplesTest extends TestCase
 
         // Parse the token
         $parser = new Parser($signer, $validator);
+
         try {
             $claims = $parser->parse($jwt);
             $this->assertEquals(['id' => 666, 'is-admin' => true], $claims);

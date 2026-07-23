@@ -32,6 +32,7 @@ class IdenticalTo implements Rule
     {
         if ($this->value !== $value) {
             $message = "The `$name` must be identical to `$this->value`.";
+
             throw new ValidationException($message);
         }
     }

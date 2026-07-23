@@ -18,10 +18,10 @@ class StrictJsonParserTest extends TestCase
     public function test_encode_and_decode_with_sample_data()
     {
         $data = [
-            'string' => md5((string) mt_rand(1, 100)),
+            'string'  => md5((string) mt_rand(1, 100)),
             'integer' => mt_rand(1, 100),
-            'true' => true,
-            'false' => false,
+            'true'    => true,
+            'false'   => false,
         ];
 
         $strictJson = new StrictJsonParser();

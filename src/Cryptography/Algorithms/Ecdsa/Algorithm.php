@@ -23,18 +23,18 @@ trait Algorithm
     protected function algorithm(): int
     {
         return [
-            'ES256' => OPENSSL_ALGO_SHA256,
+            'ES256'  => OPENSSL_ALGO_SHA256,
             'ES256K' => OPENSSL_ALGO_SHA256,
-            'ES384' => OPENSSL_ALGO_SHA384,
+            'ES384'  => OPENSSL_ALGO_SHA384,
         ][$this->name()];
     }
 
     protected function keySize(): int
     {
         return [
-            'ES256' => 256,
+            'ES256'  => 256,
             'ES256K' => 256,
-            'ES384' => 384,
+            'ES384'  => 384,
         ][static::$name];
     }
 }

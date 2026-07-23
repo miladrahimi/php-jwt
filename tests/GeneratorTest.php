@@ -8,8 +8,8 @@ use MiladRahimi\Jwt\Base64\SafeBase64Parser;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
 use MiladRahimi\Jwt\Cryptography\Keys\HmacKey;
 use MiladRahimi\Jwt\Cryptography\Signer;
-use MiladRahimi\Jwt\Json\StrictJsonParser;
 use MiladRahimi\Jwt\Generator;
+use MiladRahimi\Jwt\Json\StrictJsonParser;
 use Throwable;
 
 class GeneratorTest extends TestCase

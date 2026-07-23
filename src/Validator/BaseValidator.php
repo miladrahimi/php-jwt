@@ -55,6 +55,7 @@ class BaseValidator implements Validator
                     $rule->validate($claimName, $value);
                 } elseif ($required) {
                     $message = "The `$claimName` is required.";
+
                     throw new ValidationException($message);
                 }
             }

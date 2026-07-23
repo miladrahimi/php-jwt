@@ -35,7 +35,7 @@ abstract class AbstractEcdsaVerifier implements Verifier
     {
         $signature = $this->signatureToDer($signature);
         if (openssl_verify($plain, $signature, $this->publicKey->getResource(), $this->algorithm()) !== 1) {
-            throw new InvalidSignatureException(openssl_error_string() ?: "The signature is invalid.");
+            throw new InvalidSignatureException(openssl_error_string() ?: 'The signature is invalid.');
         }
     }
 
@@ -45,7 +45,7 @@ abstract class AbstractEcdsaVerifier implements Verifier
      */
     protected function signatureToDer(string $signature): string
     {
-        $length = max(1, (int)(strlen($signature) / 2));
+        $length = max(1, (int) (strlen($signature) / 2));
         [$r, $s] = str_split($signature, $length);      // split the raw signature into its two halves
 
         $r = ltrim($r, "\x00");
@@ -53,16 +53,16 @@ abstract class AbstractEcdsaVerifier implements Verifier
 
         // ASN.1 INTEGERs are signed: prepend 0x00 when the top bit is set so
         // the value is not misread as negative.
-        if (ord($r[0]) > 0x7f) {
-            $r = "\x00" . $r;
+        if (ord($r[0]) > 0x7F) {
+            $r = "\x00".$r;
         }
-        if (ord($s[0]) > 0x7f) {
-            $s = "\x00" . $s;
+        if (ord($s[0]) > 0x7F) {
+            $s = "\x00".$s;
         }
 
         return $this->encodeDer(
             self::ASN1_SEQUENCE,
-            $this->encodeDer(self::ASN1_INTEGER, $r) . $this->encodeDer(self::ASN1_INTEGER, $s),
+            $this->encodeDer(self::ASN1_INTEGER, $r).$this->encodeDer(self::ASN1_INTEGER, $s),
         );
     }
 
@@ -82,7 +82,7 @@ abstract class AbstractEcdsaVerifier implements Verifier
         $der = chr($tagHeader | $type);
         $der .= chr(strlen($value));
 
-        return $der . $value;
+        return $der.$value;
     }
 
     /**

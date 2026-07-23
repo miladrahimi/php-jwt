@@ -32,6 +32,7 @@ class EqualsTo implements Rule
     {
         if ($this->value != $value) {
             $message = "The `$name` must be equal to `$this->value`.";
+
             throw new ValidationException($message);
         }
     }
