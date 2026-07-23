@@ -103,6 +103,23 @@ class VerifierFactoryTest extends TestCase
     }
 
     /**
+     * A header whose `kid` field is not a string (e.g. an array) must be
+     * rejected cleanly instead of raising a PHP type error.
+     *
+     * @throws Throwable
+     */
+    public function test_getVerifier_for_a_jwt_with_non_string_kid()
+    {
+        $verifierFactory = new VerifierFactory([]);
+
+        $header = rtrim(strtr(base64_encode('{"typ":"JWT","kid":["evil"],"alg":"HS256"}'), '+/', '-_'), '=');
+
+        $this->expectException(InvalidTokenException::class);
+        $this->expectExceptionMessage('The JWT header `kid` field must be a string.');
+        $verifierFactory->getVerifier("$header.payload.signature");
+    }
+
+    /**
      * @throws Throwable
      */
     public function test_getVerifier_for_an_invalid_jwt()

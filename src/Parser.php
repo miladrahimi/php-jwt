@@ -84,15 +84,18 @@ class Parser
     }
 
     /**
-     * Verifies the JWT signature.
+     * Verifies the JWT (validates the header and verifies the signature).
      *
      * @throws Exceptions\SigningException
      * @throws Exceptions\InvalidSignatureException
      * @throws Exceptions\InvalidTokenException
+     * @throws Exceptions\JsonDecodingException
      */
     public function verify(string $jwt): void
     {
         [$header, $payload, $signature] = $this->split($jwt);
+
+        $this->validateHeader($header);
 
         $this->verifySignature($header, $payload, $signature);
     }
@@ -102,6 +105,7 @@ class Parser
      *
      * @throws Exceptions\SigningException
      * @throws Exceptions\InvalidSignatureException
+     * @throws InvalidTokenException
      */
     private function verifySignature(string $header, string $payload, string $signature): void
     {
@@ -113,7 +117,8 @@ class Parser
     /**
      * Decodes the JWT payload and returns the claims.
      *
-     * @throws Exceptions\JsonDecodingException
+     * @throws InvalidTokenException
+     * @throws JsonDecodingException
      */
     private function decode(string $payload): array
     {
@@ -121,7 +126,8 @@ class Parser
     }
 
     /**
-     * Validates the JWT (verifies the signature and validates the claims).
+     * Validates the JWT (validates the header, verifies the signature, and
+     * validates the claims).
      *
      * @throws ValidationException
      * @throws InvalidSignatureException
@@ -132,6 +138,8 @@ class Parser
     public function validate(string $jwt): void
     {
         [$header, $payload, $signature] = $this->split($jwt);
+
+        $this->validateHeader($header);
 
         $this->verifySignature($header, $payload, $signature);
 
@@ -153,8 +161,23 @@ class Parser
         if (!isset($fields['typ'])) {
             throw new InvalidTokenException('The JWT header does not have a `typ` field.');
         }
+        if (!is_string($fields['typ'])) {
+            throw new InvalidTokenException('The JWT header `typ` field must be a string.');
+        }
         if ($fields['typ'] !== 'JWT') {
             throw new InvalidTokenException("The JWT type `{$fields['typ']}` is not supported.");
+        }
+
+        if (isset($fields['alg'])) {
+            if (!is_string($fields['alg'])) {
+                throw new InvalidTokenException('The JWT header `alg` field must be a string.');
+            }
+            // The verifier's algorithm is always the one used; this only rejects
+            // tokens whose declared `alg` contradicts it (defense in depth).
+            // `name()` is not part of the Verifier interface, hence the guard.
+            if (method_exists($this->verifier, 'name') && $fields['alg'] !== $this->verifier->name()) {
+                throw new InvalidTokenException("The token `alg` does not match the verifier's algorithm.");
+            }
         }
 
         if (isset($fields['kid'])) {

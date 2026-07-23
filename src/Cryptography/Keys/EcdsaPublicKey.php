@@ -23,11 +23,11 @@ class EcdsaPublicKey
      */
     public function __construct(string $key, ?string $id = null)
     {
-        $content = realpath($key) ? file_get_contents(realpath($key)) : $key;
+        $content = is_file($key) ? (string)file_get_contents($key) : $key;
 
         $this->resource = openssl_pkey_get_public($content);
         if ($this->resource === false) {
-            throw new InvalidKeyException(openssl_error_string());
+            throw new InvalidKeyException(openssl_error_string() ?: 'The key is not valid.');
         }
 
         $this->id = $id;

@@ -8,7 +8,7 @@ use MiladRahimi\Jwt\Cryptography\Keys\RsaPublicKey;
 use MiladRahimi\Jwt\Cryptography\Verifier;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 
-class AbstractRsaVerifier implements Verifier
+abstract class AbstractRsaVerifier implements Verifier
 {
     use Algorithm;
 

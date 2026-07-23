@@ -150,6 +150,91 @@ class ParserTest extends TestCase
     }
 
     /**
+     * A header whose `typ` field is not a string (e.g. an array) must be
+     * rejected cleanly instead of raising a PHP type error.
+     *
+     * @throws Throwable
+     */
+    public function test_parse_with_a_jwt_with_non_string_typ_it_should_fail()
+    {
+        $base64Parser = new SafeBase64Parser();
+        $header = $base64Parser->encode('{"typ":["JWT"],"alg":"HS256"}');
+        $payload = $base64Parser->encode('{"sub":666}');
+
+        $parser = new Parser($this->verifier);
+
+        $this->expectException(InvalidTokenException::class);
+        $this->expectExceptionMessage('The JWT header `typ` field must be a string.');
+        $parser->parse("$header.$payload.signature");
+    }
+
+    /**
+     * A header whose `alg` contradicts the configured verifier's algorithm
+     * must be rejected (defense in depth against alg confusion).
+     *
+     * @throws Throwable
+     */
+    public function test_parse_with_a_jwt_with_mismatched_alg_it_should_fail()
+    {
+        $base64Parser = new SafeBase64Parser();
+        $header = $base64Parser->encode('{"typ":"JWT","alg":"RS256"}');
+        $payload = $base64Parser->encode('{"sub":666}');
+
+        $parser = new Parser($this->verifier);
+
+        $this->expectException(InvalidTokenException::class);
+        $this->expectExceptionMessage("The token `alg` does not match the verifier's algorithm.");
+        $parser->parse("$header.$payload.signature");
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function test_parse_with_a_jwt_with_non_string_alg_it_should_fail()
+    {
+        $base64Parser = new SafeBase64Parser();
+        $header = $base64Parser->encode('{"typ":"JWT","alg":123}');
+        $payload = $base64Parser->encode('{"sub":666}');
+
+        $parser = new Parser($this->verifier);
+
+        $this->expectException(InvalidTokenException::class);
+        $this->expectExceptionMessage('The JWT header `alg` field must be a string.');
+        $parser->parse("$header.$payload.signature");
+    }
+
+    /**
+     * All entry points (`parse`, `verify`, `validate`) run the same header
+     * validation.
+     *
+     * @throws Throwable
+     */
+    public function test_verify_with_a_jwt_without_typ_it_should_fail()
+    {
+        $noTypJwt = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NjYifQ.cIDA-W5EVXB8Y3JQAgPRpIB19fDsaTHPgDg1XoTImA8";
+
+        $parser = new Parser($this->verifier);
+
+        $this->expectException(InvalidTokenException::class);
+        $this->expectExceptionMessage('The JWT header does not have a `typ` field.');
+        $parser->verify($noTypJwt);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function test_validate_with_a_jwt_without_typ_it_should_fail()
+    {
+        $noTypJwt = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2NjYifQ.cIDA-W5EVXB8Y3JQAgPRpIB19fDsaTHPgDg1XoTImA8";
+
+        $parser = new Parser($this->verifier);
+
+        $this->expectException(InvalidTokenException::class);
+        $this->expectExceptionMessage('The JWT header does not have a `typ` field.');
+        $parser->validate($noTypJwt);
+    }
+
+    /**
      * A token whose signature has been replaced must be rejected.
      *
      * @throws Throwable
