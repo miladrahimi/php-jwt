@@ -112,21 +112,18 @@ class RS256Test extends TestCase
     }
 
     /**
-     * The exception carries the OpenSSL error explaining the failed verification. OpenSSL 3 reports the failure
-     * through its error queue; OpenSSL 1.1 does not reliably queue one here, so the test needs OpenSSL 3+.
+     * The exception surfaces the pending OpenSSL error instead of the generic fallback message. Whether a failed
+     * verification queues an error of its own varies by platform, so the queue is drained and re-seeded with a
+     * known error to make its state deterministic.
      *
      * @throws Throwable
      */
     public function test_verify_with_a_wrong_signature_it_should_carry_the_openssl_error()
     {
-        if (OPENSSL_VERSION_NUMBER < 0x30000000) {
-            $this->markTestSkipped('This test requires OpenSSL 3.');
-        }
-
-        // Drain stale entries so the error queue state is deterministic.
         while (openssl_error_string() !== false) {
             continue;
         }
+        openssl_pkey_get_private('not-a-valid-key');
 
         $verifier = new RS256Verifier($this->rsaPublicKey);
 
