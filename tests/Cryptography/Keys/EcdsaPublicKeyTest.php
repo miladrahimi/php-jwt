@@ -57,8 +57,7 @@ class EcdsaPublicKeyTest extends TestCase
     }
 
     /**
-     * A directory path is not a readable key file and must be rejected
-     * cleanly instead of raising a PHP error.
+     * A directory path is not a readable key file and must be rejected cleanly instead of raising a PHP error.
      *
      * @throws Throwable
      */

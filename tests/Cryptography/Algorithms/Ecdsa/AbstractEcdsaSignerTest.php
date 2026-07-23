@@ -35,8 +35,7 @@ class AbstractEcdsaSignerTest extends TestCase
     }
 
     /**
-     * When OpenSSL cannot sign (here: an unsupported digest algorithm), the
-     * signer must throw a SigningException.
+     * When OpenSSL cannot sign (here: an unsupported digest algorithm), the signer must throw a SigningException.
      *
      * @throws Throwable
      */

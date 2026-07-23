@@ -17,8 +17,8 @@ class DefaultValidator extends BaseValidator
     /**
      * {@inheritDoc}
      *
-     * Checks the time-based claims (`exp`, `nbf`, `iat`) against the current
-     * time on every call, so long-lived validator instances stay correct.
+     * Checks the time-based claims (`exp`, `nbf`, `iat`) against the current time on every call, so long-lived
+     * validator instances stay correct.
      */
     public function validate(array $claims): void
     {
