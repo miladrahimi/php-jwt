@@ -55,4 +55,18 @@ class EqualsToTest extends TestCase
         $this->expectExceptionMessage('The `claim` must be equal to `text`.');
         $rule->validate('claim', 'another-text');
     }
+
+    /**
+     * A non-scalar expected value is named by type in the message instead of crashing the interpolation.
+     *
+     * @throws Throwable
+     */
+    public function test_validate_it_should_fail_with_a_non_scalar_expected_value()
+    {
+        $rule = new EqualsTo(['role' => 'admin']);
+
+        $this->expectException(ValidationException::class);
+        $this->expectExceptionMessage('The `claim` must be equal to `array`.');
+        $rule->validate('claim', 'text');
+    }
 }

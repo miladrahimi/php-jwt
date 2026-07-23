@@ -16,7 +16,7 @@ class StrictJsonParser implements JsonParser
     {
         $json = json_encode($data);
 
-        if (json_last_error() !== JSON_ERROR_NONE) {
+        if ($json === false) {
             throw new JsonEncodingException(json_last_error_msg(), json_last_error());
         }
 

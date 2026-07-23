@@ -76,6 +76,18 @@ class EdDsaTest extends TestCase
     /**
      * @throws Throwable
      */
+    public function test_verify_with_an_empty_signature_it_should_fail()
+    {
+        $verifier = new EdDsaVerifier($this->publicKey);
+
+        $this->expectException(InvalidSignatureException::class);
+        $this->expectExceptionMessage('The signature is not valid.');
+        $verifier->verify('Header Payload', '');
+    }
+
+    /**
+     * @throws Throwable
+     */
     public function test_verify_with_a_different_key_it_should_fail()
     {
         $signature = (new EdDsaSigner($this->privateKey))->sign('Text');

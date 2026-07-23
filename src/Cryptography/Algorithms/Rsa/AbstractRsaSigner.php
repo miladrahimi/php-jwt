@@ -26,7 +26,8 @@ abstract class AbstractRsaSigner implements Signer
     {
         $signature = '';
 
-        if (openssl_sign($message, $signature, $this->privateKey->getResource(), $this->algorithm()) === true) {
+        if (openssl_sign($message, $signature, $this->privateKey->getResource(), $this->algorithm()) === true
+            && is_string($signature)) {
             return $signature;
         }
 

@@ -14,7 +14,8 @@ interface Validator
     /**
      * Validates the given claims.
      *
-     * @param string[] $claims
+     * @param array<int|string, mixed> $claims
+     * @return void
      * @throws ValidationException
      */
     public function validate(array $claims);
