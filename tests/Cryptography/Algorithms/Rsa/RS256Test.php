@@ -10,6 +10,7 @@ use MiladRahimi\Jwt\Cryptography\Keys\RsaPrivateKey;
 use MiladRahimi\Jwt\Cryptography\Keys\RsaPublicKey;
 use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
+use MiladRahimi\Jwt\Exceptions\SigningException;
 use MiladRahimi\Jwt\Tests\TestCase;
 use Throwable;
 
@@ -59,6 +60,31 @@ class RS256Test extends TestCase
 
         $this->expectException(InvalidSignatureException::class);
         $verifier->verify('Different!', $signature);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function test_sign_with_an_unsupported_algorithm_it_should_fail()
+    {
+        $signer = new class($this->rsaPrivateKey) extends RS256Signer {
+            protected function algorithm(): int
+            {
+                return PHP_INT_MAX;
+            }
+        };
+
+        // Swallow the PHP warning OpenSSL raises alongside returning false.
+        set_error_handler(function (): bool {
+            return true;
+        }, E_WARNING);
+
+        try {
+            $this->expectException(SigningException::class);
+            $signer->sign('Text');
+        } finally {
+            restore_error_handler();
+        }
     }
 
     /**
