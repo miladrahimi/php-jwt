@@ -35,3 +35,22 @@ jobs:
         uses: lucassabreu/comment-coverage-clover@v0.17.1
         with:
           file: coverage.xml
+
+  static-analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: phpstan
+          coverage: none
+
+      - name: Install dependencies
+        uses: ramsey/composer-install@v4
+
+      - name: Run PHPStan
+        run: phpstan analyse --no-progress
