@@ -211,7 +211,7 @@ class ParserTest extends TestCase
      */
     public function test_parse_with_a_nameless_verifier_it_should_skip_the_alg_check()
     {
-        $namelessVerifier = new class implements Verifier {
+        $namelessVerifier = new class () implements Verifier {
             public function verify(string $plain, string $signature): void
             {
                 // Accept everything; only header handling is under test here.
