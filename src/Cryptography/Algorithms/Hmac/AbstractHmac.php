@@ -43,7 +43,7 @@ abstract class AbstractHmac implements Signer, Verifier
      */
     public function verify(string $plain, string $signature): void
     {
-        if ($signature !== $this->sign($plain)) {
+        if (!hash_equals($this->sign($plain), $signature)) {
             throw new InvalidSignatureException();
         }
     }
