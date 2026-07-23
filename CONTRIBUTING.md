@@ -16,12 +16,16 @@ Requirements: PHP `>=7.4`, `ext-openssl`, `ext-json`, and `ext-sodium` (for EdDS
 
 ## Ground rules
 
-- **PHP 7.4 is the floor** (CI runs 7.4–8.3).
+- **PHP 7.4 is the floor** (CI runs 7.4–8.5).
   No enums, `match`, promotion, named args, or union types in `src/`.
 - **No runtime dependencies.**
 - `declare(strict_types=1);` at the top of every source file.
 - **Don't weaken security-critical code** (signing, verification, format conversion, key handling) to pass tests.
 - Use `Enums\PublicClaimNames` constants instead of raw claim strings.
+
+## Code style
+
+- Lines should be 120 characters or less for codes and comments.
 
 ## Tests
 
