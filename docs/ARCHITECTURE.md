@@ -68,7 +68,7 @@ The signature is verified **before** the payload is decoded — keep that order.
   OpenSSL speaks **DER** (`SEQUENCE(INTEGER r, INTEGER s)`) but JWS needs raw `R || S`.
   `sign()` converts DER→raw (`derToSignature`, left-pad each half to `keySize/8`: 32 bytes for ES256/ES256K,
   48 for ES384); `verify()` converts raw→DER (`signatureToDer`) before `openssl_verify`.
-  `algorithm()` maps ES256/ES256K → SHA-256, **ES384 → SHA-512** (see quirks).
+  `algorithm()` maps ES256/ES256K → SHA-256, ES384 → SHA-384 (per RFC 7518 §3.1).
   The DER codec handles only ECDSA signatures — don't generalize it.
 - **EdDSA** (`Algorithms/Eddsa/`) — standalone signer/verifier via `sodium_crypto_sign_detached` /
   `..._verify_detached`, guarded by `function_exists()`.
@@ -137,13 +137,17 @@ Catch `JwtException` for all, or a subclass for specifics.
 
 Documented so they aren't mistaken for bugs — confirm intent before changing.
 
-1. **`ES384` uses SHA-512**, not SHA-384 (`Ecdsa/Algorithm.php`).
-   RFC 7518 says SHA-384.
-   Self-consistent here but may not interoperate; changing it breaks all previously issued ES384 tokens.
-2. **HMAC verify is not constant-time** — `!==` instead of `hash_equals()`.
-3. **README typos** — lists `RS384` under ECDSA where `ES384` is meant.
-4. **Minor:** `AbstractRsaSigner` param named `$publicKey` (holds the private key); some files miss
+1. **HMAC verify is not constant-time** — `!==` instead of `hash_equals()`.
+2. **README typos** — lists `RS384` under ECDSA where `ES384` is meant.
+3. **Minor:** `AbstractRsaSigner` param named `$publicKey` (holds the private key); some files miss
    `declare(strict_types=1)`; `EdDsaVerifier` message is garbled; `BaseValidator::addOptionalRule` has a
    copy-pasted docblock.
 
-Good candidates for the next cycle — all low-risk except (1), which needs a compatibility decision.
+Good candidates for the next cycle — all low-risk.
+
+### Resolved
+
+- **`ES384` now hashes with SHA-384** (`Ecdsa/Algorithm.php`), matching RFC 7518 §3.1/§3.4
+  ("ECDSA using P-384 and SHA-384"). It previously used SHA-512, which was self-consistent but did not
+  interoperate with compliant JWT implementations. **This was a breaking change**: ES384 tokens issued by
+  older versions no longer verify, and vice-versa.
