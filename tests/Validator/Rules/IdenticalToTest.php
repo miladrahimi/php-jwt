@@ -67,4 +67,18 @@ class IdenticalToTest extends TestCase
         $this->expectExceptionMessage('The `claim` must be identical to `3.14`.');
         $rule->validate('claim', 3.14);
     }
+
+    /**
+     * A non-scalar expected value is named by type in the message instead of crashing the interpolation.
+     *
+     * @throws Throwable
+     */
+    public function test_validate_it_should_fail_with_a_non_scalar_expected_value()
+    {
+        $rule = new IdenticalTo(['role' => 'admin']);
+
+        $this->expectException(ValidationException::class);
+        $this->expectExceptionMessage('The `claim` must be identical to `array`.');
+        $rule->validate('claim', 'text');
+    }
 }

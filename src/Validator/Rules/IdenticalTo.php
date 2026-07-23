@@ -31,7 +31,8 @@ class IdenticalTo implements Rule
     public function validate(string $name, $value)
     {
         if ($this->value !== $value) {
-            $message = "The `$name` must be identical to `$this->value`.";
+            $expected = is_scalar($this->value) ? (string)$this->value : gettype($this->value);
+            $message = "The `$name` must be identical to `$expected`.";
             throw new ValidationException($message);
         }
     }

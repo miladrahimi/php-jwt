@@ -32,7 +32,7 @@ class Generator
     /**
      * Generates a JWT for the given claims.
      *
-     * @param array<string, mixed> $claims
+     * @param array<int|string, mixed> $claims
      * @throws Exceptions\JsonEncodingException
      * @throws Exceptions\SigningException
      */
