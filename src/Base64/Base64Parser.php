@@ -7,12 +7,12 @@ namespace MiladRahimi\Jwt\Base64;
 interface Base64Parser
 {
     /**
-     * Encode plain data to Base64-encoded data
+     * Encodes the plain data to a Base64URL string.
      */
     public function encode(string $data): string;
 
     /**
-     * Decode Base64-encoded data to plain data
+     * Decodes the Base64URL string to plain data.
      */
     public function decode(string $data): string;
 }
