@@ -76,6 +76,20 @@ class EdDsaTest extends TestCase
     /**
      * @throws Throwable
      */
+    public function test_verify_with_a_different_key_it_should_fail()
+    {
+        $signature = (new EdDsaSigner($this->privateKey))->sign('Text');
+
+        $otherPublicKey = new EdDsaPublicKey(sodium_crypto_sign_publickey(sodium_crypto_sign_keypair()));
+        $verifier = new EdDsaVerifier($otherPublicKey);
+
+        $this->expectException(InvalidSignatureException::class);
+        $verifier->verify('Text', $signature);
+    }
+
+    /**
+     * @throws Throwable
+     */
     public function test_verifier_it_should_fail_with_invalid_key()
     {
         $verifier = new EdDsaVerifier(new EdDsaPublicKey('Invalid Key!'));

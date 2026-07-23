@@ -68,6 +68,32 @@ class DefaultValidatorTest extends TestCase
     }
 
     /**
+     * A token expiring at exactly the current second is already expired (`exp` must be strictly newer than now).
+     *
+     * @throws Throwable
+     */
+    public function test_with_exp_equal_to_now_it_should_fail()
+    {
+        $validator = new DefaultValidator();
+
+        $this->expectException(ValidationException::class);
+        $validator->validate(['exp' => time()]);
+    }
+
+    /**
+     * A token becoming valid at exactly the current second is accepted (`nbf` may equal now).
+     *
+     * @throws Throwable
+     */
+    public function test_with_nbf_equal_to_now_it_should_pass()
+    {
+        $validator = new DefaultValidator();
+        $validator->validate(['nbf' => time()]);
+
+        $this->assertTrue(true);
+    }
+
+    /**
      * @throws Throwable
      */
     public function test_with_nbf_it_should_pass_with_earlier_time()
