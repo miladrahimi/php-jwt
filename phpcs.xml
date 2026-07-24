@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         name="php-jwt"
+         xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
+    <description>PSR-12 plus the project's stricter conventions; see CONTRIBUTING.md.</description>
+
+    <file>src</file>
+    <file>tests</file>
+    <file>examples</file>
+
+    <arg name="basepath" value="."/>
+    <arg name="extensions" value="php"/>
+    <arg value="sp"/>
+
+    <rule ref="PSR12"/>
+
+    <!-- Lines are at most 120 characters — code, comments, and docblocks alike; over the limit is an error. -->
+    <rule ref="Generic.Files.LineLength">
+        <properties>
+            <property name="lineLimit" value="120"/>
+            <property name="absoluteLineLimit" value="120"/>
+        </properties>
+    </rule>
+
+    <!-- Every file starts with `declare(strict_types=1);`. -->
+    <rule ref="Generic.PHP.RequireStrictTypes"/>
+
+    <!-- Concatenation is spaced: `$a . $b`, never `$a.$b`. -->
+    <rule ref="Squiz.Strings.ConcatenationSpacing">
+        <properties>
+            <property name="spacing" value="1"/>
+            <property name="ignoreNewlines" value="true"/>
+        </properties>
+    </rule>
+
+    <!-- Single quotes unless the string needs interpolation or escape sequences. -->
+    <rule ref="Squiz.Strings.DoubleQuoteUsage.NotRequired"/>
+
+    <!-- Short array syntax only. -->
+    <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+
+    <!-- Casts and `!` hug their operand: `(string)$value`, `!$condition`. -->
+    <rule ref="Generic.Formatting.SpaceAfterCast">
+        <properties>
+            <property name="spacing" value="0"/>
+        </properties>
+    </rule>
+    <rule ref="Generic.Formatting.SpaceAfterNot">
+        <properties>
+            <property name="spacing" value="0"/>
+        </properties>
+    </rule>
+
+    <!-- Dead or degenerate code is an error. -->
+    <rule ref="Generic.CodeAnalysis.EmptyStatement"/>
+    <rule ref="Generic.CodeAnalysis.ForLoopShouldBeWhileLoop"/>
+    <rule ref="Generic.CodeAnalysis.ForLoopWithTestFunctionCall"/>
+    <rule ref="Generic.CodeAnalysis.JumbledIncrementer"/>
+    <rule ref="Generic.CodeAnalysis.UnconditionalIfStatement"/>
+    <rule ref="Generic.CodeAnalysis.UnnecessaryFinalModifier"/>
+    <rule ref="Generic.CodeAnalysis.UselessOverridingMethod"/>
+    <rule ref="Squiz.PHP.NonExecutableCode"/>
+
+    <!-- Forbidden constructs. -->
+    <rule ref="Generic.PHP.BacktickOperator"/>
+    <rule ref="Generic.PHP.DeprecatedFunctions"/>
+    <rule ref="Generic.PHP.DiscourageGoto">
+        <type>error</type>
+    </rule>
+    <rule ref="Generic.PHP.ForbiddenFunctions"/>
+
+    <!-- Tests use snake_case method names by convention (docs/TESTING.md). -->
+    <rule ref="PSR1.Methods.CamelCapsMethodName">
+        <exclude-pattern>tests/</exclude-pattern>
+    </rule>
+</ruleset>
