@@ -95,6 +95,45 @@ class AbstractEcdsaVerifierTest extends TestCase
     }
 
     /**
+     * A SEQUENCE of exactly 127 content bytes — the largest value the short form can express — keeps the
+     * single-byte length. Together with the 128-byte case below, this pins the exact long-form boundary.
+     *
+     * @throws Throwable
+     */
+    public function test_signature_to_der_with_127_content_bytes_it_should_keep_the_short_form_length()
+    {
+        // Halves must be equal-sized; the leading zero of the first one is stripped, giving 61- and 62-byte
+        // INTEGERs: (2 + 61) + (2 + 62) = 127 content bytes.
+        $signature = "\x00" . str_repeat("\x01", 61) . str_repeat("\x01", 62);
+
+        $der = $this->verifier()->signatureToDerPublicly($signature);
+
+        $this->assertSame(
+            "\x30\x7f" . "\x02\x3d" . str_repeat("\x01", 61) . "\x02\x3e" . str_repeat("\x01", 62),
+            $der
+        );
+    }
+
+    /**
+     * A SEQUENCE of 128 content bytes no longer fits the short form: its length gets the one-byte long form
+     * (`0x81` prefix), as every P-521 (ES512) signature does.
+     *
+     * @throws Throwable
+     */
+    public function test_signature_to_der_with_128_content_bytes_it_should_use_the_long_form_length()
+    {
+        // Two 62-byte INTEGERs: (2 + 62) * 2 = 128 content bytes.
+        $signature = str_repeat("\x01", 62) . str_repeat("\x01", 62);
+
+        $der = $this->verifier()->signatureToDerPublicly($signature);
+
+        $this->assertSame(
+            "\x30\x81\x80" . "\x02\x3e" . str_repeat("\x01", 62) . "\x02\x3e" . str_repeat("\x01", 62),
+            $der
+        );
+    }
+
+    /**
      * The exception surfaces the pending OpenSSL error instead of the generic fallback message. Whether a failed
      * verification queues an error of its own varies by platform, so the queue is drained and re-seeded with a
      * known error to make its state deterministic.

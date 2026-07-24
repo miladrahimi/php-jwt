@@ -42,6 +42,22 @@ class ES256KTest extends TestCase
     }
 
     /**
+     * RFC 8812 §3.2 pairs ES256K with the 256-bit secp256k1 curve, so the raw JWS signature is exactly two
+     * 32-byte coordinates. A round trip alone cannot pin this: a symmetric size change on both sides would
+     * still verify, so the length is asserted explicitly.
+     *
+     * @throws Throwable
+     */
+    public function test_sign_produces_a_64_byte_signature_of_two_32_byte_coordinates()
+    {
+        $signer = new ES256KSigner($this->privateKey);
+
+        $signature = $signer->sign('Header Payload');
+
+        $this->assertSame(64, strlen($signature));
+    }
+
+    /**
      * @throws Throwable
      */
     public function test_signer_and_verifier_they_should_fail_with_different_plains()

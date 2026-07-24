@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace MiladRahimi\Jwt\Tests;
 
 use MiladRahimi\Jwt\Base64\SafeBase64Parser;
+use MiladRahimi\Jwt\Cryptography\Algorithms\Ecdsa\ES512Verifier;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Eddsa\EdDsaVerifier;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
+use MiladRahimi\Jwt\Cryptography\Keys\EcdsaPublicKey;
 use MiladRahimi\Jwt\Cryptography\Keys\EdDsaPublicKey;
 use MiladRahimi\Jwt\Cryptography\Keys\HmacKey;
 use MiladRahimi\Jwt\Parser;
@@ -37,6 +39,38 @@ class InteropTest extends TestCase
 
         $parser = new Parser(new HS256(new HmacKey($key)));
         $parser->verify($jwt);
+
+        $this->assertTrue(true);
+    }
+
+    /**
+     * Verifies the ES512 example signature from RFC 7515 Appendix A.4.
+     *
+     * The PEM below is the appendix's P-521 JWK public key (x, y) re-encoded as a SubjectPublicKeyInfo; both
+     * coordinates and the signature halves are 66 bytes — the ceil(521 / 8) size this vector pins down.
+     *
+     * @throws Throwable
+     */
+    public function test_verify_the_rfc7515_es512_example_signature()
+    {
+        $publicKey = new EcdsaPublicKey(
+            "-----BEGIN PUBLIC KEY-----\n"
+            . "MIGbMBAGByqGSM49AgEGBSuBBAAjA4GGAAQB6SkFDxJPxrxVx9U5M2Xfne9KsMIs\n"
+            . "sleY+TTrBOPGuuNwGlenkQ6dgb82MVno68sVXWNJ9L22zPipTFxZx6rBAaQANKZE\n"
+            . "DjdnUNI3H9G9wsjztx0vTuXqNDLIFcyjFWD+XZOH7HdLVYOGMOXLv1qMvgqR3QBk\n"
+            . "xpmaH25uZ/rd7eTIyPY=\n"
+            . "-----END PUBLIC KEY-----\n"
+        );
+
+        $signingInput = 'eyJhbGciOiJFUzUxMiJ9.UGF5bG9hZA';
+        $signature = (new SafeBase64Parser())->decode(
+            'AdwMgeerwtHoh-l192l60hp9wAHZFVJbLfD_UxMi70cwnZOYaRI1bKPWROc-mZZq'
+            . 'wqT2SI-KGDKB34XO0aw_7XdtAG8GaSwFKdCAPZgoXD2YBJZCPEX3xKpRwcdOO8Kp'
+            . 'EHwJjyqOgzDO7iKvU8vcnwNrmxYbSW9ERBXukOXolLzeO_Jn'
+        );
+
+        $verifier = new ES512Verifier($publicKey);
+        $verifier->verify($signingInput, $signature);
 
         $this->assertTrue(true);
     }
