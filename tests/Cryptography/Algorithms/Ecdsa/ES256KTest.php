@@ -21,8 +21,8 @@ class ES256KTest extends TestCase
     {
         parent::setUp();
 
-        $this->privateKey = new EcdsaPrivateKey(__DIR__ . '/../../../../assets/keys/ecdsa256k-private.pem');
-        $this->publicKey = new EcdsaPublicKey(__DIR__ . '/../../../../assets/keys/ecdsa256k-public.pem');
+        $this->privateKey = new EcdsaPrivateKey(__DIR__.'/../../../../assets/keys/ecdsa256k-private.pem');
+        $this->publicKey = new EcdsaPublicKey(__DIR__.'/../../../../assets/keys/ecdsa256k-public.pem');
     }
 
     /**

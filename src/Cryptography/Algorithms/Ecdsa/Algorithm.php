@@ -23,10 +23,10 @@ trait Algorithm
     protected function algorithm(): int
     {
         return [
-            'ES256' => OPENSSL_ALGO_SHA256,
+            'ES256'  => OPENSSL_ALGO_SHA256,
             'ES256K' => OPENSSL_ALGO_SHA256,
-            'ES384' => OPENSSL_ALGO_SHA384,
-            'ES512' => OPENSSL_ALGO_SHA512,
+            'ES384'  => OPENSSL_ALGO_SHA384,
+            'ES512'  => OPENSSL_ALGO_SHA512,
         ][$this->name()];
     }
 
@@ -37,10 +37,10 @@ trait Algorithm
     protected function coordinateSize(): int
     {
         return [
-            'ES256' => 32,
+            'ES256'  => 32,
             'ES256K' => 32,
-            'ES384' => 48,
-            'ES512' => 66,
+            'ES384'  => 48,
+            'ES512'  => 66,
         ][static::$name];
     }
 }

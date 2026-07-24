@@ -31,8 +31,8 @@ class VerifierFactory
     private Base64Parser $base64Parser;
 
     /**
-     * @param Verifier[] $verifiers
-     * @param JsonParser|null $jsonParser
+     * @param Verifier[]        $verifiers
+     * @param JsonParser|null   $jsonParser
      * @param Base64Parser|null $base64Parser
      */
     public function __construct(array $verifiers, ?JsonParser $jsonParser = null, ?Base64Parser $base64Parser = null)
@@ -45,7 +45,7 @@ class VerifierFactory
             }
 
             // A null kid registers under "" (kept for backward compatibility; PHP deprecates null array offsets).
-            $this->verifiers[(string)$verifier->kid()] = $verifier;
+            $this->verifiers[(string) $verifier->kid()] = $verifier;
         }
 
         $this->jsonParser = $jsonParser ?: new StrictJsonParser();
