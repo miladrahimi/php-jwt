@@ -6,13 +6,13 @@ namespace MiladRahimi\Jwt\Cryptography\Algorithms\Hmac;
 
 use Error;
 use MiladRahimi\Jwt\Cryptography\Keys\HmacKey;
+use MiladRahimi\Jwt\Cryptography\NamedVerifier;
 use MiladRahimi\Jwt\Cryptography\Signer;
-use MiladRahimi\Jwt\Cryptography\Verifier;
 use MiladRahimi\Jwt\Exceptions\InvalidKeyException;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 use MiladRahimi\Jwt\Exceptions\SigningException;
 
-abstract class AbstractHmac implements Signer, Verifier
+abstract class AbstractHmac implements Signer, NamedVerifier
 {
     protected static string $name;
 

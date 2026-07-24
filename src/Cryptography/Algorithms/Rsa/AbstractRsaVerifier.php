@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace MiladRahimi\Jwt\Cryptography\Algorithms\Rsa;
 
 use MiladRahimi\Jwt\Cryptography\Keys\RsaPublicKey;
-use MiladRahimi\Jwt\Cryptography\Verifier;
+use MiladRahimi\Jwt\Cryptography\NamedVerifier;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 
-abstract class AbstractRsaVerifier implements Verifier
+abstract class AbstractRsaVerifier implements NamedVerifier
 {
     use Algorithm;
 

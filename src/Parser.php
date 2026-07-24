@@ -6,6 +6,7 @@ namespace MiladRahimi\Jwt;
 
 use MiladRahimi\Jwt\Base64\Base64Parser;
 use MiladRahimi\Jwt\Base64\SafeBase64Parser;
+use MiladRahimi\Jwt\Cryptography\NamedVerifier;
 use MiladRahimi\Jwt\Cryptography\Verifier;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 use MiladRahimi\Jwt\Exceptions\InvalidTokenException;
@@ -175,8 +176,8 @@ class Parser
                 throw new InvalidTokenException('The JWT header `alg` field must be a string.');
             }
             // The verifier's algorithm is always the one used; this only rejects tokens whose `alg` contradicts it
-            // (defense in depth). `name()` is not part of the Verifier interface, hence the guard.
-            if (method_exists($this->verifier, 'name') && $fields['alg'] !== $this->verifier->name()) {
+            // (defense in depth). Custom verifiers opt in by implementing NamedVerifier.
+            if ($this->verifier instanceof NamedVerifier && $fields['alg'] !== $this->verifier->name()) {
                 throw new InvalidTokenException("The token `alg` does not match the verifier's algorithm.");
             }
         }

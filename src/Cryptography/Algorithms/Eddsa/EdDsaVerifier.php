@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace MiladRahimi\Jwt\Cryptography\Algorithms\Eddsa;
 
 use MiladRahimi\Jwt\Cryptography\Keys\EdDsaPublicKey;
-use MiladRahimi\Jwt\Cryptography\Verifier;
+use MiladRahimi\Jwt\Cryptography\NamedVerifier;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
 use RuntimeException;
 use SodiumException;
 
-class EdDsaVerifier implements Verifier
+class EdDsaVerifier implements NamedVerifier
 {
     protected static string $name = 'EdDSA';
 

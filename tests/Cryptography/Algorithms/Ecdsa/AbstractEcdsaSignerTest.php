@@ -32,9 +32,9 @@ class AbstractEcdsaSignerTest extends TestCase
                 return $this->decodeDer($der, $offset);
             }
 
-            public function derToSignaturePublicly(string $der, int $keySize): string
+            public function derToSignaturePublicly(string $der, int $coordinateSize): string
             {
-                return $this->derToSignature($der, $keySize);
+                return $this->derToSignature($der, $coordinateSize);
             }
         };
     }
@@ -83,7 +83,7 @@ class AbstractEcdsaSignerTest extends TestCase
     {
         $der = "\x30\x08\x02\x02\x00\x80\x02\x02\x00\x81";
 
-        $signature = $this->signer()->derToSignaturePublicly($der, 256);
+        $signature = $this->signer()->derToSignaturePublicly($der, 32);
 
         $this->assertSame(str_repeat("\x00", 31) . "\x80" . str_repeat("\x00", 31) . "\x81", $signature);
     }
@@ -100,7 +100,7 @@ class AbstractEcdsaSignerTest extends TestCase
         $s = "\x00\x81" . str_repeat("\x02", 31);
         $der = "\x30\x46\x02\x21" . $r . "\x02\x21" . $s;
 
-        $signature = $this->signer()->derToSignaturePublicly($der, 256);
+        $signature = $this->signer()->derToSignaturePublicly($der, 32);
 
         $this->assertSame("\x80" . str_repeat("\x01", 31) . "\x81" . str_repeat("\x02", 31), $signature);
     }
