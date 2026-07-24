@@ -47,12 +47,13 @@ class Parser
     /**
      * Parses the JWT (verifies, decodes, and validates it) and returns the claims.
      *
-     * @return array<int|string, mixed>
      * @throws Exceptions\SigningException
      * @throws Exceptions\InvalidSignatureException
      * @throws Exceptions\InvalidTokenException
      * @throws Exceptions\JsonDecodingException
      * @throws Exceptions\ValidationException
+     *
+     * @return array<int|string, mixed>
      */
     public function parse(string $jwt): array
     {
@@ -72,8 +73,9 @@ class Parser
     /**
      * Splits the JWT into its three components.
      *
-     * @return string[]
      * @throws Exceptions\InvalidTokenException
+     *
+     * @return string[]
      */
     private function split(string $jwt): array
     {
@@ -120,9 +122,10 @@ class Parser
     /**
      * Decodes the JWT payload and returns the claims.
      *
-     * @return array<int|string, mixed>
      * @throws InvalidTokenException
      * @throws JsonDecodingException
+     *
+     * @return array<int|string, mixed>
      */
     private function decode(string $payload): array
     {

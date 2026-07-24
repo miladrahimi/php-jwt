@@ -18,7 +18,7 @@ class AbstractEcdsaSignerTest extends TestCase
     {
         parent::setUp();
 
-        $this->privateKey = new EcdsaPrivateKey(__DIR__ . '/../../../../assets/keys/ecdsa256-private.pem');
+        $this->privateKey = new EcdsaPrivateKey(__DIR__.'/../../../../assets/keys/ecdsa256-private.pem');
     }
 
     /**
@@ -26,7 +26,7 @@ class AbstractEcdsaSignerTest extends TestCase
      */
     private function signer(): ES256Signer
     {
-        return new class ($this->privateKey) extends ES256Signer {
+        return new class($this->privateKey) extends ES256Signer {
             public function decodeDerPublicly(string $der, int $offset = 0): array
             {
                 return $this->decodeDer($der, $offset);
@@ -46,7 +46,7 @@ class AbstractEcdsaSignerTest extends TestCase
      */
     public function test_sign_with_an_unsupported_algorithm_it_should_fail()
     {
-        $signer = new class ($this->privateKey) extends ES256Signer {
+        $signer = new class($this->privateKey) extends ES256Signer {
             protected function algorithm(): int
             {
                 return PHP_INT_MAX;
@@ -85,7 +85,7 @@ class AbstractEcdsaSignerTest extends TestCase
 
         $signature = $this->signer()->derToSignaturePublicly($der, 32);
 
-        $this->assertSame(str_repeat("\x00", 31) . "\x80" . str_repeat("\x00", 31) . "\x81", $signature);
+        $this->assertSame(str_repeat("\x00", 31)."\x80".str_repeat("\x00", 31)."\x81", $signature);
     }
 
     /**
@@ -96,13 +96,13 @@ class AbstractEcdsaSignerTest extends TestCase
      */
     public function test_der_to_signature_strips_the_sign_byte_of_full_size_coordinates()
     {
-        $r = "\x00\x80" . str_repeat("\x01", 31);
-        $s = "\x00\x81" . str_repeat("\x02", 31);
-        $der = "\x30\x46\x02\x21" . $r . "\x02\x21" . $s;
+        $r = "\x00\x80".str_repeat("\x01", 31);
+        $s = "\x00\x81".str_repeat("\x02", 31);
+        $der = "\x30\x46\x02\x21".$r."\x02\x21".$s;
 
         $signature = $this->signer()->derToSignaturePublicly($der, 32);
 
-        $this->assertSame("\x80" . str_repeat("\x01", 31) . "\x81" . str_repeat("\x02", 31), $signature);
+        $this->assertSame("\x80".str_repeat("\x01", 31)."\x81".str_repeat("\x02", 31), $signature);
     }
 
     /**
@@ -153,7 +153,7 @@ class AbstractEcdsaSignerTest extends TestCase
     {
         $value = str_repeat("\xAA", 256);
 
-        [$offset, $decoded] = $this->signer()->decodeDerPublicly("\x02\x82\x01\x00" . $value);
+        [$offset, $decoded] = $this->signer()->decodeDerPublicly("\x02\x82\x01\x00".$value);
 
         $this->assertSame(260, $offset);
         $this->assertSame($value, $decoded);

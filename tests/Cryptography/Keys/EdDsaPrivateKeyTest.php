@@ -11,7 +11,7 @@ use Throwable;
 
 class EdDsaPrivateKeyTest extends TestCase
 {
-    private const PATH = __DIR__ . '/../../../assets/keys/ed25519.sec';
+    private const PATH = __DIR__.'/../../../assets/keys/ed25519.sec';
 
     /**
      * @throws Throwable

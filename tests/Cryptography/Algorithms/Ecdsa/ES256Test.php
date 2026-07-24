@@ -21,8 +21,8 @@ class ES256Test extends TestCase
     {
         parent::setUp();
 
-        $this->privateKey = new EcdsaPrivateKey(__DIR__ . '/../../../../assets/keys/ecdsa256-private.pem');
-        $this->publicKey = new EcdsaPublicKey(__DIR__ . '/../../../../assets/keys/ecdsa256-public.pem');
+        $this->privateKey = new EcdsaPrivateKey(__DIR__.'/../../../../assets/keys/ecdsa256-private.pem');
+        $this->publicKey = new EcdsaPublicKey(__DIR__.'/../../../../assets/keys/ecdsa256-public.pem');
     }
 
     /**
@@ -62,7 +62,7 @@ class ES256Test extends TestCase
     {
         $signature = (new ES256Signer($this->privateKey))->sign('Text');
 
-        $otherPublicKey = new EcdsaPublicKey(__DIR__ . '/../../../../assets/keys/ecdsa256k-public.pem');
+        $otherPublicKey = new EcdsaPublicKey(__DIR__.'/../../../../assets/keys/ecdsa256k-public.pem');
         $verifier = new ES256Verifier($otherPublicKey);
 
         $this->expectException(InvalidSignatureException::class);

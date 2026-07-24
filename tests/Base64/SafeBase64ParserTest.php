@@ -16,7 +16,7 @@ class SafeBase64ParserTest extends TestCase
      */
     public function test_encode_and_decode()
     {
-        $plain = md5((string)random_int(1, 100));
+        $plain = md5((string) random_int(1, 100));
 
         $safeBase64Parser = new SafeBase64Parser();
         $encoded = $safeBase64Parser->encode($plain);
