@@ -52,6 +52,13 @@ Public-API examples in the README are verified by `tests/ExamplesTest.php` — u
 5. Ensure `infection` (mutation testing, `infection.json5`) reports a 100% MSI — CI runs it too.
 6. Update the README and `docs/` when behavior or the public API changes.
 
+### Authorship
+
+Commits and pull requests are attributed to their human author only. Don't add AI assistants or agents as
+co-authors or collaborators: no `Co-Authored-By:` trailers naming AI tools, and no AI agent names in commit
+messages, PR descriptions, or commit metadata. Using AI tooling to help produce a change is fine — the
+authorship of, and the responsibility for, the change stay with you.
+
 ## Read more
 
 - [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — design, component map, cryptography, known quirks.
