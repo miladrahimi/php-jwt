@@ -15,7 +15,7 @@ Its design emphasizes a fluent, user-friendly, and object-oriented interface, cr
 Supported algorithms:
 * HMAC: `HS256`, `HS384`, and `HS512`
 * RSA: `RS256`, `RS384`, and `RS512`
-* ECDSA: `ES256`, `ES256K`, and `ES384`
+* ECDSA: `ES256`, `ES256K`, `ES384`, and `ES512`
 * EdDSA: `EdDSA`
 
 Supported features:
@@ -112,7 +112,7 @@ You can refer to [this instruction](https://en.wikibooks.org/wiki/Cryptography/G
 ### ECDSA Algorithms
 
 The ECDSA algorithm, similar to RSA, operates asymmetrically, providing even stronger security measures than RSA.
-The PHP-JWT package supports `ES256`, `ES256K`, and `ES384` ECDSA algorithms.
+The PHP-JWT package supports `ES256`, `ES256K`, `ES384`, and `ES512` ECDSA algorithms.
 The example below demonstrates this process.
 
 ```php
