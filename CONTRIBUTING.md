@@ -30,8 +30,12 @@ Requirements: PHP `>=7.4`, `ext-openssl`, `ext-json`, and `ext-sodium` (for EdDS
 - Lines are at most 120 characters — code, comments, and docblocks alike.
 - Don't wrap a comment or docblock line before it reaches the 120-character limit; let sentences run the full
   width first.
-- [StyleCI](https://styleci.io) enforces the rest (see `.styleci.yml`): PSR-12 plus spaced concatenation,
-  alphabetically ordered imports, single quotes, short arrays, and no unused imports.
+- [PHP_CodeSniffer](https://github.com/PHPCSStandards/PHP_CodeSniffer) enforces the rest (see `phpcs.xml`):
+  PSR-12 plus spaced concatenation, single quotes, short arrays, no-space casts (`(string)$x`), and
+  `declare(strict_types=1);` in every file. It is phar-only (like PHPStan and Infection) — run `php phpcs.phar`
+  locally.
+- Keep imports alphabetically ordered and remove unused ones — phpcs has no core sniff for these, so they are
+  reviewed manually.
 
 ## Tests
 
@@ -44,8 +48,9 @@ Public-API examples in the README are verified by `tests/ExamplesTest.php` — u
 1. Branch off `main`, one concern per PR.
 2. Ensure `./vendor/bin/phpunit` is green (ideally on PHP 7.4).
 3. Ensure `phpstan analyse` (level 10, `phpstan.neon`) reports no errors — CI runs it too.
-4. Ensure `infection` (mutation testing, `infection.json5`) reports a 100% MSI — CI runs it too.
-5. Update the README and `docs/` when behavior or the public API changes.
+4. Ensure `phpcs` (`phpcs.xml`) reports no violations — CI runs it too.
+5. Ensure `infection` (mutation testing, `infection.json5`) reports a 100% MSI — CI runs it too.
+6. Update the README and `docs/` when behavior or the public API changes.
 
 ## Read more
 

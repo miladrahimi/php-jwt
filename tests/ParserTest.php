@@ -140,7 +140,8 @@ class ParserTest extends TestCase
      */
     public function test_parse_with_a_jwt_with_non_jwt_typ()
     {
-        $noTypJwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IngifQ.eyJzdWIiOiI2NjYifQ.Ut195bqywLi3TtWjo4461lVxo7RudOJGPdD1zBA_Z2gU';
+        $noTypJwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IngifQ.eyJzdWIiOiI2NjYifQ' .
+            '.Ut195bqywLi3TtWjo4461lVxo7RudOJGPdD1zBA_Z2gU';
 
         $parser = new Parser($this->verifier);
 

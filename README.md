@@ -4,7 +4,6 @@
 [![Mutation](https://github.com/miladrahimi/php-jwt/actions/workflows/mutation.yml/badge.svg)](https://github.com/miladrahimi/php-jwt/actions/workflows/mutation.yml)
 [![codecov](https://codecov.io/gh/miladrahimi/php-jwt/graph/badge.svg?token=KctrYUweFd)](https://codecov.io/gh/miladrahimi/php-jwt)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/miladrahimi/php-jwt/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/miladrahimi/php-jwt/?branch=main)
-[![StyleCI](https://github.styleci.io/repos/135843323/shield?branch=main)](https://github.styleci.io/repos/135843323?branch=main)
 [![License](https://poser.pugx.org/miladrahimi/php-jwt/license)](https://packagist.org/packages/miladrahimi/php-jwt)
 
 # PHP-JWT
