@@ -46,7 +46,7 @@ class ES384Test extends TestCase
      * This is an interoperability proof: the signature our signer produces must be
      * verifiable by OpenSSL when — and only when — the SHA-384 digest is used.
      * A raw-OpenSSL verify with SHA-384 must pass, and one with SHA-512 (the old,
-     * non-compliant behaviour) must fail. This locks the digest to SHA-384 and would
+     * non-compliant behavior) must fail. This locks the digest to SHA-384 and would
      * catch any regression back to SHA-512.
      *
      * @throws Throwable

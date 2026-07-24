@@ -80,7 +80,8 @@ class HS256Test extends TestCase
             }
         };
 
-        // On PHP 7.4 `hash_hmac` raises a warning and returns false (a TypeError); PHP 8+ throws a ValueError.
+        // On PHP 7.4, `hash_hmac` raises a warning and returns false, which the `: string` return type turns into
+        // a TypeError; PHP 8+ throws a ValueError directly. The error handler swallows the PHP 7.4 warning.
         set_error_handler(function (): bool {
             return true;
         }, E_WARNING);

@@ -33,7 +33,7 @@ class EdDsaVerifier implements NamedVerifier
         if (function_exists('sodium_crypto_sign_verify_detached')) {
             try {
                 if (!sodium_crypto_sign_verify_detached($signature, $plain, $this->publicKey->getContent())) {
-                    throw new InvalidSignatureException('The signature is invalid.');
+                    throw new InvalidSignatureException('The signature is not valid.');
                 }
             } catch (SodiumException $e) {
                 throw new InvalidSignatureException('Sodium cannot verify the signature.', 0, $e);
