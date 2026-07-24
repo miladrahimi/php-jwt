@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * RS256 — RSA with SHA-256 (asymmetric: private key signs, public key verifies).
  *
  * Run:  php examples/rs256.php
  */
+
+declare(strict_types=1);
 
 require __DIR__ . '/../vendor/autoload.php';
 

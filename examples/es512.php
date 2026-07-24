@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * ES512 — ECDSA over P-521 with SHA-512 (asymmetric: private signs, public verifies).
  *
  * Run:  php examples/es512.php
  */
+
+declare(strict_types=1);
 
 require __DIR__ . '/../vendor/autoload.php';
 

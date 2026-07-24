@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * EdDSA — Ed25519 (asymmetric: private signs, public verifies). Requires ext-sodium.
  *
  * Run:  php examples/eddsa.php
  */
+
+declare(strict_types=1);
 
 require __DIR__ . '/../vendor/autoload.php';
 

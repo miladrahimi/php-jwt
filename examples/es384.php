@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * ES384 — ECDSA over P-384 with SHA-384 (asymmetric: private signs, public verifies).
  *
  * Run:  php examples/es384.php
  */
+
+declare(strict_types=1);
 
 require __DIR__ . '/../vendor/autoload.php';
 
