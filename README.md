@@ -4,6 +4,7 @@
 [![Mutation](https://github.com/miladrahimi/php-jwt/actions/workflows/mutation.yml/badge.svg)](https://github.com/miladrahimi/php-jwt/actions/workflows/mutation.yml)
 [![codecov](https://codecov.io/gh/miladrahimi/php-jwt/graph/badge.svg?token=KctrYUweFd)](https://codecov.io/gh/miladrahimi/php-jwt)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/miladrahimi/php-jwt/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/miladrahimi/php-jwt/?branch=main)
+[![PHPStan Level](https://img.shields.io/badge/PHPStan-10-brightgreen)](https://phpstan.org/)
 [![License](https://poser.pugx.org/miladrahimi/php-jwt/license)](https://packagist.org/packages/miladrahimi/php-jwt)
 
 # PHP-JWT
@@ -12,10 +13,10 @@ PHP-JWT is a PHP package built for encoding (generating), decoding (parsing), ve
 Its design emphasizes a fluent, user-friendly, and object-oriented interface, crafted with performance in mind.
 
 Supported algorithms:
-* HMAC: `HS256`, `HS384`, and `HS512`
-* RSA: `RS256`, `RS384`, and `RS512`
-* ECDSA: `ES256`, `ES256K`, `ES384`, and `ES512`
-* EdDSA: `EdDSA`
+* **HMAC**: `HS256`, `HS384`, and `HS512`
+* **RSA**: `RS256`, `RS384`, and `RS512`
+* **ECDSA**: `ES256`, `ES256K`, `ES384`, and `ES512`
+* **EdDSA** (Ed25519, requires the `sodium` PHP extension)
 
 Supported features:
 * Built-in and custom validations
