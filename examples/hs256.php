@@ -19,7 +19,7 @@ use MiladRahimi\Jwt\Parser;
 $key = new HmacKey('12345678901234567890123456789012');
 
 // 2) Sign — build a token from your claims.
-$hs256 = new HS256($key);                 // HMAC uses one object as both signer and verifier
+$hs256 = new HS256($key); // HMAC uses one object as both signer and verifier
 $jwt = (new Generator($hs256))->generate([
     'sub'  => '42',
     'name' => 'Pink Floyd',

@@ -50,7 +50,7 @@ abstract class AbstractEcdsaVerifier implements NamedVerifier
     protected function signatureToDer(string $signature): string
     {
         $length = max(1, (int)(strlen($signature) / 2));
-        [$r, $s] = str_split($signature, $length);      // split the raw signature into its two halves
+        [$r, $s] = str_split($signature, $length); // split the raw signature into its two halves
 
         $r = ltrim($r, "\x00");
         $s = ltrim($s, "\x00");
@@ -89,14 +89,14 @@ abstract class AbstractEcdsaVerifier implements NamedVerifier
     {
         $tagHeader = 0;
         if ($type === self::ASN1_SEQUENCE) {
-            $tagHeader |= 0x20;                          // mark the tag as constructed
+            $tagHeader |= 0x20; // mark the tag as constructed
         }
 
         $der = chr($tagHeader | $type);
 
         $length = strlen($value);
         if ($length > 0x7f) {
-            $der .= "\x81";                              // long form: one length byte follows
+            $der .= "\x81"; // long form: one length byte follows
         }
         $der .= chr($length);
 

@@ -12,7 +12,13 @@
     <arg name="extensions" value="php"/>
     <arg value="sp"/>
 
+    <!-- Project-local sniffs live in phpcs/PhpJwt (the path is relative to this ruleset). -->
+    <config name="installed_paths" value="phpcs"/>
+
     <rule ref="PSR12"/>
+
+    <!-- Trailing inline comments sit exactly one space after the code — no column alignment. -->
+    <rule ref="PhpJwt.WhiteSpace.SingleSpaceBeforeInlineComment"/>
 
     <!-- Lines are at most 120 characters — code, comments, and docblocks alike; over the limit is an error. -->
     <rule ref="Generic.Files.LineLength">
