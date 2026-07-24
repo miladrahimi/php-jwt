@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<ruleset name="PhpJwt">
+    <description>Project-local sniffs for php-jwt; wired in via installed_paths in the root phpcs.xml.</description>
+</ruleset>

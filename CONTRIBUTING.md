@@ -36,6 +36,8 @@ Requirements: PHP `>=7.4`, `ext-openssl`, `ext-json`, and `ext-sodium` (for EdDS
   locally.
 - Keep imports alphabetically ordered and remove unused ones — phpcs has no core sniff for these, so they are
   reviewed manually.
+- Trailing inline comments sit exactly one space after the code — don't column-align them. Enforced by the
+  project-local `PhpJwt.WhiteSpace.SingleSpaceBeforeInlineComment` sniff (in `phpcs/`).
 
 ## Tests
 

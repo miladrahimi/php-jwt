@@ -52,9 +52,9 @@ abstract class AbstractEcdsaSigner implements Signer
      */
     protected function derToSignature(string $der, int $coordinateSize): string
     {
-        $i = $this->decodeDer($der)[0];         // descend into the SEQUENCE
-        [$i, $r] = $this->decodeDer($der, $i);  // r INTEGER
-        $s = $this->decodeDer($der, $i)[1];     // s INTEGER
+        $i = $this->decodeDer($der)[0]; // descend into the SEQUENCE
+        [$i, $r] = $this->decodeDer($der, $i); // r INTEGER
+        $s = $this->decodeDer($der, $i)[1]; // s INTEGER
 
         // Drop the ASN.1 sign padding, then left-pad to the fixed coordinate size.
         $r = ltrim($r, "\x00");
@@ -80,11 +80,11 @@ abstract class AbstractEcdsaSigner implements Signer
     {
         $pos = $offset;
         $size = strlen($der);
-        $constructed = (ord($der[$pos]) >> 5) & 0x01;   // bit 5: constructed vs primitive
-        $type = ord($der[$pos++]) & 0x1f;               // low 5 bits: tag number
+        $constructed = (ord($der[$pos]) >> 5) & 0x01; // bit 5: constructed vs primitive
+        $type = ord($der[$pos++]) & 0x1f; // low 5 bits: tag number
 
         $len = ord($der[$pos++]);
-        if ($len & 0x80) {                              // long form: low bits give the length's byte count
+        if ($len & 0x80) { // long form: low bits give the length's byte count
             $n = $len & 0x1f;
             $len = 0;
             while ($n-- && $pos < $size) {
@@ -93,14 +93,14 @@ abstract class AbstractEcdsaSigner implements Signer
         }
 
         if ($type === self::ASN1_BIT_STRING) {
-            $pos++;                                     // skip the leading "unused bits" byte
+            $pos++; // skip the leading "unused bits" byte
             $data = substr($der, $pos, $len - 1);
             $pos += $len - 1;
         } elseif (!$constructed) {
             $data = substr($der, $pos, $len);
             $pos += $len;
         } else {
-            $data = '';                                 // constructed: leave $pos at the first child
+            $data = ''; // constructed: leave $pos at the first child
         }
 
         return [$pos, $data];
