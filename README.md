@@ -16,7 +16,7 @@ Supported algorithms:
 * **HMAC**: `HS256`, `HS384`, and `HS512`
 * **RSA**: `RS256`, `RS384`, and `RS512`
 * **ECDSA**: `ES256`, `ES256K`, `ES384`, and `ES512`
-* **EdDSA** (Ed25519, requires the `sodium` PHP extension)
+* **EdDSA** (requires the `sodium` PHP extension)
 
 Supported features:
 * Built-in and custom validations
@@ -182,6 +182,7 @@ Check out this example:
 ```php
 use MiladRahimi\Jwt\Parser;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
+use MiladRahimi\Jwt\Cryptography\Keys\HmacKey;
 use MiladRahimi\Jwt\Exceptions\ValidationException;
 use MiladRahimi\Jwt\Validator\DefaultValidator;
 use MiladRahimi\Jwt\Validator\Rules\EqualsTo;
@@ -308,12 +309,12 @@ $publicKey2 = new EcdsaPublicKey('/path/to/ecdsa384-public.pem', 'key-2');
 $signer1 = new RS256Signer($privateKey1);
 $generator1 = new Generator($signer1);
 $jwt1 = $generator1->generate(['id' => 13, 'is-admin' => true]);
-// $jwt1 header: {"alg": "RS256", "typ": "JWT", "kid": "key-1"}
+// $jwt1 header: {"typ": "JWT", "alg": "RS256", "kid": "key-1"}
 
 $signer2 = new ES384Signer($privateKey2);
 $generator2 = new Generator($signer2);
 $jwt2 = $generator2->generate(['id' => 13, 'is-admin' => true]);
-// $jwt2 header: {"alg": "ES384", "typ": "JWT", "kid": "key-2"}
+// $jwt2 header: {"typ": "JWT", "alg": "ES384", "kid": "key-2"}
 
 // Parse tokens
 
