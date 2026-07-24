@@ -140,7 +140,7 @@ class ParserTest extends TestCase
      */
     public function test_parse_with_a_jwt_with_non_jwt_typ()
     {
-        $noTypJwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IngifQ.eyJzdWIiOiI2NjYifQ' .
+        $noTypJwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IngifQ.eyJzdWIiOiI2NjYifQ'.
             '.Ut195bqywLi3TtWjo4461lVxo7RudOJGPdD1zBA_Z2gU';
 
         $parser = new Parser($this->verifier);
@@ -212,7 +212,7 @@ class ParserTest extends TestCase
      */
     public function test_parse_with_a_nameless_verifier_it_should_skip_the_alg_check()
     {
-        $namelessVerifier = new class () implements Verifier {
+        $namelessVerifier = new class() implements Verifier {
             public function verify(string $plain, string $signature): void
             {
                 // Accept everything; only header handling is under test here.
@@ -273,7 +273,7 @@ class ParserTest extends TestCase
     {
         [$header, $payload] = explode('.', $this->sampleJwt);
         // 43 base64url chars = 32 zero bytes: a well-formed but wrong HS256 signature.
-        $tamperedJwt = "$header.$payload." . str_repeat('A', 43);
+        $tamperedJwt = "$header.$payload.".str_repeat('A', 43);
 
         $parser = new Parser($this->verifier);
 
@@ -291,7 +291,7 @@ class ParserTest extends TestCase
     {
         [$header, $payload, $signature] = explode('.', $this->sampleJwt);
         // Flip the final character of the payload; the original signature no longer matches.
-        $tamperedPayload = substr($payload, 0, -1) . ($payload[-1] === 'A' ? 'B' : 'A');
+        $tamperedPayload = substr($payload, 0, -1).($payload[-1] === 'A' ? 'B' : 'A');
         $tamperedJwt = "$header.$tamperedPayload.$signature";
 
         $parser = new Parser($this->verifier);
@@ -416,7 +416,7 @@ class ParserTest extends TestCase
     {
         [$header, $payload] = explode('.', $this->sampleJwt);
         // 43 base64url chars = 32 zero bytes: a well-formed but wrong HS256 signature.
-        $tamperedJwt = "$header.$payload." . str_repeat('A', 43);
+        $tamperedJwt = "$header.$payload.".str_repeat('A', 43);
 
         $parser = new Parser($this->verifier, new BaseValidator());
 

@@ -28,8 +28,8 @@ class RS256Test extends TestCase
     {
         parent::setUp();
 
-        $this->rsaPrivateKey = new RsaPrivateKey(__DIR__ . '/../../../../assets/keys/rsa-private.pem');
-        $this->rsaPublicKey = new RsaPublicKey(__DIR__ . '/../../../../assets/keys/rsa-public.pem');
+        $this->rsaPrivateKey = new RsaPrivateKey(__DIR__.'/../../../../assets/keys/rsa-private.pem');
+        $this->rsaPublicKey = new RsaPublicKey(__DIR__.'/../../../../assets/keys/rsa-public.pem');
     }
 
     /**
@@ -84,7 +84,7 @@ class RS256Test extends TestCase
      */
     public function test_sign_with_an_unsupported_algorithm_it_should_fail()
     {
-        $signer = new class ($this->rsaPrivateKey) extends RS256Signer {
+        $signer = new class($this->rsaPrivateKey) extends RS256Signer {
             protected function algorithm(): int
             {
                 return PHP_INT_MAX;

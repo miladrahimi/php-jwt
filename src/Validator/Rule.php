@@ -14,10 +14,12 @@ interface Rule
     /**
      * Validates the given value.
      *
-     * @param string $name The claim name.
-     * @param mixed $value The claim value.
-     * @return void
+     * @param string $name  The claim name.
+     * @param mixed  $value The claim value.
+     *
      * @throws ValidationException
+     *
+     * @return void
      */
     public function validate(string $name, $value);
 }

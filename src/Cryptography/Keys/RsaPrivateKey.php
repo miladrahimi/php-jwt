@@ -10,6 +10,7 @@ class RsaPrivateKey
 {
     /**
      * @var resource|\OpenSSLAsymmetricKey The OpenSSL key handle.
+     *
      * @phpstan-var resource
      */
     protected $resource;
@@ -17,15 +18,15 @@ class RsaPrivateKey
     protected ?string $id;
 
     /**
-     * @param string $key Key file path or string content
-     * @param string $passphrase Key passphrase
-     * @param string|null $id Key identifier
+     * @param string      $key        Key file path or string content
+     * @param string      $passphrase Key passphrase
+     * @param string|null $id         Key identifier
      *
      * @throws InvalidKeyException
      */
     public function __construct(string $key, string $passphrase = '', ?string $id = null)
     {
-        $content = is_file($key) ? (string)file_get_contents($key) : $key;
+        $content = is_file($key) ? (string) file_get_contents($key) : $key;
 
         $resource = openssl_pkey_get_private($content, $passphrase);
         if ($resource === false) {
@@ -39,6 +40,7 @@ class RsaPrivateKey
 
     /**
      * @return resource|\OpenSSLAsymmetricKey The OpenSSL key handle.
+     *
      * @phpstan-return resource
      */
     public function getResource()

@@ -18,7 +18,7 @@ class AbstractEcdsaVerifierTest extends TestCase
     {
         parent::setUp();
 
-        $this->publicKey = new EcdsaPublicKey(__DIR__ . '/../../../../assets/keys/ecdsa256-public.pem');
+        $this->publicKey = new EcdsaPublicKey(__DIR__.'/../../../../assets/keys/ecdsa256-public.pem');
     }
 
     /**
@@ -26,7 +26,7 @@ class AbstractEcdsaVerifierTest extends TestCase
      */
     private function verifier(): ES256Verifier
     {
-        return new class ($this->publicKey) extends ES256Verifier {
+        return new class($this->publicKey) extends ES256Verifier {
             public function signatureToDerPublicly(string $signature): string
             {
                 return $this->signatureToDer($signature);
@@ -104,12 +104,12 @@ class AbstractEcdsaVerifierTest extends TestCase
     {
         // Halves must be equal-sized; the leading zero of the first one is stripped, giving 61- and 62-byte
         // INTEGERs: (2 + 61) + (2 + 62) = 127 content bytes.
-        $signature = "\x00" . str_repeat("\x01", 61) . str_repeat("\x01", 62);
+        $signature = "\x00".str_repeat("\x01", 61).str_repeat("\x01", 62);
 
         $der = $this->verifier()->signatureToDerPublicly($signature);
 
         $this->assertSame(
-            "\x30\x7f" . "\x02\x3d" . str_repeat("\x01", 61) . "\x02\x3e" . str_repeat("\x01", 62),
+            "\x30\x7f"."\x02\x3d".str_repeat("\x01", 61)."\x02\x3e".str_repeat("\x01", 62),
             $der
         );
     }
@@ -123,12 +123,12 @@ class AbstractEcdsaVerifierTest extends TestCase
     public function test_signature_to_der_with_128_content_bytes_it_should_use_the_long_form_length()
     {
         // Two 62-byte INTEGERs: (2 + 62) * 2 = 128 content bytes.
-        $signature = str_repeat("\x01", 62) . str_repeat("\x01", 62);
+        $signature = str_repeat("\x01", 62).str_repeat("\x01", 62);
 
         $der = $this->verifier()->signatureToDerPublicly($signature);
 
         $this->assertSame(
-            "\x30\x81\x80" . "\x02\x3e" . str_repeat("\x01", 62) . "\x02\x3e" . str_repeat("\x01", 62),
+            "\x30\x81\x80"."\x02\x3e".str_repeat("\x01", 62)."\x02\x3e".str_repeat("\x01", 62),
             $der
         );
     }

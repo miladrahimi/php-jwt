@@ -16,8 +16,8 @@ class EdDsaPublicKey
     protected ?string $id;
 
     /**
-     * @param string $key Key in string format
-     * @param string|null $id Key identifier
+     * @param string      $key Key in string format
+     * @param string|null $id  Key identifier
      *
      * @throws InvalidKeyException
      */

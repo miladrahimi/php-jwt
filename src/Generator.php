@@ -33,6 +33,7 @@ class Generator
      * Generates a JWT for the given claims.
      *
      * @param array<int|string, mixed> $claims
+     *
      * @throws Exceptions\JsonEncodingException
      * @throws Exceptions\SigningException
      */
@@ -56,6 +57,7 @@ class Generator
         if ($this->signer->kid() !== null) {
             $header['kid'] = $this->signer->kid();
         }
+
         return $header;
     }
 

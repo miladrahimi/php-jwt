@@ -73,7 +73,7 @@ class HS256Test extends TestCase
      */
     public function test_sign_with_an_unknown_hashing_algorithm_it_should_fail()
     {
-        $signer = new class ($this->key) extends HS256 {
+        $signer = new class($this->key) extends HS256 {
             protected function algorithm(): string
             {
                 return 'unknown-algorithm';
