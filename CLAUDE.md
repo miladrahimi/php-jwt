@@ -19,8 +19,11 @@ composer install
 ./vendor/bin/phpunit --filter test_simple_example  # one test
 ```
 
-No `composer test` script. Code style is enforced by StyleCI (`.styleci.yml`): PSR-12 plus spaced
-concatenation, alpha-ordered imports, single quotes, short arrays, and no unused imports.
+No `composer test` script. Code style is enforced by PHP_CodeSniffer (`phpcs.xml`) in CI: PSR-12 plus spaced
+concatenation, single quotes, short arrays, no-space casts (`(string)$x`), `declare(strict_types=1)` in every
+file, and a hard 120-character line limit. It is not a Composer dependency — run it locally via a downloaded
+phar (`php phpcs.phar`). Alpha-ordered imports and no unused imports remain conventions phpcs cannot check —
+follow them manually.
 Static analysis: PHPStan level 10 (`phpstan.neon`) runs in CI; it is not a Composer dependency — run it locally
 via a downloaded phar (`phpstan analyse`).
 Mutation testing: Infection (`infection.json5`) runs in CI at 100% MSI; also phar-only — run it locally via

@@ -27,7 +27,11 @@ class ExamplesScriptsTest extends TestCase
             exec(escapeshellarg(PHP_BINARY) . ' ' . escapeshellarg($script) . ' 2>&1', $output, $exitCode);
 
             $this->assertSame(0, $exitCode, "Example {$name} failed:\n" . implode("\n", $output));
-            $this->assertStringContainsString('Verified claims', implode("\n", $output), "Example {$name} did not verify.");
+            $this->assertStringContainsString(
+                'Verified claims',
+                implode("\n", $output),
+                "Example {$name} did not verify."
+            );
         }
     }
 }

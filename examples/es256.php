@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * ES256 — ECDSA over P-256 with SHA-256 (asymmetric: private signs, public verifies).
  *
  * Run:  php examples/es256.php
  */
+
+declare(strict_types=1);
 
 require __DIR__ . '/../vendor/autoload.php';
 
