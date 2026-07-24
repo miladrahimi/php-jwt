@@ -177,7 +177,8 @@ class Parser
             }
             // The verifier's algorithm is always the one used; this only rejects tokens whose `alg` contradicts it
             // (defense in depth). Custom verifiers opt in by implementing NamedVerifier.
-            if ($this->verifier instanceof NamedVerifier && $fields['alg'] !== $this->verifier->name()) {
+            $verifier = $this->verifier;
+            if ($verifier instanceof NamedVerifier && $fields['alg'] !== $verifier->name()) {
                 throw new InvalidTokenException("The token `alg` does not match the verifier's algorithm.");
             }
         }
