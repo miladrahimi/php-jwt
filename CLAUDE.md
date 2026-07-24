@@ -50,7 +50,8 @@ Full detail: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — read it before t
 - **HMAC** (`HS256/384/512`) — symmetric; one `AbstractHmac` subclass is both `Signer` and `Verifier`
   (`hash_hmac`).
 - **RSA** (`RS256/384/512`) — split signer/verifier via `openssl_sign`/`openssl_verify`.
-- **ECDSA** (`ES256/ES256K/ES384`) — split; OpenSSL **plus** DER↔raw signature conversion (JWS needs raw `R||S`).
+- **ECDSA** (`ES256/ES256K/ES384/ES512`) — split; OpenSSL **plus** DER↔raw signature conversion (JWS needs raw
+  `R||S`).
 - **EdDSA** — standalone signer/verifier via libsodium; needs `ext-sodium`.
 
 Keys: string-content (`HmacKey`, `EdDsa*` — `getContent()`) or OpenSSL (`Rsa*`, `Ecdsa*` — `getResource()`,

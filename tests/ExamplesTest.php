@@ -6,6 +6,8 @@ namespace MiladRahimi\Jwt\Tests;
 
 use MiladRahimi\Jwt\Cryptography\Algorithms\Ecdsa\ES384Signer;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Ecdsa\ES384Verifier;
+use MiladRahimi\Jwt\Cryptography\Algorithms\Ecdsa\ES512Signer;
+use MiladRahimi\Jwt\Cryptography\Algorithms\Ecdsa\ES512Verifier;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Eddsa\EdDsaSigner;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Eddsa\EdDsaVerifier;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
@@ -103,6 +105,15 @@ class ExamplesTest extends TestCase
         $verifier = new ES384Verifier($publicKey);
         $parser = new Parser($verifier);
         $claims = $parser->parse($jwt);
+
+        $this->assertEquals(['id' => 13, 'is-admin' => true], $claims);
+
+        // The same flow works for every ECDSA variant; ES512 uses a P-521 key pair.
+        $privateKey = new EcdsaPrivateKey(__DIR__ . '/../assets/keys/ecdsa512-private.pem');
+        $jwt = (new Generator(new ES512Signer($privateKey)))->generate(['id' => 13, 'is-admin' => true]);
+
+        $publicKey = new EcdsaPublicKey(__DIR__ . '/../assets/keys/ecdsa512-public.pem');
+        $claims = (new Parser(new ES512Verifier($publicKey)))->parse($jwt);
 
         $this->assertEquals(['id' => 13, 'is-admin' => true], $claims);
     }
