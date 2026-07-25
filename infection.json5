@@ -21,7 +21,27 @@
             "ignore": [
                 // `openssl_sign(...) === true && is_string($signature)`: when openssl_sign() fails, $signature
                 // stays null, so `&&` and `||` behave identically; the is_string() guard is for static analysis.
-                "MiladRahimi\\Jwt\\Cryptography\\Algorithms\\Ecdsa\\AbstractEcdsaSigner::sign"
+                "MiladRahimi\\Jwt\\Cryptography\\Algorithms\\Ecdsa\\AbstractEcdsaSigner::sign",
+                // Same shape: when openssl_private_encrypt()/openssl_public_decrypt() fails, the by-ref output
+                // stays null, so both operands are always equal and `&&`/`||` behave identically; the
+                // is_string() guard is for static analysis.
+                "MiladRahimi\\Jwt\\Cryptography\\Algorithms\\RsaPss\\AbstractRsaPssSigner::sign",
+                "MiladRahimi\\Jwt\\Cryptography\\Algorithms\\RsaPss\\AbstractRsaPssVerifier::recover"
+            ]
+        },
+        "LessThan": {
+            "ignore": [
+                // mgf1(): `<` → `<=` in the loop condition only appends one extra hash block that the trailing
+                // substr() truncates away, so the returned mask is identical.
+                "MiladRahimi\\Jwt\\Cryptography\\Algorithms\\RsaPss\\EmsaPss::mgf1"
+            ]
+        },
+        "LogicalOr": {
+            "ignore": [
+                // modulusBits(): openssl_pkey_get_details() always returns an array with an int `bits` for the
+                // handles the Rsa* key classes validate at construction, so both operands are always false and
+                // `||`/`&&` behave identically; the guard exists for static analysis.
+                "MiladRahimi\\Jwt\\Cryptography\\Algorithms\\RsaPss\\EmsaPss::modulusBits"
             ]
         },
         "DecrementInteger": {
