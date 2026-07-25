@@ -22,7 +22,9 @@ Supported features:
 * Built-in and custom validations
 * Multiple keys and `kid` header handling
 
-Confirmed by [JWT.io](https://jwt.io).
+> [!NOTE]
+> Confirmed by [JWT.io](https://www.jwt.io/libraries?programming_language=php) — this package is listed in its
+> PHP libraries directory.
 
 ## Documentation
 
