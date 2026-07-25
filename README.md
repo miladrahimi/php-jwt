@@ -416,5 +416,5 @@ All of the exceptions mentioned are subclasses of the [JwtException](src/Excepti
 By catching `JwtException`, you can handle all these cases collectively instead of catching each one individually.
 
 ## License
-PHP-JWT is initially created by [Milad Rahimi](http://miladrahimi.com)
-and released under the [MIT License](http://opensource.org/licenses/mit-license.php).
+
+PHP-JWT is released under the [MIT License](http://opensource.org/licenses/mit-license.php).
