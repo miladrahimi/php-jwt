@@ -67,13 +67,49 @@
     <rule ref="Generic.CodeAnalysis.UselessOverridingMethod"/>
     <rule ref="Squiz.PHP.NonExecutableCode"/>
 
+    <!-- Complexity stays low: these thresholds replace the Scrutinizer rating gate. -->
+    <rule ref="Generic.Metrics.CyclomaticComplexity">
+        <properties>
+            <property name="complexity" value="10"/>
+            <property name="absoluteComplexity" value="15"/>
+        </properties>
+    </rule>
+    <rule ref="Generic.Metrics.NestingLevel">
+        <properties>
+            <property name="nestingLevel" value="4"/>
+            <property name="absoluteNestingLevel" value="6"/>
+        </properties>
+    </rule>
+
     <!-- Forbidden constructs. -->
     <rule ref="Generic.PHP.BacktickOperator"/>
     <rule ref="Generic.PHP.DeprecatedFunctions"/>
     <rule ref="Generic.PHP.DiscourageGoto">
         <type>error</type>
     </rule>
-    <rule ref="Generic.PHP.ForbiddenFunctions"/>
+    <rule ref="Squiz.PHP.Eval"/>
+    <rule ref="Squiz.PHP.GlobalKeyword"/>
+    <rule ref="Generic.PHP.DisallowRequestSuperglobal"/>
+    <rule ref="Squiz.Scope.StaticThisUsage"/>
+
+    <!-- No debug output functions; the examples are excluded because print_r is their demo output. -->
+    <rule ref="Generic.PHP.ForbiddenFunctions">
+        <properties>
+            <property name="forbiddenFunctions" type="array">
+                <element key="sizeof" value="count"/>
+                <element key="delete" value="unset"/>
+                <element key="var_dump" value="null"/>
+                <element key="var_export" value="null"/>
+                <element key="print_r" value="null"/>
+                <element key="error_log" value="null"/>
+            </property>
+        </properties>
+        <exclude-pattern>examples/</exclude-pattern>
+    </rule>
+
+    <!-- Lingering task markers fail the build; track work in issues instead. -->
+    <rule ref="Generic.Commenting.Todo"/>
+    <rule ref="Generic.Commenting.Fixme"/>
 
     <!-- Tests use snake_case method names by convention (docs/TESTING.md). -->
     <rule ref="PSR1.Methods.CamelCapsMethodName">
