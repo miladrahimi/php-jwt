@@ -6,3 +6,9 @@ checks:
 filter:
   paths:
     - src/*
+
+# Turn quality regressions into red builds instead of passing annotations on the PR.
+build_failure_conditions:
+  - 'issues.new.exists'                                   # any new issue
+  - 'elements.rating(<= B).new.exists'                    # any new or changed code element rated B or worse
+  - 'project.metric_change("scrutinizer.quality", < 0)'   # any decrease in the overall quality score
