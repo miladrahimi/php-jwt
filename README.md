@@ -5,7 +5,6 @@
 [![codecov](https://codecov.io/gh/miladrahimi/php-jwt/graph/badge.svg?token=KctrYUweFd)](https://codecov.io/gh/miladrahimi/php-jwt)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=miladrahimi_php-jwt&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=miladrahimi_php-jwt)
 [![PHPStan Level](https://img.shields.io/badge/PHPStan-10-brightgreen)](https://phpstan.org/)
-[![License](https://poser.pugx.org/miladrahimi/php-jwt/license)](https://packagist.org/packages/miladrahimi/php-jwt)
 
 # PHP-JWT
 
