@@ -68,6 +68,17 @@ with `name()` (all built-in verifiers implement it).
 - **RSA** (`Algorithms/Rsa/`) — split `AbstractRsaSigner`/`AbstractRsaVerifier` (both `use Algorithm` trait
   mapping name → `OPENSSL_ALGO_SHA*`).
   Uses `openssl_sign`/`openssl_verify`; output is already JWS form.
+- **RSA-PSS** (`Algorithms/RsaPss/`) — split like RSA and uses the same `Rsa*` key classes, but PHP's
+  `openssl_sign`/`openssl_verify` only speak PKCS#1 v1.5 padding, so the `EmsaPss` trait implements the
+  EMSA-PSS encoding (RFC 8017 §9.1: MGF1, salted hash, masked data block) in-tree and delegates only the raw
+  RSA operation to OpenSSL (`openssl_private_encrypt`/`openssl_public_decrypt` with `OPENSSL_NO_PADDING`).
+  The salt length always equals the hash length (RFC 7518 §3.5) and `verify()` enforces it strictly —
+  signatures with any other salt length are rejected.
+  Keys below `emLen >= hLen + sLen + 2` (RFC 8017) are refused at signing time (`SigningException`), and every
+  verification inconsistency raises the same generic `InvalidSignatureException` so the failure point leaks
+  nothing.
+  Tests pin both sides to fixed OpenSSL CLI vectors, including 2047- and 2041-bit keys that exercise the
+  excess-bit masking and leading-zero-byte paths byte-aligned keys never reach — don't drop those fixtures.
 - **ECDSA** (`Algorithms/Ecdsa/`) — the subtle part.
   OpenSSL speaks **DER** (`SEQUENCE(INTEGER r, INTEGER s)`) but JWS needs raw `R || S`.
   `sign()` converts DER→raw (`derToSignature`, left-pad each half to `coordinateSize()`: 32 bytes for

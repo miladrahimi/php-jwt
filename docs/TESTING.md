@@ -54,6 +54,10 @@ Override `setUp()` only by calling `parent::setUp()` first.
 Test-only keys: `rsa-*.pem`, `ecdsa256/256k/384/512` pairs, `ed25519.sec`/`.pub` (raw base64 — decode before
 use), and `assets/file.empty` for invalid-key cases.
 Reference PEM keys by `__DIR__`-relative path (depth varies by nesting).
+The RSA-PSS tests additionally hold fixed odd-size RSA keys (2047/2041/2042 bits) as constants in
+`tests/Cryptography/Algorithms/RsaPss/KeyFixtures.php`, paired with OpenSSL CLI signature vectors in the test
+classes — the odd sizes reach EMSA-PSS paths byte-aligned keys never hit, so regenerate keys and vectors
+together or not at all.
 
 > ⚠️ These are test keys only — never treat them as production keys.
 

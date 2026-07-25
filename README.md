@@ -15,6 +15,7 @@ Its design emphasizes a fluent, user-friendly, and object-oriented interface, cr
 Supported algorithms:
 * **HMAC**: `HS256`, `HS384`, and `HS512`
 * **RSA**: `RS256`, `RS384`, and `RS512`
+* **RSA-PSS**: `PS256`, `PS384`, and `PS512`
 * **ECDSA**: `ES256`, `ES256K`, `ES384`, and `ES512`
 * **EdDSA** (requires the `sodium` PHP extension)
 
@@ -110,6 +111,41 @@ print_r($claims); // ['id' => 13, 'is-admin' => true]
 ```
 
 You can refer to [this instruction](https://en.wikibooks.org/wiki/Cryptography/Generate_a_keypair_using_OpenSSL) to learn how to generate a pair of RSA keys using OpenSSL.
+
+### RSA-PSS Algorithms
+
+The RSA-PSS algorithms sign with the same RSA key pairs as the RS* family but use the probabilistic PSS padding
+scheme (RFC 8017), which is the padding modern standards recommend for new applications.
+The PHP-JWT package supports `PS256`, `PS384`, and `PS512` RSA-PSS algorithms.
+The example below demonstrates this process.
+
+```php
+use MiladRahimi\Jwt\Cryptography\Algorithms\RsaPss\PS256Signer;
+use MiladRahimi\Jwt\Cryptography\Algorithms\RsaPss\PS256Verifier;
+use MiladRahimi\Jwt\Cryptography\Keys\RsaPrivateKey;
+use MiladRahimi\Jwt\Cryptography\Keys\RsaPublicKey;
+use MiladRahimi\Jwt\Generator;
+use MiladRahimi\Jwt\Parser;
+
+// Generate a token
+$privateKey = new RsaPrivateKey('/path/to/private.pem');
+$signer = new PS256Signer($privateKey);
+$generator = new Generator($signer);
+$jwt = $generator->generate(['id' => 13, 'is-admin' => true]);
+
+print_r($jwt); // "abc.123.xyz"
+
+// Parse the token
+$publicKey = new RsaPublicKey('/path/to/public.pem');
+$verifier = new PS256Verifier($publicKey);
+$parser = new Parser($verifier);
+$claims = $parser->parse($jwt);
+
+print_r($claims); // ['id' => 13, 'is-admin' => true]
+```
+
+Please note that `PS256` signatures are randomized by design: signing the same claims twice produces different
+tokens, and both verify.
 
 ### ECDSA Algorithms
 

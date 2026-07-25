@@ -13,6 +13,8 @@ use MiladRahimi\Jwt\Cryptography\Algorithms\Eddsa\EdDsaVerifier;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS256Signer;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Rsa\RS256Verifier;
+use MiladRahimi\Jwt\Cryptography\Algorithms\RsaPss\PS256Signer;
+use MiladRahimi\Jwt\Cryptography\Algorithms\RsaPss\PS256Verifier;
 use MiladRahimi\Jwt\Cryptography\Keys\EcdsaPrivateKey;
 use MiladRahimi\Jwt\Cryptography\Keys\EcdsaPublicKey;
 use MiladRahimi\Jwt\Cryptography\Keys\EdDsaPrivateKey;
@@ -87,6 +89,29 @@ class ExamplesTest extends TestCase
         $claims = $parser->parse($jwt);
 
         $this->assertEquals(['id' => 13, 'is-admin' => true], $claims);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function test_rsa_pss_algorithms()
+    {
+        // Generate a token
+        $privateKey = new RsaPrivateKey(__DIR__ . '/../assets/keys/rsa-private.pem');
+        $signer = new PS256Signer($privateKey);
+        $generator = new Generator($signer);
+        $jwt = $generator->generate(['id' => 13, 'is-admin' => true]);
+
+        // Parse the token
+        $publicKey = new RsaPublicKey(__DIR__ . '/../assets/keys/rsa-public.pem');
+        $verifier = new PS256Verifier($publicKey);
+        $parser = new Parser($verifier);
+        $claims = $parser->parse($jwt);
+
+        $this->assertEquals(['id' => 13, 'is-admin' => true], $claims);
+
+        // PSS is randomized by design: signing the same claims twice produces different tokens, and both verify.
+        $this->assertNotSame($jwt, $generator->generate(['id' => 13, 'is-admin' => true]));
     }
 
     /**
