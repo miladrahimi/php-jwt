@@ -12,7 +12,7 @@
 PHP-JWT is a PHP package built for encoding (generating), decoding (parsing), verifying, and validating JSON Web Tokens (JWTs).
 Its design emphasizes a fluent, user-friendly, and object-oriented interface, crafted with performance in mind.
 
-> This package is listed in the official [JWT.io](https://www.jwt.io/libraries?programming_language=ph) PHP libraries directory.
+> This package is listed in the official [JWT.io](https://www.jwt.io/libraries?programming_language=php) PHP libraries directory.
 
 Supported algorithms:
 * **HMAC**: `HS256`, `HS384`, and `HS512`
