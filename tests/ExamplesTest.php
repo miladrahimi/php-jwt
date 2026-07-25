@@ -74,6 +74,25 @@ class ExamplesTest extends TestCase
     /**
      * @throws Throwable
      */
+    public function test_token_types()
+    {
+        $signer = new HS256(new HmacKey('12345678901234567890123456789012'));
+
+        // Issue an OAuth 2.0 access token (RFC 9068)
+        $generator = new Generator($signer, null, null, 'at+jwt');
+        $jwt = $generator->generate(['id' => 13, 'is-admin' => true]);
+
+        // Accept only `at+jwt` tokens; pass several types (e.g. ['JWT', 'at+jwt']) to accept any of them
+        $parser = new Parser($signer, null, null, null, ['at+jwt']);
+        $claims = $parser->parse($jwt);
+
+        $this->assertEquals(['id' => 13, 'is-admin' => true], $claims);
+        $this->assertStringStartsWith('eyJ0eXAiOiJhdCtqd3QiLCJhbGciOiJIUzI1NiJ9.', $jwt);
+    }
+
+    /**
+     * @throws Throwable
+     */
     public function test_rsa_algorithms()
     {
         // Generate a token

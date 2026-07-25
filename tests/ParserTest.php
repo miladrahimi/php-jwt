@@ -170,6 +170,99 @@ class ParserTest extends TestCase
     }
 
     /**
+     * Media type names are case-insensitive (RFC 7515 Section 4.1.9), so a lowercase `jwt` type must be accepted
+     * by the default parser.
+     *
+     * @throws Throwable
+     */
+    public function test_parse_with_a_lowercase_typ_it_should_pass()
+    {
+        $jwt = $this->makeJwt('{"typ":"jwt","alg":"HS256"}', '{"sub":666}');
+
+        $parser = new Parser($this->verifier, new BaseValidator());
+        $claims = $parser->parse($jwt);
+
+        $this->assertSame(666, $claims['sub']);
+    }
+
+    /**
+     * RFC 7515 Section 4.1.9 requires recipients to treat a `typ` without a slash as if it were prefixed with
+     * `application/`, so `application/jwt` must match the default `JWT` type.
+     *
+     * @throws Throwable
+     */
+    public function test_parse_with_a_prefixed_typ_it_should_pass()
+    {
+        $jwt = $this->makeJwt('{"typ":"application/jwt","alg":"HS256"}', '{"sub":666}');
+
+        $parser = new Parser($this->verifier, new BaseValidator());
+        $claims = $parser->parse($jwt);
+
+        $this->assertSame(666, $claims['sub']);
+    }
+
+    /**
+     * A parser configured for `at+jwt` accepts OAuth 2.0 access tokens (RFC 9068).
+     *
+     * @throws Throwable
+     */
+    public function test_parse_with_custom_valid_types_it_should_accept_matching_tokens()
+    {
+        $jwt = $this->makeJwt('{"typ":"at+jwt","alg":"HS256"}', '{"sub":666}');
+
+        $parser = new Parser($this->verifier, new BaseValidator(), null, null, ['at+jwt']);
+        $claims = $parser->parse($jwt);
+
+        $this->assertSame(666, $claims['sub']);
+    }
+
+    /**
+     * Explicit typing (RFC 8725 Section 3.11): a parser configured for `at+jwt` must reject plain `JWT` tokens.
+     *
+     * @throws Throwable
+     */
+    public function test_parse_with_custom_valid_types_it_should_reject_other_tokens()
+    {
+        $jwt = $this->makeJwt('{"typ":"JWT","alg":"HS256"}', '{"sub":666}');
+
+        $parser = new Parser($this->verifier, new BaseValidator(), null, null, ['at+jwt']);
+
+        $this->expectException(InvalidTokenException::class);
+        $this->expectExceptionMessage('The JWT type `JWT` is not supported.');
+        $parser->parse($jwt);
+    }
+
+    /**
+     * Normalization applies to the configured types too: a prefixed `application/at+jwt` configuration matches
+     * the compact `at+jwt` form recommended by RFC 9068.
+     *
+     * @throws Throwable
+     */
+    public function test_parse_with_a_prefixed_valid_type_it_should_accept_the_compact_form()
+    {
+        $jwt = $this->makeJwt('{"typ":"at+jwt","alg":"HS256"}', '{"sub":666}');
+
+        $parser = new Parser($this->verifier, new BaseValidator(), null, null, ['application/at+jwt']);
+        $claims = $parser->parse($jwt);
+
+        $this->assertSame(666, $claims['sub']);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function test_parse_with_multiple_valid_types_it_should_accept_any_of_them()
+    {
+        $parser = new Parser($this->verifier, new BaseValidator(), null, null, ['JWT', 'at+jwt']);
+
+        $claims = $parser->parse($this->makeJwt('{"typ":"JWT","alg":"HS256"}', '{"sub":666}'));
+        $this->assertSame(666, $claims['sub']);
+
+        $claims = $parser->parse($this->makeJwt('{"typ":"at+jwt","alg":"HS256"}', '{"sub":13}'));
+        $this->assertSame(13, $claims['sub']);
+    }
+
+    /**
      * A header whose `alg` contradicts the configured verifier's algorithm must be rejected (defense in depth
      * against alg confusion).
      *
@@ -407,6 +500,20 @@ class ParserTest extends TestCase
         $this->assertSame($base64Parser, $parser->getBase64Parser());
     }
 
+    public function test_set_and_get_valid_types()
+    {
+        $parser = new Parser($this->verifier, null, null, null, ['at+jwt']);
+
+        $this->assertSame(['at+jwt'], $parser->getValidTypes());
+    }
+
+    public function test_get_valid_types_defaults_to_jwt()
+    {
+        $parser = new Parser($this->verifier);
+
+        $this->assertSame(['JWT'], $parser->getValidTypes());
+    }
+
     /**
      * `validate()` must reject a token whose signature has been replaced, just like `parse()` and `verify()`.
      *
@@ -452,5 +559,18 @@ class ParserTest extends TestCase
         $parser->validateHeader($header);
 
         $this->assertTrue(true);
+    }
+
+    /**
+     * Builds an HS256-signed JWT from raw header and payload JSON, bypassing the Generator.
+     */
+    private function makeJwt(string $headerJson, string $payloadJson): string
+    {
+        $base64Parser = new SafeBase64Parser();
+        $header = $base64Parser->encode($headerJson);
+        $payload = $base64Parser->encode($payloadJson);
+        $signature = $base64Parser->encode($this->verifier->sign("$header.$payload"));
+
+        return "$header.$payload.$signature";
     }
 }

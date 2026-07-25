@@ -311,8 +311,33 @@ $parser->verify($jwt);   // Validates the header and verifies the signature
 $parser->validate($jwt); // Additionally validates the claims (like parse(), without returning them)
 ```
 
-All entry points validate the header (`typ` must be `JWT`; `alg` and `kid`, when present, must match the verifier)
+All entry points validate the header (`typ` must be an accepted type — `JWT` by default; `alg` and `kid`,
+when present, must match the verifier)
 and verify the signature before anything else; they throw a `JwtException` subclass on any failure.
+
+### Token Types
+
+The `typ` header is `JWT` by default; the `Generator` can stamp another type and the `Parser` can accept others:
+
+```php
+use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
+use MiladRahimi\Jwt\Cryptography\Keys\HmacKey;
+use MiladRahimi\Jwt\Generator;
+use MiladRahimi\Jwt\Parser;
+
+$signer = new HS256(new HmacKey('12345678901234567890123456789012'));
+
+// Issue an OAuth 2.0 access token (RFC 9068)
+$generator = new Generator($signer, null, null, 'at+jwt');
+$jwt = $generator->generate(['id' => 13, 'is-admin' => true]);
+
+// Accept only `at+jwt` tokens; pass several types (e.g. ['JWT', 'at+jwt']) to accept any of them
+$parser = new Parser($signer, null, null, null, ['at+jwt']);
+$claims = $parser->parse($jwt);
+```
+
+Comparison is case-insensitive and `application/`-prefix-aware per RFC 7515 (`at+jwt` ≡ `application/at+jwt`);
+pin a single type when possible.
 
 ### Multiple Keys
 
