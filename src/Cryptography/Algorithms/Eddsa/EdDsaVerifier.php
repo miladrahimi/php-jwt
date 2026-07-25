@@ -7,7 +7,6 @@ namespace MiladRahimi\Jwt\Cryptography\Algorithms\Eddsa;
 use MiladRahimi\Jwt\Cryptography\Keys\EdDsaPublicKey;
 use MiladRahimi\Jwt\Cryptography\NamedVerifier;
 use MiladRahimi\Jwt\Exceptions\InvalidSignatureException;
-use RuntimeException;
 use SodiumException;
 
 class EdDsaVerifier implements NamedVerifier
@@ -40,7 +39,7 @@ class EdDsaVerifier implements NamedVerifier
             }
         } else {
             // @codeCoverageIgnoreStart
-            throw new RuntimeException('The sodium_crypto_sign_verify_detached function is not available.');
+            throw new InvalidSignatureException('The `sodium_crypto_sign_verify_detached` function is not available.');
             // @codeCoverageIgnoreEnd
         }
     }

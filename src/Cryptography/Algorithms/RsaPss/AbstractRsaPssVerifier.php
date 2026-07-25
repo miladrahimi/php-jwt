@@ -21,6 +21,12 @@ abstract class AbstractRsaPssVerifier implements NamedVerifier
     use Algorithm;
     use EmsaPss;
 
+    /**
+     * The one message every verification inconsistency raises, so the outcome reveals nothing about where the
+     * check failed.
+     */
+    private const INVALID_SIGNATURE_MESSAGE = 'The signature is not valid.';
+
     protected RsaPublicKey $publicKey;
 
     public function __construct(RsaPublicKey $publicKey)
@@ -51,11 +57,11 @@ abstract class AbstractRsaPssVerifier implements NamedVerifier
         $emLength = $this->encodedMessageLength($modulusBits - 1);
         $padding = substr($recovered, 0, $modulusLength - $emLength);
         if ($padding !== str_repeat("\x00", $modulusLength - $emLength)) {
-            throw new InvalidSignatureException('The signature is not valid.');
+            throw new InvalidSignatureException(self::INVALID_SIGNATURE_MESSAGE);
         }
 
         if (!$this->isConsistent($plain, substr($recovered, $modulusLength - $emLength), $modulusBits - 1)) {
-            throw new InvalidSignatureException('The signature is not valid.');
+            throw new InvalidSignatureException(self::INVALID_SIGNATURE_MESSAGE);
         }
     }
 
@@ -74,7 +80,7 @@ abstract class AbstractRsaPssVerifier implements NamedVerifier
             return $recovered;
         }
 
-        throw new InvalidSignatureException(openssl_error_string() ?: 'The signature is not valid.');
+        throw new InvalidSignatureException(openssl_error_string() ?: self::INVALID_SIGNATURE_MESSAGE);
     }
 
     /**
@@ -87,13 +93,10 @@ abstract class AbstractRsaPssVerifier implements NamedVerifier
         $saltLength = $hashLength;
         $emLength = $this->encodedMessageLength($emBits);
 
-        // The data block needs the salt and its 0x01 separator, so emLen >= hLen + sLen + 2 (RFC 8017 §9.1.2).
+        // The data block needs the salt and its 0x01 separator, so emLen >= hLen + sLen + 2 (RFC 8017 §9.1.2),
+        // and the encoded message must have the expected length and end with the 0xBC trailer byte.
         $dbLength = $emLength - $hashLength - 1;
-        if ($dbLength < $saltLength + 1 || strlen($encoded) !== $emLength) {
-            return false;
-        }
-
-        if (substr($encoded, -1) !== "\xBC") {
+        if ($dbLength < $saltLength + 1 || strlen($encoded) !== $emLength || substr($encoded, -1) !== "\xBC") {
             return false;
         }
 
