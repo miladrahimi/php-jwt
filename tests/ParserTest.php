@@ -425,6 +425,21 @@ class ParserTest extends TestCase
     }
 
     /**
+     * The `alg` header field is optional, so a valid header without it must pass validation.
+     *
+     * @throws Throwable
+     */
+    public function test_validate_header_without_alg_it_should_pass()
+    {
+        $header = (new SafeBase64Parser())->encode('{"typ":"JWT"}');
+
+        $parser = new Parser($this->verifier);
+        $parser->validateHeader($header);
+
+        $this->assertTrue(true);
+    }
+
+    /**
      * `validateHeader` is part of the public API and is callable on its own.
      *
      * @throws Throwable
