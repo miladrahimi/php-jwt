@@ -7,7 +7,6 @@ namespace MiladRahimi\Jwt\Cryptography\Algorithms\Eddsa;
 use MiladRahimi\Jwt\Cryptography\Keys\EdDsaPrivateKey;
 use MiladRahimi\Jwt\Cryptography\Signer;
 use MiladRahimi\Jwt\Exceptions\SigningException;
-use RuntimeException;
 use SodiumException;
 
 use function function_exists;
@@ -37,7 +36,7 @@ class EdDsaSigner implements Signer
         }
 
         // @codeCoverageIgnoreStart
-        throw new RuntimeException('The sodium_crypto_sign_detached function is not available.');
+        throw new SigningException('The `sodium_crypto_sign_detached` function is not available.');
         // @codeCoverageIgnoreEnd
     }
 
