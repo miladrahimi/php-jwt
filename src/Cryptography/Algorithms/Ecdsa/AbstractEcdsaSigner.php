@@ -127,11 +127,9 @@ abstract class AbstractEcdsaSigner implements Signer
         if ($type === self::ASN1_BIT_STRING) {
             $offset++; // skip the leading "unused bits" byte
             $length--;
-
-            return [$offset + $length, substr($der, $offset, $length)];
         }
 
-        if (!$constructed) {
+        if (!$constructed || $type === self::ASN1_BIT_STRING) {
             return [$offset + $length, substr($der, $offset, $length)];
         }
 
