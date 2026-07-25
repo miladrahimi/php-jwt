@@ -161,6 +161,19 @@ class Parser
     {
         $fields = $this->jsonParser->decode($this->base64Parser->decode($header));
 
+        $this->validateType($fields);
+        $this->validateAlgorithm($fields);
+        $this->validateKeyId($fields);
+    }
+
+    /**
+     * Validates the JWT type header field.
+     *
+     * @param array<int|string, mixed> $fields
+     * @throws InvalidTokenException
+     */
+    private function validateType(array $fields): void
+    {
         if (!isset($fields['typ'])) {
             throw new InvalidTokenException('The JWT header does not have a `typ` field.');
         }
@@ -170,23 +183,52 @@ class Parser
         if ($fields['typ'] !== 'JWT') {
             throw new InvalidTokenException("The JWT type `{$fields['typ']}` is not supported.");
         }
+    }
 
-        if (isset($fields['alg'])) {
-            if (!is_string($fields['alg'])) {
-                throw new InvalidTokenException('The JWT header `alg` field must be a string.');
-            }
-            // The verifier's algorithm is always the one used; this only rejects tokens whose `alg` contradicts it
-            // (defense in depth). Custom verifiers opt in by implementing NamedVerifier.
-            $verifier = $this->verifier;
-            if ($verifier instanceof NamedVerifier && $fields['alg'] !== $verifier->name()) {
-                throw new InvalidTokenException("The token `alg` does not match the verifier's algorithm.");
-            }
+    /**
+     * Validates the JWT algorithm header field when it is present.
+     *
+     * @param array<int|string, mixed> $fields
+     * @throws InvalidTokenException
+     */
+    private function validateAlgorithm(array $fields): void
+    {
+        if (!isset($fields['alg'])) {
+            return;
         }
 
-        if (isset($fields['kid'])) {
-            if ($fields['kid'] !== $this->verifier->kid()) {
-                throw new InvalidTokenException("The token `kid` does not match the verifier's key ID.");
-            }
+        if (!is_string($fields['alg'])) {
+            throw new InvalidTokenException('The JWT header `alg` field must be a string.');
+        }
+
+        $this->validateNamedAlgorithm($fields['alg']);
+    }
+
+    /**
+     * Validates the algorithm declared for a named verifier.
+     *
+     * @throws InvalidTokenException
+     */
+    private function validateNamedAlgorithm(string $algorithm): void
+    {
+        // The verifier's algorithm is always the one used; this only rejects tokens whose `alg` contradicts it
+        // (defense in depth). Custom verifiers opt in by implementing NamedVerifier.
+        $verifier = $this->verifier;
+        if ($verifier instanceof NamedVerifier && $algorithm !== $verifier->name()) {
+            throw new InvalidTokenException("The token `alg` does not match the verifier's algorithm.");
+        }
+    }
+
+    /**
+     * Validates the JWT key ID header field when it is present.
+     *
+     * @param array<int|string, mixed> $fields
+     * @throws InvalidTokenException
+     */
+    private function validateKeyId(array $fields): void
+    {
+        if (isset($fields['kid']) && $fields['kid'] !== $this->verifier->kid()) {
+            throw new InvalidTokenException("The token `kid` does not match the verifier's key ID.");
         }
     }
 

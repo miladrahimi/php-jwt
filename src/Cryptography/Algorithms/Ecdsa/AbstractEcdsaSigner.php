@@ -79,31 +79,63 @@ abstract class AbstractEcdsaSigner implements Signer
     protected function decodeDer(string $der, int $offset = 0): array
     {
         $pos = $offset;
-        $size = strlen($der);
         $constructed = (ord($der[$pos]) >> 5) & 0x01; // bit 5: constructed vs primitive
         $type = ord($der[$pos++]) & 0x1f; // low 5 bits: tag number
+        [$pos, $length] = $this->decodeDerLength($der, $pos);
 
-        $len = ord($der[$pos++]);
-        if ($len & 0x80) { // long form: low bits give the length's byte count
-            $n = $len & 0x1f;
-            $len = 0;
-            while ($n-- && $pos < $size) {
-                $len = ($len << 8) | ord($der[$pos++]);
-            }
+        return $this->decodeDerValue($der, $pos, $length, $type, $constructed);
+    }
+
+    /**
+     * Reads the length of a DER element.
+     *
+     * @return array{0: int, 1: int}
+     */
+    private function decodeDerLength(string $der, int $offset): array
+    {
+        $length = ord($der[$offset++]);
+        if (!($length & 0x80)) {
+            return [$offset, $length];
         }
 
+        return $this->decodeDerLongLength($der, $offset, $length & 0x1f);
+    }
+
+    /**
+     * Reads a long-form DER length.
+     *
+     * @return array{0: int, 1: int}
+     */
+    private function decodeDerLongLength(string $der, int $offset, int $lengthByteCount): array
+    {
+        $length = 0;
+        $size = strlen($der);
+        while ($lengthByteCount-- && $offset < $size) {
+            $length = ($length << 8) | ord($der[$offset++]);
+        }
+
+        return [$offset, $length];
+    }
+
+    /**
+     * Reads the value of a DER element.
+     *
+     * @return array{0: int, 1: string}
+     */
+    private function decodeDerValue(string $der, int $offset, int $length, int $type, int $constructed): array
+    {
         if ($type === self::ASN1_BIT_STRING) {
-            $pos++; // skip the leading "unused bits" byte
-            $data = substr($der, $pos, $len - 1);
-            $pos += $len - 1;
-        } elseif (!$constructed) {
-            $data = substr($der, $pos, $len);
-            $pos += $len;
-        } else {
-            $data = ''; // constructed: leave $pos at the first child
+            $offset++; // skip the leading "unused bits" byte
+            $length--;
+
+            return [$offset + $length, substr($der, $offset, $length)];
         }
 
-        return [$pos, $data];
+        if (!$constructed) {
+            return [$offset + $length, substr($der, $offset, $length)];
+        }
+
+        return [$offset, '']; // constructed: leave the offset at the first child
     }
 
     /**
