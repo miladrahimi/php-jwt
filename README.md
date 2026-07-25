@@ -3,7 +3,7 @@
 [![Build](https://github.com/miladrahimi/php-jwt/actions/workflows/ci.yml/badge.svg)](https://github.com/miladrahimi/php-jwt/actions/workflows/ci.yml)
 [![Mutation](https://img.shields.io/badge/Mutation-100%25-brightgreen)](https://github.com/miladrahimi/php-jwt/actions/workflows/mutation.yml)
 [![codecov](https://codecov.io/gh/miladrahimi/php-jwt/graph/badge.svg?token=KctrYUweFd)](https://codecov.io/gh/miladrahimi/php-jwt)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/miladrahimi/php-jwt/badges/quality-score.png?b=main)](https://scrutinizer-ci.com/g/miladrahimi/php-jwt/?branch=main)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=miladrahimi_php-jwt&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=miladrahimi_php-jwt)
 [![PHPStan Level](https://img.shields.io/badge/PHPStan-10-brightgreen)](https://phpstan.org/)
 [![License](https://poser.pugx.org/miladrahimi/php-jwt/license)](https://packagist.org/packages/miladrahimi/php-jwt)
 

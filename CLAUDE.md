@@ -21,14 +21,18 @@ composer install
 
 No `composer test` script. Code style is enforced by PHP_CodeSniffer (`phpcs.xml`) in CI: PSR-12 plus spaced
 concatenation, single quotes, short arrays, no-space casts (`(string)$x`), `declare(strict_types=1)` in every
-file, and a hard 120-character line limit. It is not a Composer dependency — run it locally via a downloaded
-phar (`php phpcs.phar`). Alpha-ordered imports and no unused imports remain conventions phpcs cannot check —
-follow them manually.
-Static analysis: PHPStan level 10 (`phpstan.neon`) runs in CI; it is not a Composer dependency — run it locally
-via a downloaded phar (`phpstan analyse`).
+file, a hard 120-character line limit, cyclomatic-complexity/nesting caps, and bans on debug functions and
+TODO/FIXME comments. It is not a Composer dependency — run it locally via a downloaded phar (`php phpcs.phar`).
+Alpha-ordered imports and no unused imports remain conventions phpcs cannot check — follow them manually.
+Static analysis: PHPStan level 10 plus extra strictness flags (`phpstan.neon` — deliberate exclusions are
+documented there in comments) runs in CI; it is not a Composer dependency — run it locally via a downloaded
+phar (`phpstan analyse`).
 Mutation testing: Infection (`infection.json5`) runs in CI at 100% MSI; also phar-only — run it locally via
 `XDEBUG_MODE=coverage php infection.phar` (or with pcov). Kill new mutants with tests; add a config ignore
 only for provably equivalent mutants, with a comment proving it.
+SonarQube Cloud Automatic Analysis (scoped by `.sonarcloud.properties`: `src` + `.github` as sources, `tests`
+as tests) decorates PRs with the "SonarCloud Code Analysis" check; its quality gate on new code must pass.
+It runs on Sonar's servers — no token, no CI job — and cannot import coverage (Codecov gates coverage instead).
 CI runs the suite on PHP 7.4–8.5; keep new code green on 7.4.
 
 ## Architecture

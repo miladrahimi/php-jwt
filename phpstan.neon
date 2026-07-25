@@ -3,4 +3,23 @@ parameters:
     phpVersion: 70400
     paths:
         - src
+    # PHPDoc types stay uncertain so runtime guards against them (defensive checks on OpenSSL results) are
+    # not reported as redundant.
     treatPhpDocTypesAsCertain: false
+    checkUninitializedProperties: true
+    checkDynamicProperties: true
+    checkTooWideReturnTypesInProtectedAndPublicMethods: true
+    checkMissingCallableSignature: true
+    reportAlwaysTrueInLastCondition: true
+    reportWrongPhpDocTypeInVarTag: true
+    reportAnyTypeWideningInVarTag: true
+    polluteScopeWithLoopInitialAssignments: false
+    polluteScopeWithAlwaysIterableForeach: false
+    # Not enabled, deliberately:
+    # - checkBenevolentUnionTypes: under the PHP 7.4 signatures, hash()/hash_hmac()/substr() nominally return
+    #   `string|false` even when the arguments make `false` impossible; guarding would add branches no test can
+    #   reach, which the 100% MSI Infection gate forbids.
+    # - reportPossiblyNonexistentConstantArrayOffset / reportPossiblyNonexistentGeneralArrayOffset: the
+    #   algorithm traits deliberately use guard-free constant lookup tables keyed by the subclass name (a
+    #   missing key fails loudly in tests); satisfying these checks would need docblocks in every algorithm
+    #   subclass or unreachable guards.
