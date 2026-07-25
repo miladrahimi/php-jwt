@@ -23,9 +23,7 @@ Supported features:
 * Built-in and custom validations
 * Multiple keys and `kid` header handling
 
-> [!NOTE]
-> Confirmed by [JWT.io](https://www.jwt.io/libraries?programming_language=php) — this package is listed in its
-> PHP libraries directory.
+> Confirmed by [JWT.io](https://www.jwt.io/libraries?programming_language=php)
 
 ## Documentation
 
@@ -393,5 +391,9 @@ All of the exceptions mentioned are subclasses of the [JwtException](src/Excepti
 By catching `JwtException`, you can handle all these cases collectively instead of catching each one individually.
 
 ## License
-PHP-JWT is initially created by [Milad Rahimi](http://miladrahimi.com)
-and released under the [MIT License](http://opensource.org/licenses/mit-license.php).
+
+PHP-JWT is released under the [MIT License](http://opensource.org/licenses/mit-license.php).
+
+---
+
+Made with Love & Perfectionism
