@@ -73,8 +73,9 @@ trait EmsaPss
      */
     protected function modulusBits($key): int
     {
+        /** @var array<string, mixed>|false $details openssl_pkey_get_details() returns false on failure. */
         $details = openssl_pkey_get_details($key);
-        if (!is_array(/** @scrutinizer ignore-type */ $details) || !is_int($details['bits'] ?? null)) {
+        if (!is_array($details) || !is_int($details['bits'] ?? null)) {
             // @codeCoverageIgnoreStart
             return 0;
             // @codeCoverageIgnoreEnd
