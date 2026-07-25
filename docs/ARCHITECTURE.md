@@ -44,12 +44,13 @@ VerifierFactory ──maps kid──> Verifier[]
 
 ## Flows
 
-**Generate** (`Generator::generate`): build header (`typ`, `alg`, `kid` if the key has an id) →
-base64url(json) each of header and claims → sign `header.payload` → join with `.`.
+**Generate** (`Generator::generate`): build header (`typ` (configurable, default `"JWT"`), `alg`, `kid` if the
+key has an id) → base64url(json) each of header and claims → sign `header.payload` → join with `.`.
 Throws `JsonEncodingException` / `SigningException`.
 
-**Parse** (`Parser::parse`): split into 3 (`InvalidTokenException`) → validate header (`typ` must be `"JWT"`;
-`alg` and `kid`, if present, must match the verifier) → verify signature (`InvalidSignatureException`) →
+**Parse** (`Parser::parse`): split into 3 (`InvalidTokenException`) → validate header (`typ` must be an accepted
+type — default `["JWT"]`, compared per RFC 7515 §4.1.9; `alg` and `kid`, if present, must match the verifier) →
+verify signature (`InvalidSignatureException`) →
 decode payload → validate claims (`ValidationException`) → return claims.
 The signature is verified **before** the payload is decoded — keep that order.
 `Parser` also exposes `verify()` (header + signature) and `validate()` (header + signature + claims);

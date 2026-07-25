@@ -22,11 +22,21 @@ class Generator
 
     private Base64Parser $base64Parser;
 
-    public function __construct(Signer $signer, ?JsonParser $jsonParser = null, ?Base64Parser $base64Parser = null)
-    {
+    private string $type;
+
+    /**
+     * @param string $type The value for the header `typ` field, e.g. `at+jwt` for OAuth 2.0 access tokens (RFC 9068).
+     */
+    public function __construct(
+        Signer $signer,
+        ?JsonParser $jsonParser = null,
+        ?Base64Parser $base64Parser = null,
+        string $type = 'JWT'
+    ) {
         $this->signer = $signer;
         $this->jsonParser = $jsonParser ?: new StrictJsonParser();
         $this->base64Parser = $base64Parser ?: new SafeBase64Parser();
+        $this->type = $type;
     }
 
     /**
@@ -52,7 +62,7 @@ class Generator
      */
     private function header(): array
     {
-        $header = ['typ' => 'JWT', 'alg' => $this->signer->name()];
+        $header = ['typ' => $this->type, 'alg' => $this->signer->name()];
         if ($this->signer->kid() !== null) {
             $header['kid'] = $this->signer->kid();
         }
@@ -72,5 +82,10 @@ class Generator
     public function getSigner(): Signer
     {
         return $this->signer;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
     }
 }

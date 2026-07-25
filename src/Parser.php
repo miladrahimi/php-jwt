@@ -32,16 +32,27 @@ class Parser
 
     private Base64Parser $base64Parser;
 
+    /**
+     * @var string[]
+     */
+    private array $validTypes;
+
+    /**
+     * @param string[] $validTypes The header `typ` values to accept, e.g. `['at+jwt']` for OAuth 2.0 access tokens
+     *                             (RFC 9068); values are compared as media type names (see `validateType()`).
+     */
     public function __construct(
         Verifier $verifier,
         ?Validator $validator = null,
         ?JsonParser $jsonParser = null,
-        ?Base64Parser $base64Parser = null
+        ?Base64Parser $base64Parser = null,
+        array $validTypes = ['JWT']
     ) {
         $this->verifier = $verifier;
         $this->validator = $validator ?: new DefaultValidator();
         $this->jsonParser = $jsonParser ?: new StrictJsonParser();
         $this->base64Parser = $base64Parser ?: new SafeBase64Parser();
+        $this->validTypes = $validTypes;
     }
 
     /**
@@ -167,7 +178,7 @@ class Parser
     }
 
     /**
-     * Validates the JWT type header field.
+     * Validates the JWT type header field against the accepted types (`JWT` unless configured otherwise).
      *
      * @param array<int|string, mixed> $fields
      * @throws InvalidTokenException
@@ -180,9 +191,25 @@ class Parser
         if (!is_string($fields['typ'])) {
             throw new InvalidTokenException('The JWT header `typ` field must be a string.');
         }
-        if ($fields['typ'] !== 'JWT') {
-            throw new InvalidTokenException("The JWT type `{$fields['typ']}` is not supported.");
+
+        foreach ($this->validTypes as $validType) {
+            if ($this->normalizeType($fields['typ']) === $this->normalizeType($validType)) {
+                return;
+            }
         }
+
+        throw new InvalidTokenException("The JWT type `{$fields['typ']}` is not supported.");
+    }
+
+    /**
+     * Normalizes a `typ` value for comparison, following RFC 7515 Section 4.1.9: media type names are
+     * case-insensitive, and a value without a slash is short for the same value prefixed with `application/`.
+     */
+    private function normalizeType(string $type): string
+    {
+        $type = strtolower($type);
+
+        return strpos($type, '/') === false ? 'application/' . $type : $type;
     }
 
     /**
@@ -250,5 +277,13 @@ class Parser
     public function getValidator(): Validator
     {
         return $this->validator;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getValidTypes(): array
+    {
+        return $this->validTypes;
     }
 }
