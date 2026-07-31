@@ -21,7 +21,7 @@ As defense in depth, a present `alg` that contradicts the verifier's `name()` is
 ## Design principles
 
 - **Small interfaces, constructor injection** — every concern is swappable without subclassing.
-- **No runtime dependencies** — PHP + `ext-openssl` + `ext-json` (+ `ext-sodium` for EdDSA).
+- **No runtime dependencies** — PHP + `ext-openssl` + `ext-json` (+ `ext-sodium` for EdDSA/Ed25519).
 - **PHP 7.4 floor** — typed properties yes; enums/`match`/promotion no.
 - **Typed exceptions** — every failure is a `JwtException` subclass, so callers catch the base type broadly or
   a specific subclass narrowly.
@@ -92,18 +92,27 @@ with `name()` (all built-in verifiers implement it).
 - **EdDSA** (`Algorithms/Eddsa/`) — standalone signer/verifier via `sodium_crypto_sign_detached` /
   `..._verify_detached`, guarded by `function_exists()`.
   Keys are raw Ed25519 bytes (README base64-decodes them).
+  `Ed25519Signer`/`Ed25519Verifier` subclass them, changing only the JWS `alg` name to the RFC 9864
+  fully-specified `Ed25519` (RFC 9864 deprecates the polymorphic `EdDSA` identifier).
+- **Ed448** (`Algorithms/Eddsa/`) — the other RFC 9864 EdDSA name, over Curve448. Sodium has no Ed448, so it
+  runs on OpenSSL: `openssl_sign`/`openssl_verify` with `0` as the digest (EdDSA hashes internally), which PHP
+  accepts since 8.4. `Ed448PrivateKey`/`Ed448PublicKey` gate the whole algorithm at construction by requiring
+  the `OPENSSL_KEYTYPE_ED448` constant (defined exactly when PHP 8.4+ is built against an OpenSSL with Ed448),
+  so the signer/verifier themselves stay guard-free.
 
 ### Keys (`Cryptography/Keys/`)
 
 - **String-content** — `HmacKey`, `EdDsaPrivateKey`, `EdDsaPublicKey`: `__construct(string $key, ?string $id)`,
   `getContent()`, no file I/O.
-- **OpenSSL** — `Rsa*`, `Ecdsa*`: `getResource()` (`OpenSSLAsymmetricKey`/resource, typed `mixed`).
-  All four load identically — `is_file($key) ? file_get_contents(...) : $key` — so a **file path or inline
+- **OpenSSL** — `Rsa*`, `Ecdsa*`, `Ed448*`: `getResource()` (`OpenSSLAsymmetricKey`/resource, typed `mixed`).
+  All load identically — `is_file($key) ? file_get_contents(...) : $key` — so a **file path or inline
   PEM** both work.
   Private keys add a passphrase (`(string $key, string $passphrase = '', ?string $id)`,
   `openssl_pkey_get_private`); public keys `(string $key, ?string $id)`, `openssl_pkey_get_public`.
   Failures throw `InvalidKeyException`.
   RSA and ECDSA key classes are identical; the curve comes from the key material.
+  The `Ed448*` pair additionally throws `InvalidKeyException` when `OPENSSL_KEYTYPE_ED448` is undefined
+  (PHP below 8.4, or an OpenSSL without Ed448).
 
 ### `VerifierFactory`
 

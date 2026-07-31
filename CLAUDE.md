@@ -61,10 +61,13 @@ Full detail: [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) — read it before t
   (`EmsaPss` trait) and OpenSSL only does the raw RSA operation (`OPENSSL_NO_PADDING`).
 - **ECDSA** (`ES256/ES256K/ES384/ES512`) — split; OpenSSL **plus** DER↔raw signature conversion (JWS needs raw
   `R||S`).
-- **EdDSA** — standalone signer/verifier via libsodium; needs `ext-sodium`.
+- **EdDSA / Ed25519** — standalone signer/verifier via libsodium; needs `ext-sodium`. `Ed25519*` subclass the
+  `EdDsa*` classes, changing only the `alg` name to the RFC 9864 fully-specified `Ed25519`.
+- **Ed448** — RFC 9864, Curve448 via OpenSSL (`openssl_sign`/`openssl_verify` with digest `0`); needs PHP 8.4+
+  — the `Ed448*` key classes enforce that by requiring `OPENSSL_KEYTYPE_ED448` at construction.
 
-Keys: string-content (`HmacKey`, `EdDsa*` — `getContent()`) or OpenSSL (`Rsa*`, `Ecdsa*` — `getResource()`,
-accept a file path **or** inline PEM).
+Keys: string-content (`HmacKey`, `EdDsa*` — `getContent()`) or OpenSSL (`Rsa*`, `Ecdsa*`, `Ed448*` —
+`getResource()`, accept a file path **or** inline PEM).
 
 ## Conventions
 

@@ -30,7 +30,7 @@
     "phpunit/phpunit": "^9.6"
   },
   "suggest": {
-    "ext-sodium": "Sodium extension is required for EdDSA algorithms"
+    "ext-sodium": "Sodium extension is required for the EdDSA and Ed25519 algorithms"
   },
   "autoload": {
     "psr-4": {

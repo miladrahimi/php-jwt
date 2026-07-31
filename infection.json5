@@ -63,6 +63,8 @@
                 // files); the call is guarded by is_file(), so the cast is unobservable.
                 "MiladRahimi\\Jwt\\Cryptography\\Keys\\EcdsaPrivateKey::__construct",
                 "MiladRahimi\\Jwt\\Cryptography\\Keys\\EcdsaPublicKey::__construct",
+                "MiladRahimi\\Jwt\\Cryptography\\Keys\\Ed448PrivateKey::__construct",
+                "MiladRahimi\\Jwt\\Cryptography\\Keys\\Ed448PublicKey::__construct",
                 "MiladRahimi\\Jwt\\Cryptography\\Keys\\RsaPrivateKey::__construct",
                 "MiladRahimi\\Jwt\\Cryptography\\Keys\\RsaPublicKey::__construct",
                 // `(string)$this->value` under an is_scalar() guard: string interpolation performs the exact

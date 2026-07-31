@@ -18,8 +18,12 @@ class ExamplesScriptsTest extends TestCase
         foreach ($scripts as $script) {
             $name = basename($script);
 
-            if ($name === 'eddsa.php' && !extension_loaded('sodium')) {
-                continue; // EdDSA needs ext-sodium
+            if (in_array($name, ['eddsa.php', 'ed25519.php'], true) && !extension_loaded('sodium')) {
+                continue; // EdDSA/Ed25519 need ext-sodium
+            }
+
+            if ($name === 'ed448.php' && !defined('OPENSSL_KEYTYPE_ED448')) {
+                continue; // Ed448 needs PHP 8.4+ with OpenSSL Ed448 support
             }
 
             $output = [];
