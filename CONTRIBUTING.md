@@ -12,7 +12,8 @@ composer install
 ./vendor/bin/phpunit
 ```
 
-Requirements: PHP `>=7.4`, `ext-openssl`, `ext-json`, and `ext-sodium` (for EdDSA and its tests).
+Requirements: PHP `>=7.4`, `ext-openssl`, `ext-json`, and `ext-sodium` (for EdDSA/Ed25519 and their tests).
+The Ed448 algorithm and its tests additionally need PHP 8.4+ with OpenSSL Ed448 support.
 
 ## Ground rules
 

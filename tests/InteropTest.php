@@ -6,9 +6,12 @@ namespace MiladRahimi\Jwt\Tests;
 
 use MiladRahimi\Jwt\Base64\SafeBase64Parser;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Ecdsa\ES512Verifier;
+use MiladRahimi\Jwt\Cryptography\Algorithms\Eddsa\Ed25519Verifier;
+use MiladRahimi\Jwt\Cryptography\Algorithms\Eddsa\Ed448Verifier;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Eddsa\EdDsaVerifier;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
 use MiladRahimi\Jwt\Cryptography\Keys\EcdsaPublicKey;
+use MiladRahimi\Jwt\Cryptography\Keys\Ed448PublicKey;
 use MiladRahimi\Jwt\Cryptography\Keys\EdDsaPublicKey;
 use MiladRahimi\Jwt\Cryptography\Keys\HmacKey;
 use MiladRahimi\Jwt\Parser;
@@ -92,6 +95,58 @@ class InteropTest extends TestCase
         );
 
         $verifier = new EdDsaVerifier($publicKey);
+        $verifier->verify($signingInput, $signature);
+
+        $this->assertTrue(true);
+    }
+
+    /**
+     * Verifies an `Ed25519` (RFC 9864) signature produced by the OpenSSL CLI, so libsodium checks the output
+     * of an independent implementation. The key is the RFC 8037 Appendix A.1 pair and the payload matches the
+     * RFC 8037 Appendix A.4 example; only the header differs (`{"alg":"Ed25519"}`). Regenerate with:
+     * `openssl pkeyutl -sign -rawin -inkey <rfc8037-key.pem> -in <signing-input>`.
+     *
+     * @throws Throwable
+     */
+    public function test_verify_the_openssl_ed25519_example_signature()
+    {
+        $publicKey = new EdDsaPublicKey(
+            hex2bin('d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a')
+        );
+
+        $signingInput = 'eyJhbGciOiJFZDI1NTE5In0.RXhhbXBsZSBvZiBFZDI1NTE5IHNpZ25pbmc';
+        $signature = (new SafeBase64Parser())->decode(
+            'UxhIYLHGg39NVCLpQAVD_UcfOmnGSCzLFZoXYkLiIbFccmOb_qObsgjzLKsfJw-4NlccUgvYrEHrRbNV0HcZAQ'
+        );
+
+        $verifier = new Ed25519Verifier($publicKey);
+        $verifier->verify($signingInput, $signature);
+
+        $this->assertTrue(true);
+    }
+
+    /**
+     * Verifies an `Ed448` (RFC 9864) signature produced by the OpenSSL CLI with the test key pair, pinning the
+     * signature format (raw 114 bytes) and the header (`{"alg":"Ed448"}`) against drift. Regenerate with:
+     * `openssl pkeyutl -sign -rawin -inkey assets/keys/ed448-private.pem -in <signing-input>`.
+     *
+     * @throws Throwable
+     */
+    public function test_verify_the_openssl_ed448_example_signature()
+    {
+        if (!defined('OPENSSL_KEYTYPE_ED448')) {
+            $this->markTestSkipped('The `Ed448` algorithm requires PHP 8.4 or later with OpenSSL Ed448 support.');
+        }
+
+        $publicKey = new Ed448PublicKey(__DIR__ . '/../assets/keys/ed448-public.pem');
+
+        $signingInput = 'eyJhbGciOiJFZDQ0OCJ9.RXhhbXBsZSBvZiBFZDQ0OCBzaWduaW5n';
+        $signature = (new SafeBase64Parser())->decode(
+            'wtleX23Jt23w5vgNjQC3jihdYbhnUXHHP8VMRJuxWMS9SqJxXIXE1AlGh8JX7LUfQwksHEmhIQWAAAd9TLIrob05r4'
+            . 'VKc0hgkGMA88ljBjvYy4W_dYI4xrQRSZfQ0TBcZMQ9o4X0JKE7sE-wGvM_Sz8A'
+        );
+
+        $verifier = new Ed448Verifier($publicKey);
         $verifier->verify($signingInput, $signature);
 
         $this->assertTrue(true);

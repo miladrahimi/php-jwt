@@ -18,7 +18,7 @@ Supported algorithms:
 * **RSA**: `RS256`, `RS384`, and `RS512`
 * **RSA-PSS**: `PS256`, `PS384`, and `PS512`
 * **ECDSA**: `ES256`, `ES256K`, `ES384`, and `ES512`
-* **EdDSA** (requires the `sodium` PHP extension)
+* **EdDSA**: `EdDSA` and `Ed25519` (require the `sodium` PHP extension), and `Ed448` (requires PHP 8.4+)
 
 Supported features:
 * Built-in and custom validations
@@ -207,6 +207,69 @@ print_r($claims); // ['id' => 13, 'is-admin' => true]
 ```
 
 Please note that EdDSA keys must be in string format. If they are already base64 encoded, decoding them is necessary before use.
+
+### Ed25519 Algorithm
+
+[RFC 9864](https://datatracker.ietf.org/doc/rfc9864/) replaces the `EdDSA` algorithm name with the fully-specified names `Ed25519` and `Ed448`.
+`Ed25519` uses the exact same keys and signatures as `EdDSA` above; only the token's `alg` header differs.
+It also requires the `sodium` PHP extension.
+
+```php
+use MiladRahimi\Jwt\Cryptography\Algorithms\Eddsa\Ed25519Signer;
+use MiladRahimi\Jwt\Cryptography\Algorithms\Eddsa\Ed25519Verifier;
+use MiladRahimi\Jwt\Cryptography\Keys\EdDsaPrivateKey;
+use MiladRahimi\Jwt\Cryptography\Keys\EdDsaPublicKey;
+use MiladRahimi\Jwt\Generator;
+use MiladRahimi\Jwt\Parser;
+
+// Generate a token
+$privateKey = new EdDsaPrivateKey(base64_decode(file_get_contents('/path/to/ed25519.sec')));
+$signer = new Ed25519Signer($privateKey);
+$generator = new Generator($signer);
+$jwt = $generator->generate(['id' => 13, 'is-admin' => true]);
+
+// Parse the token
+$publicKey = new EdDsaPublicKey(base64_decode(file_get_contents('/path/to/ed25519.pub')));
+$verifier = new Ed25519Verifier($publicKey);
+$parser = new Parser($verifier);
+$claims = $parser->parse($jwt);
+
+print_r($claims); // ['id' => 13, 'is-admin' => true]
+```
+
+### Ed448 Algorithm
+
+`Ed448` (RFC 9864) is EdDSA over Curve448.
+It runs on OpenSSL instead of Sodium and requires PHP 8.4 or later; on older PHP versions, creating the keys throws an exception.
+The keys are PEM files (or inline PEM strings), which you can generate with the OpenSSL CLI:
+
+```shell
+openssl genpkey -algorithm ED448 -out ed448-private.pem
+openssl pkey -in ed448-private.pem -pubout -out ed448-public.pem
+```
+
+```php
+use MiladRahimi\Jwt\Cryptography\Algorithms\Eddsa\Ed448Signer;
+use MiladRahimi\Jwt\Cryptography\Algorithms\Eddsa\Ed448Verifier;
+use MiladRahimi\Jwt\Cryptography\Keys\Ed448PrivateKey;
+use MiladRahimi\Jwt\Cryptography\Keys\Ed448PublicKey;
+use MiladRahimi\Jwt\Generator;
+use MiladRahimi\Jwt\Parser;
+
+// Generate a token
+$privateKey = new Ed448PrivateKey('/path/to/ed448-private.pem');
+$signer = new Ed448Signer($privateKey);
+$generator = new Generator($signer);
+$jwt = $generator->generate(['id' => 13, 'is-admin' => true]);
+
+// Parse the token
+$publicKey = new Ed448PublicKey('/path/to/ed448-public.pem');
+$verifier = new Ed448Verifier($publicKey);
+$parser = new Parser($verifier);
+$claims = $parser->parse($jwt);
+
+print_r($claims); // ['id' => 13, 'is-admin' => true]
+```
 
 ### Validation
 

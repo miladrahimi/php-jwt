@@ -11,7 +11,8 @@
 `phpunit.xml` defines one testsuite `main` → `./tests`, coverage over `./src`.
 There is no `composer test` script — call the binary directly.
 Local coverage without pcov/xdebug: `phpdbg -qrr vendor/bin/phpunit --coverage-text`.
-EdDSA tests need `ext-sodium`.
+EdDSA/Ed25519 tests need `ext-sodium`; Ed448 tests skip themselves unless `OPENSSL_KEYTYPE_ED448` is defined
+(PHP 8.4+), and the below-8.4 guard tests skip themselves everywhere else.
 CI runs on PHP 7.4–8.5; new tests must pass on 7.4.
 
 ## Mutation testing
@@ -52,7 +53,10 @@ Override `setUp()` only by calling `parent::setUp()` first.
 ## Key assets (`assets/keys/`)
 
 Test-only keys: `rsa-*.pem`, `ecdsa256/256k/384/512` pairs, `ed25519.sec`/`.pub` (raw base64 — decode before
-use), and `assets/file.empty` for invalid-key cases.
+use), `ed448-*.pem`, `x448-private.pem` (loads but cannot sign — Ed448's signing-failure case), and
+`assets/file.empty` for invalid-key cases.
+The Ed448 interop vector in `tests/InteropTest.php` is signed with `ed448-private.pem` via the OpenSSL CLI —
+regenerate the keys and the vector together or not at all.
 Reference PEM keys by `__DIR__`-relative path (depth varies by nesting).
 The RSA-PSS tests additionally hold fixed odd-size RSA keys (2047/2041/2042 bits) as constants in
 `tests/Cryptography/Algorithms/RsaPss/KeyFixtures.php`, paired with OpenSSL CLI signature vectors in the test

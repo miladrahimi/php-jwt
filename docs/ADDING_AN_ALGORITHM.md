@@ -39,7 +39,9 @@ header `alg` contradicts `name()`.
 3. **Signature format**: convert on the boundary if your backend's encoding isn't the JWS form — see
    `AbstractEcdsaSigner::derToSignature` / `AbstractEcdsaVerifier::signatureToDer` (DER↔raw).
 4. **Optional extensions**: guard with `function_exists()` and add to `suggest` in `composer.json` (as EdDSA
-   does for `ext-sodium`).
+   does for `ext-sodium`). For a PHP-version floor, guard at key construction instead, as the `Ed448*` keys do
+   with `defined('OPENSSL_KEYTYPE_ED448')` — a capability check keeps mutants killable where a
+   `PHP_VERSION_ID` comparison would not.
 5. **Tests** under `tests/Cryptography/...` following [`TESTING.md`](TESTING.md); test keys go in `assets/keys/`.
 6. **Docs**: add to the README's algorithm list with an example and a round-trip in `tests/ExamplesTest.php`.
 

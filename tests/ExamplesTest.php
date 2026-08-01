@@ -8,6 +8,10 @@ use MiladRahimi\Jwt\Cryptography\Algorithms\Ecdsa\ES384Signer;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Ecdsa\ES384Verifier;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Ecdsa\ES512Signer;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Ecdsa\ES512Verifier;
+use MiladRahimi\Jwt\Cryptography\Algorithms\Eddsa\Ed25519Signer;
+use MiladRahimi\Jwt\Cryptography\Algorithms\Eddsa\Ed25519Verifier;
+use MiladRahimi\Jwt\Cryptography\Algorithms\Eddsa\Ed448Signer;
+use MiladRahimi\Jwt\Cryptography\Algorithms\Eddsa\Ed448Verifier;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Eddsa\EdDsaSigner;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Eddsa\EdDsaVerifier;
 use MiladRahimi\Jwt\Cryptography\Algorithms\Hmac\HS256;
@@ -17,6 +21,8 @@ use MiladRahimi\Jwt\Cryptography\Algorithms\RsaPss\PS256Signer;
 use MiladRahimi\Jwt\Cryptography\Algorithms\RsaPss\PS256Verifier;
 use MiladRahimi\Jwt\Cryptography\Keys\EcdsaPrivateKey;
 use MiladRahimi\Jwt\Cryptography\Keys\EcdsaPublicKey;
+use MiladRahimi\Jwt\Cryptography\Keys\Ed448PrivateKey;
+use MiladRahimi\Jwt\Cryptography\Keys\Ed448PublicKey;
 use MiladRahimi\Jwt\Cryptography\Keys\EdDsaPrivateKey;
 use MiladRahimi\Jwt\Cryptography\Keys\EdDsaPublicKey;
 use MiladRahimi\Jwt\Cryptography\Keys\HmacKey;
@@ -180,6 +186,54 @@ class ExamplesTest extends TestCase
             base64_decode(file_get_contents(__DIR__ . '/../assets/keys/ed25519.pub'))
         );
         $verifier = new EdDsaVerifier($publicKey);
+        $parser = new Parser($verifier);
+        $claims = $parser->parse($jwt);
+
+        $this->assertEquals(['id' => 666, 'is-admin' => true], $claims);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function test_ed25519_algorithm()
+    {
+        // Generate a token
+        $privateKey = new EdDsaPrivateKey(
+            base64_decode(file_get_contents(__DIR__ . '/../assets/keys/ed25519.sec'))
+        );
+        $signer = new Ed25519Signer($privateKey);
+        $generator = new Generator($signer);
+        $jwt = $generator->generate(['id' => 666, 'is-admin' => true]);
+
+        // Parse the token
+        $publicKey = new EdDsaPublicKey(
+            base64_decode(file_get_contents(__DIR__ . '/../assets/keys/ed25519.pub'))
+        );
+        $verifier = new Ed25519Verifier($publicKey);
+        $parser = new Parser($verifier);
+        $claims = $parser->parse($jwt);
+
+        $this->assertEquals(['id' => 666, 'is-admin' => true], $claims);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function test_ed448_algorithm()
+    {
+        if (!defined('OPENSSL_KEYTYPE_ED448')) {
+            $this->markTestSkipped('The `Ed448` algorithm requires PHP 8.4 or later with OpenSSL Ed448 support.');
+        }
+
+        // Generate a token
+        $privateKey = new Ed448PrivateKey(__DIR__ . '/../assets/keys/ed448-private.pem');
+        $signer = new Ed448Signer($privateKey);
+        $generator = new Generator($signer);
+        $jwt = $generator->generate(['id' => 666, 'is-admin' => true]);
+
+        // Parse the token
+        $publicKey = new Ed448PublicKey(__DIR__ . '/../assets/keys/ed448-public.pem');
+        $verifier = new Ed448Verifier($publicKey);
         $parser = new Parser($verifier);
         $claims = $parser->parse($jwt);
 
